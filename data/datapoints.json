@@ -1,0 +1,15 @@
+{
+    "table": "datapoints",
+    "data": [
+        {
+            "id": 0,
+            "projectId": 0,
+            "projectName": "DP-1"
+        },
+        {
+            "id": 1,
+            "projectId": 0,
+            "projectName": "DP-2"
+        }
+    ]
+}

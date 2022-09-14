@@ -1,0 +1,13 @@
+{
+    "table": "projects",
+    "data": [
+        {
+            "id": 0,
+            "projectName": "Dummy Project 1"
+        },
+        {
+            "id": 1,
+            "projectName": "Dummy Project 2"
+        }
+    ]
+}

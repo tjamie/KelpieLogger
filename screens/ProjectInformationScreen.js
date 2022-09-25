@@ -1,20 +1,12 @@
 import { useState } from "react";
 // import { Button } from "@rneui/themed";
-import { Button, Input } from 'react-native-elements';
+import { ListItem, Button, Input } from 'react-native-elements';
 import { ScrollView, View, Text, Modal } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateProject } from "../reducers/projectsReducer";
+import { selectDatapointsByProjectId } from "../reducers/datapointsReducer";
+import { FlatList } from "react-native-gesture-handler";
 
-// const newProject = {
-//     projectName,
-//     projectApplicant,
-//     projectCounty,
-//     projectState,
-//     projectSection,
-//     projectSubregion,
-//     projectDatum,
-//     id: dateToUniqueId()
-// };
 
 const ProjectEditModal = (props) => {
     const dispatch = useDispatch();
@@ -137,6 +129,64 @@ const ProjectEditModal = (props) => {
     );
 }
 
+const NewDatapointItem = () => {
+    return (
+        <View>
+            <ListItem
+                onPress={() => {
+                    console.log('NewDatapointItem pressed')
+                    // setShowNewProjectModal(true)
+                }}
+                containerStyle={{ backgroundColor: '#EFEFEF', borderColor: '#DDD', borderWidth: 1 }}
+            >
+                <ListItem.Content>
+                    <ListItem.Title>New Datapoint</ListItem.Title>
+                    <ListItem.Subtitle>Create a new datapoint</ListItem.Subtitle>
+                </ListItem.Content>
+            </ListItem>
+        </View>
+    )
+}
+
+const renderDatapointItem = ({ item: datapoint }) => {
+    return (
+        <View>
+            <ListItem
+                onPress={() => {
+                    console.log('Datapoint pressed: ', datapoint.id);
+                    // navigation.navigate('ProjectInformation', { project })
+                }}
+            >
+                <ListItem.Content>
+                    <ListItem.Title>{datapoint.name}</ListItem.Title>
+                    <ListItem.Subtitle>{datapoint.NWI}</ListItem.Subtitle>
+                </ListItem.Content>
+            </ListItem>
+        </View>
+    )
+}
+
+const DatapointsList = ({ projectId }) => {
+    const datapoints = useSelector(selectDatapointsByProjectId(projectId));
+    // const datapoints = useSelector((state) => state.datapoints);
+    console.log('project id: ', projectId)
+    // console.log('datapoints array: ', datapoints)
+    console.log('num datapoints found: ', datapoints.length)
+
+    return (
+        <>
+            <View><Text>Datapoints</Text></View>
+            <NewDatapointItem />
+            <FlatList
+                // data={useSelector(selectDatapointsByProjectId(projectId))}
+                data={datapoints}
+                renderItem={renderDatapointItem}
+                keyExtractor={(item) => item.id.toString()}
+            />
+        </>
+    )
+}
+
 const ProjectInformationScreen = ({ route }) => {
 
     //screen isn't updating upon modal submital
@@ -175,13 +225,13 @@ const ProjectInformationScreen = ({ route }) => {
             <Text style={{ fontStyle: 'italic' }}>Project ID: {project.id}</Text>
             <Text style={{ fontStyle: 'italic' }}>Last updated {Date(projectUpdatedDate)}</Text>
 
+            <DatapointsList projectId={project.id} />
+
             <ProjectEditModal
                 project={project}
                 showModal={showProjectEditModal}
                 setShowModal={setShowProjectEditModal}
             />
-
-            {/* data points here with a flatlist */}
         </View>
 
 

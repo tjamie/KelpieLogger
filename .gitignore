@@ -11,6 +11,7 @@ npm-debug.*
 web-build/
 
 data/plant_lists/usace_xls/
+issues.txt
 
 # macOS
 .DS_Store

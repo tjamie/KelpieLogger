@@ -129,66 +129,8 @@ const ProjectEditModal = (props) => {
     );
 }
 
-const NewDatapointItem = () => {
-    return (
-        <View>
-            <ListItem
-                onPress={() => {
-                    console.log('NewDatapointItem pressed')
-                    // setShowNewProjectModal(true)
-                }}
-                containerStyle={{ backgroundColor: '#EFEFEF', borderColor: '#DDD', borderWidth: 1 }}
-            >
-                <ListItem.Content>
-                    <ListItem.Title>New Datapoint</ListItem.Title>
-                    <ListItem.Subtitle>Create a new datapoint</ListItem.Subtitle>
-                </ListItem.Content>
-            </ListItem>
-        </View>
-    )
-}
-
-const renderDatapointItem = ({ item: datapoint }) => {
-    return (
-        <View>
-            <ListItem
-                onPress={() => {
-                    console.log('Datapoint pressed: ', datapoint.id);
-                    // navigation.navigate('ProjectInformation', { project })
-                }}
-            >
-                <ListItem.Content>
-                    <ListItem.Title>{datapoint.name}</ListItem.Title>
-                    <ListItem.Subtitle>{datapoint.NWI}</ListItem.Subtitle>
-                </ListItem.Content>
-            </ListItem>
-        </View>
-    )
-}
-
-const DatapointsList = ({ projectId }) => {
-    const datapoints = useSelector(selectDatapointsByProjectId(projectId));
-    // const datapoints = useSelector((state) => state.datapoints);
-    console.log('project id: ', projectId)
-    // console.log('datapoints array: ', datapoints)
-    console.log('num datapoints found: ', datapoints.length)
-
-    return (
-        <>
-            <View><Text>Datapoints</Text></View>
-            <NewDatapointItem />
-            <FlatList
-                // data={useSelector(selectDatapointsByProjectId(projectId))}
-                data={datapoints}
-                renderItem={renderDatapointItem}
-                keyExtractor={(item) => item.id.toString()}
-            />
-        </>
-    )
-}
-
-const ProjectInformationScreen = ({ route }) => {
-
+const ProjectInformationScreen = (props) => {
+    const { route, navigation } = props;
     //screen isn't updating upon modal submital
 
     const { project } = route.params;
@@ -203,6 +145,63 @@ const ProjectInformationScreen = ({ route }) => {
     const [projectDatum, setProjectDatum] = useState(project.projectDatum);
     const [projectUpdatedDate, setProjectUpdatedDate] = useState(project.updatedDate);
 
+    const NewDatapointItem = () => {
+        return (
+            <View>
+                <ListItem
+                    onPress={() => {
+                        console.log('NewDatapointItem pressed')
+                        // setShowNewProjectModal(true)
+                    }}
+                    containerStyle={{ backgroundColor: '#EFEFEF', borderColor: '#DDD', borderWidth: 1 }}
+                >
+                    <ListItem.Content>
+                        <ListItem.Title>New Datapoint</ListItem.Title>
+                        <ListItem.Subtitle>Create a new datapoint</ListItem.Subtitle>
+                    </ListItem.Content>
+                </ListItem>
+            </View>
+        )
+    }
+
+    const renderDatapointItem = ({ item: datapoint }) => {
+        return (
+            <View>
+                <ListItem
+                    onPress={() => {
+                        console.log('Datapoint pressed: ', datapoint.id);
+                        navigation.navigate('EditDatapoint', { datapoint })
+                    }}
+                >
+                    <ListItem.Content>
+                        <ListItem.Title>{datapoint.name}</ListItem.Title>
+                        <ListItem.Subtitle>{datapoint.NWI}</ListItem.Subtitle>
+                    </ListItem.Content>
+                </ListItem>
+            </View>
+        )
+    }
+
+    const DatapointsList = ({ projectId }) => {
+        const datapoints = useSelector(selectDatapointsByProjectId(projectId));
+        // const datapoints = useSelector((state) => state.datapoints);
+        console.log('project id: ', projectId)
+        // console.log('datapoints array: ', datapoints)
+        console.log('num datapoints found: ', datapoints.length)
+
+        return (
+            <>
+                <View><Text>Datapoints</Text></View>
+                <NewDatapointItem />
+                <FlatList
+                    // data={useSelector(selectDatapointsByProjectId(projectId))}
+                    data={datapoints}
+                    renderItem={renderDatapointItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+            </>
+        )
+    }
 
     return (
         <View>

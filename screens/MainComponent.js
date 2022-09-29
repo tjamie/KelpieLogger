@@ -6,6 +6,7 @@ import Constants from "expo-constants";
 import HomeScreen from "./HomeScreen";
 import ProjectsScreen from "./ProjectsScreen";
 import ProjectInformationScreen from "./ProjectInformationScreen";
+import EditDatapointScreen from "./EditDatapointScreen";
 import { styles } from "../styles";
 
 const Drawer = createDrawerNavigator();
@@ -46,6 +47,13 @@ const ProjectsNavigator = () => {
                 component={ProjectInformationScreen}
                 options={({ route }) => ({
                     title: route.params.project.projectName
+                })}
+            />
+            <Stack.Screen
+                name='EditDatapoint'
+                component={EditDatapointScreen}
+                options={({ route }) => ({
+                    title: route.params.datapoint.name
                 })}
             />
         </Stack.Navigator>

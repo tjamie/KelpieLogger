@@ -44,7 +44,7 @@ const ProjectInformationScreen = (props) => {
             setProjectSection(tempSection);
             setProjectSubregion(tempSubregion);
             setProjectDatum(tempDatum);
-            setProjectUpdatedDate(new Date().getTime());
+            setProjectUpdatedDate(Date.now());
 
             const updatedProject = {
                 // projectName,

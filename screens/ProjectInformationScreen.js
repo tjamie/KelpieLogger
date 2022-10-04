@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { Button } from "@rneui/themed";
 import { ListItem, Button, Input } from 'react-native-elements';
 import { ScrollView, View, Text, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,130 +7,9 @@ import { selectDatapointsByProjectId } from "../reducers/datapointsReducer";
 import { FlatList } from "react-native-gesture-handler";
 
 
-const ProjectEditModal = (props) => {
-    const dispatch = useDispatch();
-
-    const { project, showModal, setShowModal } = props;
-    const [projectName, setProjectName] = useState(project.projectName);
-    const [projectApplicant, setProjectApplicant] = useState(project.projectApplicant);
-    const [projectCounty, setProjectCounty] = useState(project.projectCounty);
-    const [projectState, setProjectState] = useState(project.projectState);
-    const [projectSection, setProjectSection] = useState(project.projectSection);
-    const [projectSubregion, setProjectSubregion] = useState(project.projectState);
-    const [projectDatum, setProjectDatum] = useState(project.projectDatum);
-
-    const handleSubmit = () => {
-        const updatedProject = {
-            projectName,
-            projectApplicant,
-            projectCounty,
-            projectState,
-            projectSection,
-            projectSubregion,
-            projectDatum,
-            id: project.id,
-            updatedDate: Date.now()
-        };
-        console.log('Updated project:', updatedProject);
-        dispatch(updateProject(updatedProject));
-        setShowModal(!showModal);
-    }
-
-    return (
-        <Modal
-            transparent={false}
-            visible={showModal}
-            onRequestClose={() => setShowModal(!showModal)}
-        >
-
-            <ScrollView>
-                <Text>Project Edit</Text>
-                <View>
-                    <Text>Project Name</Text>
-                    <Input
-                        placeholder='Project Name'
-                        // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                        // leftIconContainerStyle={{ paddingRight: 10 }}
-                        onChangeText={(projectName) => setProjectName(projectName)}
-                        value={projectName}
-                    />
-                </View>
-                <View>
-                    <Text>Owner/Applicant</Text>
-                    <Input
-                        placeholder='Owner/Applicant'
-                        onChangeText={(projectApplicant) => setProjectApplicant(projectApplicant)}
-                        value={projectApplicant}
-                    />
-                </View>
-                <View>
-                    <Text>City/County</Text>
-                    <Input
-                        placeholder='City/County'
-                        onChangeText={(projectCounty) => setProjectCounty(projectCounty)}
-                        value={projectCounty}
-                    />
-                </View>
-                <View>
-                    <Text>State</Text>
-                    <Input
-                        placeholder='State'
-                        onChangeText={(projectState) => setProjectState(projectState)}
-                        value={projectState}
-                    />
-                </View>
-                <View>
-                    <Text>Section, Township, Range {'('}optional{')'}</Text>
-                    <Input
-                        placeholder='Section, Township, Range'
-                        onChangeText={(projectSection) => setProjectSection(projectSection)}
-                        value={projectSection}
-                    />
-                </View>
-                <View>
-                    <Text>Subregion {'('}LRR and/or MLRA{')'}</Text>
-                    <Input
-                        placeholder='Subregion'
-                        onChangeText={(projectSubregion) => setProjectSubregion(projectSubregion)}
-                        value={projectSubregion}
-                    />
-                </View>
-                <View>
-                    <Text>Datum</Text>
-                    <Input
-                        placeholder='Datum'
-                        onChangeText={(projectDatum) => setProjectDatum(projectDatum)}
-                        value={projectDatum}
-                    />
-                </View>
-                <View>
-                    <Button
-                        title='Save Changes'
-                        color='#00FF00'
-                        onPress={() => {
-                            handleSubmit();
-                            // resetForm();
-                        }}
-                    />
-                </View>
-                <View>
-                    <Button
-                        title='Cancel'
-                        color='#FF0000'
-                        onPress={() => {
-                            setShowModal(!showModal);
-                            // resetForm();
-                        }}
-                    />
-                </View>
-            </ScrollView>
-        </Modal>
-    );
-}
 
 const ProjectInformationScreen = (props) => {
     const { route, navigation } = props;
-    //screen isn't updating upon modal submital
 
     const { project } = route.params;
     const [showProjectEditModal, setShowProjectEditModal] = useState(false)
@@ -144,6 +22,139 @@ const ProjectInformationScreen = (props) => {
     const [projectSubregion, setProjectSubregion] = useState(project.projectState);
     const [projectDatum, setProjectDatum] = useState(project.projectDatum);
     const [projectUpdatedDate, setProjectUpdatedDate] = useState(project.updatedDate);
+
+    const ProjectEditModal = (props) => {
+        const dispatch = useDispatch();
+        const { showModal, setShowModal } = props;
+        // const { project, showModal, setShowModal } = props;
+        const [tempName, setTempName] = useState(project.projectName);
+        const [tempApplicant, setTempApplicant] = useState(project.projectApplicant);
+        const [tempCounty, setTempCounty] = useState(project.projectCounty);
+        const [tempState, setTempState] = useState(project.projectState);
+        const [tempSection, setTempSection] = useState(project.projectSection);
+        const [tempSubregion, setTempSubregion] = useState(project.projectState);
+        const [tempDatum, setTempDatum] = useState(project.projectDatum);
+
+        const handleSubmit = () => {
+            // set states now to reflect changes on project info screen without reloading
+            setProjectName(tempName);
+            setProjectApplicant(tempApplicant);
+            setProjectCounty(tempCounty);
+            setProjectState(tempState);
+            setProjectSection(tempSection);
+            setProjectSubregion(tempSubregion);
+            setProjectDatum(tempDatum);
+            setProjectUpdatedDate(new Date().getTime());
+
+            const updatedProject = {
+                // projectName,
+                projectName,
+                projectApplicant,
+                projectCounty,
+                projectState,
+                projectSection,
+                projectSubregion,
+                projectDatum,
+                id: project.id,
+                updatedDate: projectUpdatedDate
+            };
+
+            console.log('Updated project:', updatedProject);
+            dispatch(updateProject(updatedProject));
+            setShowModal(!showModal);
+        }
+
+        return (
+            <Modal
+                transparent={false}
+                visible={showModal}
+                onRequestClose={() => setShowModal(!showModal)}
+            >
+
+                <ScrollView>
+                    <Text>Project Edit</Text>
+                    <View>
+                        <Text>Project Name</Text>
+                        <Input
+                            placeholder='Project Name'
+                            // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                            // leftIconContainerStyle={{ paddingRight: 10 }}
+                            onChangeText={(tempName) => setTempName(tempName)}
+                            value={tempName}
+                        />
+                    </View>
+                    <View>
+                        <Text>Owner/Applicant</Text>
+                        <Input
+                            placeholder='Owner/Applicant'
+                            onChangeText={(tempApplicant) => setTempApplicant(tempApplicant)}
+                            value={tempApplicant}
+                        />
+                    </View>
+                    <View>
+                        <Text>City/County</Text>
+                        <Input
+                            placeholder='City/County'
+                            onChangeText={(tempCounty) => setTempCounty(tempCounty)}
+                            value={tempCounty}
+                        />
+                    </View>
+                    <View>
+                        <Text>State</Text>
+                        <Input
+                            placeholder='State'
+                            onChangeText={(tempState) => setTempState(tempState)}
+                            value={tempState}
+                        />
+                    </View>
+                    <View>
+                        <Text>Section, Township, Range {'('}optional{')'}</Text>
+                        <Input
+                            placeholder='Section, Township, Range'
+                            onChangeText={(tempSection) => setTempSection(tempSection)}
+                            value={tempSection}
+                        />
+                    </View>
+                    <View>
+                        <Text>Subregion {'('}LRR and/or MLRA{')'}</Text>
+                        <Input
+                            placeholder='Subregion'
+                            onChangeText={(tempSubregion) => setTempSubregion(tempSubregion)}
+                            value={tempSubregion}
+                        />
+                    </View>
+                    <View>
+                        <Text>Datum</Text>
+                        <Input
+                            placeholder='Datum'
+                            onChangeText={(tempDatum) => setTempDatum(tempDatum)}
+                            value={tempDatum}
+                        />
+                    </View>
+                    <View>
+                        <Button
+                            title='Save Changes'
+                            color='#00FF00'
+                            onPress={() => {
+                                handleSubmit();
+                                // resetForm();
+                            }}
+                        />
+                    </View>
+                    <View>
+                        <Button
+                            title='Cancel'
+                            color='#FF0000'
+                            onPress={() => {
+                                setShowModal(!showModal);
+                                // resetForm();
+                            }}
+                        />
+                    </View>
+                </ScrollView>
+            </Modal>
+        );
+    }
 
     const NewDatapointItem = () => {
         return (
@@ -227,7 +238,7 @@ const ProjectInformationScreen = (props) => {
             <DatapointsList projectId={project.id} />
 
             <ProjectEditModal
-                project={project}
+                // project={project}
                 showModal={showProjectEditModal}
                 setShowModal={setShowProjectEditModal}
             />

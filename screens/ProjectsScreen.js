@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Text, View, ScrollView, FlatList, Modal, Button } from "react-native";
+import { Text, View, ScrollView, FlatList, Modal, Button, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ListItem, Input } from "react-native-elements";
+import { SwipeRow } from "react-native-swipe-list-view";
 import { dateToUniqueId } from "../utils/dateToUniqueId";
 import Loading from "../components/LoadingComponent";
-import { addProject } from "../reducers/projectsReducer";
+import { addProject, deleteProject } from "../reducers/projectsReducer";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ProjectsScreen = ({ navigation }) => {
     const projects = useSelector((state) => state.projects);
@@ -80,19 +82,57 @@ const ProjectsScreen = ({ navigation }) => {
 
     const renderProjectItem = ({ item: project }) => {
         return (
-            <View>
-                <ListItem
-                    onPress={() => {
-                        console.log('Project pressed: ', project.id);
-                        navigation.navigate('ProjectInformation', { project })
-                    }}
-                >
-                    <ListItem.Content>
-                        <ListItem.Title>{project.projectName}</ListItem.Title>
-                        <ListItem.Subtitle>Description Placeholder</ListItem.Subtitle>
-                    </ListItem.Content>
-                </ListItem>
-            </View>
+            <SwipeRow rightOpenValue={-100}>
+                {/* delete project */}
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    flex: 1
+                }}>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: 'red',
+                            height: '100%',
+                            justifyContent: 'center'
+                        }}
+                        onPress={() => Alert.alert(
+                            'Delete Project',
+                            `Are you sure you want to delete project ${project.projectName}?`,
+                            [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => console.log('Not deleted'),
+                                    style: 'cancel'
+                                },
+                                {
+                                    text: 'OK',
+                                    onPress: () => dispatch(deleteProject(project.id))
+                                }
+                            ],
+                            { cancelable: false }
+                        )}
+                    >
+                        <Text style={{ color: 'white', fontWeight: '700', textAlign: 'center', fontSize: 16, width: 100 }}>
+                            Delete
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                {/* view project */}
+                <View>
+                    <ListItem
+                        onPress={() => {
+                            console.log('Project pressed: ', project.id);
+                            navigation.navigate('ProjectInformation', { project })
+                        }}
+                    >
+                        <ListItem.Content>
+                            <ListItem.Title>{project.projectName}</ListItem.Title>
+                            <ListItem.Subtitle>Description Placeholder</ListItem.Subtitle>
+                        </ListItem.Content>
+                    </ListItem>
+                </View>
+            </SwipeRow>
         )
     }
 

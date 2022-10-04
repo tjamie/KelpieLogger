@@ -45,6 +45,12 @@ const projectsSlice = createSlice({
         updateProject: (state, action) => {
             const idx = state.projectsArray.findIndex((element) => element.id === action.payload.id);
             state.projectsArray[idx] = action.payload;
+        },
+        deleteProject: (state, action) => {
+            // console.log(`num projects: ${state.projectsArray.length}`);
+            const idx = state.projectsArray.findIndex((element) => element.id === action.payload);
+            console.log(`Target: ${state.projectsArray[idx].projectName}`);
+            state.projectsArray = state.projectsArray.filter((element) => element.id != action.payload);
         }
     }
     // extraReducers: {
@@ -64,4 +70,4 @@ const projectsSlice = createSlice({
 });
 
 export const projectsReducer = projectsSlice.reducer;
-export const { addProject, updateProject } = projectsSlice.actions;
+export const { addProject, updateProject, deleteProject } = projectsSlice.actions;

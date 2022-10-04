@@ -1,3 +1,3 @@
 export const dateToUniqueId = () => {
-    return Date.now();
+    return Date.now().toString();
 }

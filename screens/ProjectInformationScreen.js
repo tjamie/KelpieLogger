@@ -1,18 +1,17 @@
 import { useState } from "react";
-import { ListItem, Button, Input } from 'react-native-elements';
+import { ListItem, Button, Input } from "react-native-elements";
 import { ScrollView, View, Text, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProject } from "../reducers/projectsReducer";
 import { selectDatapointsByProjectId } from "../reducers/datapointsReducer";
 import { FlatList } from "react-native-gesture-handler";
-
-
+import DateComponent from "../components/DateComponent";
 
 const ProjectInformationScreen = (props) => {
     const { route, navigation } = props;
 
     const { project } = route.params;
-    const [showProjectEditModal, setShowProjectEditModal] = useState(false)
+    const [showProjectEditModal, setShowProjectEditModal] = useState(false);
 
     const [projectName, setProjectName] = useState(project.projectName);
     const [projectApplicant, setProjectApplicant] = useState(project.projectApplicant);
@@ -37,6 +36,8 @@ const ProjectInformationScreen = (props) => {
 
         const handleSubmit = () => {
             // set states now to reflect changes on project info screen without reloading
+            const tempDate = Date.now();
+
             setProjectName(tempName);
             setProjectApplicant(tempApplicant);
             setProjectCounty(tempCounty);
@@ -44,39 +45,34 @@ const ProjectInformationScreen = (props) => {
             setProjectSection(tempSection);
             setProjectSubregion(tempSubregion);
             setProjectDatum(tempDatum);
-            setProjectUpdatedDate(Date.now());
+            setProjectUpdatedDate(tempDate);
 
             const updatedProject = {
                 // projectName,
-                projectName,
-                projectApplicant,
-                projectCounty,
-                projectState,
-                projectSection,
-                projectSubregion,
-                projectDatum,
+                projectName: tempName,
+                projectApplicant: tempApplicant,
+                projectCounty: tempCounty,
+                projectState: tempState,
+                projectSection: tempSection,
+                projectSubregion: tempSubregion,
+                projectDatum: tempDatum,
                 id: project.id,
-                updatedDate: projectUpdatedDate
+                updatedDate: tempDate
             };
 
-            console.log('Updated project:', updatedProject);
+            console.log("Updated project:", updatedProject);
             dispatch(updateProject(updatedProject));
             setShowModal(!showModal);
-        }
+        };
 
         return (
-            <Modal
-                transparent={false}
-                visible={showModal}
-                onRequestClose={() => setShowModal(!showModal)}
-            >
-
+            <Modal transparent={false} visible={showModal} onRequestClose={() => setShowModal(!showModal)}>
                 <ScrollView>
                     <Text>Project Edit</Text>
                     <View>
                         <Text>Project Name</Text>
                         <Input
-                            placeholder='Project Name'
+                            placeholder="Project Name"
                             // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
                             // leftIconContainerStyle={{ paddingRight: 10 }}
                             onChangeText={(tempName) => setTempName(tempName)}
@@ -86,7 +82,7 @@ const ProjectInformationScreen = (props) => {
                     <View>
                         <Text>Owner/Applicant</Text>
                         <Input
-                            placeholder='Owner/Applicant'
+                            placeholder="Owner/Applicant"
                             onChangeText={(tempApplicant) => setTempApplicant(tempApplicant)}
                             value={tempApplicant}
                         />
@@ -94,7 +90,7 @@ const ProjectInformationScreen = (props) => {
                     <View>
                         <Text>City/County</Text>
                         <Input
-                            placeholder='City/County'
+                            placeholder="City/County"
                             onChangeText={(tempCounty) => setTempCounty(tempCounty)}
                             value={tempCounty}
                         />
@@ -102,23 +98,27 @@ const ProjectInformationScreen = (props) => {
                     <View>
                         <Text>State</Text>
                         <Input
-                            placeholder='State'
+                            placeholder="State"
                             onChangeText={(tempState) => setTempState(tempState)}
                             value={tempState}
                         />
                     </View>
                     <View>
-                        <Text>Section, Township, Range {'('}optional{')'}</Text>
+                        <Text>
+                            Section, Township, Range {"("}optional{")"}
+                        </Text>
                         <Input
-                            placeholder='Section, Township, Range'
+                            placeholder="Section, Township, Range"
                             onChangeText={(tempSection) => setTempSection(tempSection)}
                             value={tempSection}
                         />
                     </View>
                     <View>
-                        <Text>Subregion {'('}LRR and/or MLRA{')'}</Text>
+                        <Text>
+                            Subregion {"("}LRR and/or MLRA{")"}
+                        </Text>
                         <Input
-                            placeholder='Subregion'
+                            placeholder="Subregion"
                             onChangeText={(tempSubregion) => setTempSubregion(tempSubregion)}
                             value={tempSubregion}
                         />
@@ -126,15 +126,15 @@ const ProjectInformationScreen = (props) => {
                     <View>
                         <Text>Datum</Text>
                         <Input
-                            placeholder='Datum'
+                            placeholder="Datum"
                             onChangeText={(tempDatum) => setTempDatum(tempDatum)}
                             value={tempDatum}
                         />
                     </View>
                     <View>
                         <Button
-                            title='Save Changes'
-                            color='#00FF00'
+                            title="Save Changes"
+                            color="#00FF00"
                             onPress={() => {
                                 handleSubmit();
                                 // resetForm();
@@ -143,8 +143,8 @@ const ProjectInformationScreen = (props) => {
                     </View>
                     <View>
                         <Button
-                            title='Cancel'
-                            color='#FF0000'
+                            title="Cancel"
+                            color="#FF0000"
                             onPress={() => {
                                 setShowModal(!showModal);
                                 // resetForm();
@@ -154,17 +154,21 @@ const ProjectInformationScreen = (props) => {
                 </ScrollView>
             </Modal>
         );
-    }
+    };
 
     const NewDatapointItem = () => {
         return (
             <View>
                 <ListItem
                     onPress={() => {
-                        console.log('NewDatapointItem pressed')
+                        console.log("NewDatapointItem pressed");
                         // setShowNewProjectModal(true)
                     }}
-                    containerStyle={{ backgroundColor: '#EFEFEF', borderColor: '#DDD', borderWidth: 1 }}
+                    containerStyle={{
+                        backgroundColor: "#EFEFEF",
+                        borderColor: "#DDD",
+                        borderWidth: 1
+                    }}
                 >
                     <ListItem.Content>
                         <ListItem.Title>New Datapoint</ListItem.Title>
@@ -172,16 +176,16 @@ const ProjectInformationScreen = (props) => {
                     </ListItem.Content>
                 </ListItem>
             </View>
-        )
-    }
+        );
+    };
 
     const renderDatapointItem = ({ item: datapoint }) => {
         return (
             <View>
                 <ListItem
                     onPress={() => {
-                        console.log('Datapoint pressed: ', datapoint.id);
-                        navigation.navigate('EditDatapoint', { datapoint })
+                        console.log("Datapoint pressed: ", datapoint.id);
+                        navigation.navigate("EditDatapoint", { datapoint });
                     }}
                 >
                     <ListItem.Content>
@@ -190,19 +194,21 @@ const ProjectInformationScreen = (props) => {
                     </ListItem.Content>
                 </ListItem>
             </View>
-        )
-    }
+        );
+    };
 
     const DatapointsList = ({ projectId }) => {
         const datapoints = useSelector(selectDatapointsByProjectId(projectId));
         // const datapoints = useSelector((state) => state.datapoints);
-        console.log('project id: ', projectId)
+        console.log("project id: ", projectId);
         // console.log('datapoints array: ', datapoints)
-        console.log('num datapoints found: ', datapoints.length)
+        console.log("num datapoints found: ", datapoints.length);
 
         return (
             <>
-                <View><Text>Datapoints</Text></View>
+                <View>
+                    <Text>Datapoints</Text>
+                </View>
                 <NewDatapointItem />
                 <FlatList
                     // data={useSelector(selectDatapointsByProjectId(projectId))}
@@ -211,29 +217,27 @@ const ProjectInformationScreen = (props) => {
                     keyExtractor={(item) => item.id.toString()}
                 />
             </>
-        )
-    }
+        );
+    };
 
     return (
         <View>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: "row" }}>
                 <Text style={{ flex: 1 }}>Project Information</Text>
-                <Button
-                    title='Edit'
-                    style={{ flex: 1 }}
-                    onPress={() => setShowProjectEditModal(true)}
-                />
+                <Button title="Edit" style={{ flex: 1 }} onPress={() => setShowProjectEditModal(true)} />
             </View>
             <Text>Project: {projectName}</Text>
-            <Text>{projectCounty}, {projectState}</Text>
+            <Text>
+                {projectCounty}, {projectState}
+            </Text>
             <Text>Applicant: {projectApplicant}</Text>
-            {projectSection.length > 1 &&
-                <Text>Section, Township: {projectSection}</Text>
-            }
+            {projectSection.length > 1 && <Text>Section, Township: {projectSection}</Text>}
             <Text>Subregion: {projectSubregion}</Text>
             <Text>Datum: {projectDatum}</Text>
-            <Text style={{ fontStyle: 'italic' }}>Project ID: {project.id}</Text>
-            <Text style={{ fontStyle: 'italic' }}>Last updated {Date(projectUpdatedDate)}</Text>
+            <Text style={{ fontStyle: "italic" }}>Project ID: {project.id}</Text>
+            <Text style={{ fontStyle: "italic" }}>
+                Last updated <DateComponent date={projectUpdatedDate} />
+            </Text>
 
             <DatapointsList projectId={project.id} />
 
@@ -243,9 +247,7 @@ const ProjectInformationScreen = (props) => {
                 setShowModal={setShowProjectEditModal}
             />
         </View>
-
-
-    )
-}
+    );
+};
 
 export default ProjectInformationScreen;

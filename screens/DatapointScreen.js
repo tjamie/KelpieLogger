@@ -20,13 +20,15 @@ const DatapointScreen = ({ route }) => {
 
     return (
         <ScrollView>
-            <View><Text>{tempDatapoint.name}</Text></View>
+            <View>
+                <Text>{tempDatapoint.name}</Text>
+            </View>
             <Button
-                title='print datapoint'
+                title="print datapoint"
                 onPress={() => console.log(JSON.stringify(tempDatapoint, 0, 2))}
             />
             <CheckBox
-                title='Hydrology disturbed?'
+                title="Hydrology disturbed?"
                 checked={tempDatapoint.hydrology.disturbed}
                 onPress={() => {
                     setTempDatapoint({
@@ -35,13 +37,13 @@ const DatapointScreen = ({ route }) => {
                             ...tempDatapoint.hydrology,
                             disturbed: !tempDatapoint.hydrology.disturbed
                         }
-                    })
+                    });
                     // setHydrology(tempDatapoint.hydrology)
-                    console.log(JSON.stringify(tempDatapoint, 0, 2))
+                    console.log(JSON.stringify(tempDatapoint, 0, 2));
                 }}
             />
         </ScrollView>
-    )
-}
+    );
+};
 
 export default DatapointScreen;

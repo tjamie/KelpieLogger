@@ -11,12 +11,17 @@ const DatapointScreen = ({ route }) => {
     const [tempDatapoint, setTempDatapoint] = useState(datapoint);
     const [dp, setDp] = useState(datapoint);
 
-    const [collapseGeneral, setCollapseGeneral] = useState(false);
+    const [collapseGeneral, setCollapseGeneral] = useState(true);
     const [collapseHydrology, setCollapseHydrology] = useState(true);
     const [collapseVegetation, setCollapseVegetation] = useState(true);
     const [collapseSoil, setCollapseSoil] = useState(true);
 
     const dispatch = useDispatch();
+
+    const handleSaveDatapoint = () => {
+        dispatch(updateDatapoint(tempDatapoint));
+        console.log("Updated datapoint:", JSON.stringify(tempDatapoint, 0, 2));
+    };
 
     return (
         <ScrollView>
@@ -260,7 +265,7 @@ const DatapointScreen = ({ route }) => {
                     <Text>Soil placeholder</Text>
                 </Collapsible>
             </View>
-            <Button title="Save Changes" onPress={() => console.log("save button pressed")} />
+            <Button title="Save Changes" onPress={() => handleSaveDatapoint()} />
         </ScrollView>
     );
 };

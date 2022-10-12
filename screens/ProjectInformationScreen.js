@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { ListItem, Button, Input } from "react-native-elements";
-import { ScrollView, View, Text, Modal } from "react-native";
+import { ScrollView, View, Text, Modal, Alert } from "react-native";
+import { SwipeRow } from "react-native-swipe-list-view";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProject } from "../reducers/projectsReducer";
+import { addDatapoint, deleteDatapoint } from "../reducers/datapointsReducer";
 import { selectDatapointsByProjectId } from "../reducers/datapointsReducer";
 import { FlatList } from "react-native-gesture-handler";
 import DateComponent from "../components/DateComponent";
+import { TouchableOpacity } from "react-native";
+import { dateToUniqueId } from "../utils/dateToUniqueId";
 
 const ProjectInformationScreen = (props) => {
     const { route, navigation } = props;
@@ -22,10 +26,11 @@ const ProjectInformationScreen = (props) => {
     const [projectDatum, setProjectDatum] = useState(project.projectDatum);
     const [projectUpdatedDate, setProjectUpdatedDate] = useState(project.updatedDate);
 
+    const dispatch = useDispatch();
+
     const ProjectEditModal = (props) => {
-        const dispatch = useDispatch();
+        // const dispatch = useDispatch();
         const { showModal, setShowModal } = props;
-        // const { project, showModal, setShowModal } = props;
         const [tempName, setTempName] = useState(project.projectName);
         const [tempApplicant, setTempApplicant] = useState(project.projectApplicant);
         const [tempCounty, setTempCounty] = useState(project.projectCounty);
@@ -162,7 +167,7 @@ const ProjectInformationScreen = (props) => {
                 <ListItem
                     onPress={() => {
                         console.log("NewDatapointItem pressed");
-                        // setShowNewProjectModal(true)
+                        handleNewDatapoint();
                     }}
                     containerStyle={{
                         backgroundColor: "#EFEFEF",
@@ -179,21 +184,130 @@ const ProjectInformationScreen = (props) => {
         );
     };
 
+    const handleNewDatapoint = () => {
+        // const dispatch = useDispatch();
+        const newDatapoint = {
+            id: dateToUniqueId(),
+            projectId: project.id,
+            name: "New Datapoint",
+            date: Date.now(),
+            authors: "",
+            landform: "",
+            relief: "",
+            slope: "",
+            lat: 0.0,
+            long: 0.0,
+            soilUnit: "",
+            NWI: "-",
+            normalCircumstances: true,
+            hydrology: {
+                present: false,
+                disturbed: false,
+                problematic: false,
+                surfaceWater: {
+                    present: false,
+                    depth: null
+                },
+                waterTable: {
+                    present: false,
+                    depth: null
+                },
+                saturation: {
+                    present: false,
+                    depth: null
+                },
+                primaryIndicators: [],
+                secondaryIndicators: [],
+                remarks: ""
+            },
+            vegetation: {
+                present: false,
+                disturbed: false,
+                problematic: false,
+                indicators: {
+                    rapidTest: false,
+                    domTest: false,
+                    prevIndex: false,
+                    problematicVeg: false
+                },
+                remarks: ""
+            },
+            soil: {
+                present: false,
+                disturbed: false,
+                problematic: false,
+                restrictiveLayer: {
+                    type: "",
+                    depth: null
+                },
+                layers: [],
+                indicators: [],
+                problematicIndicators: [],
+                remarks: ""
+            }
+        };
+        dispatch(addDatapoint(newDatapoint));
+    };
+
     const renderDatapointItem = ({ item: datapoint }) => {
         return (
-            <View>
-                <ListItem
-                    onPress={() => {
-                        console.log("Datapoint pressed: ", datapoint.id);
-                        navigation.navigate("EditDatapoint", { datapoint });
+            <SwipeRow rightOpenValue={-100}>
+                {/* delete datapoint */}
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                        flex: 1
                     }}
                 >
-                    <ListItem.Content>
-                        <ListItem.Title>{datapoint.name}</ListItem.Title>
-                        <ListItem.Subtitle>{datapoint.NWI}</ListItem.Subtitle>
-                    </ListItem.Content>
-                </ListItem>
-            </View>
+                    <TouchableOpacity
+                        style={{
+                            backgroundColor: "red",
+                            height: "100%",
+                            justifyContent: "center"
+                        }}
+                        onPress={() =>
+                            Alert.alert(
+                                "Delete Datapoint",
+                                `Are you sure you want to delete datapoint ${datapoint.name}?`,
+                                [
+                                    {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Not deleted"),
+                                        style: "cancel"
+                                    },
+                                    {
+                                        text: "OK",
+                                        onPress: () => dispatch(deleteDatapoint(datapoint.id))
+                                    }
+                                ],
+                                { cancelable: false }
+                            )
+                        }
+                    >
+                        <Text
+                            style={{ color: "white", fontWeight: "700", textAlign: "center", fontSize: 16, width: 100 }}
+                        >
+                            Delete
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                {/* view datapoint */}
+                <View>
+                    <ListItem
+                        onPress={() => {
+                            console.log("Datapoint pressed: ", datapoint.id);
+                            navigation.navigate("EditDatapoint", { datapoint });
+                        }}
+                    >
+                        <ListItem.Content>
+                            <ListItem.Title>{datapoint.name}</ListItem.Title>
+                            <ListItem.Subtitle>{datapoint.NWI}</ListItem.Subtitle>
+                        </ListItem.Content>
+                    </ListItem>
+                </View>
+            </SwipeRow>
         );
     };
 

@@ -1,15 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as datapointsData from '../data/datapoints.json'
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import * as datapointsData from "../data/datapoints.json";
 
 const initialState = {
     isLoading: false,
     errMess: null,
     datapointsArray: datapointsData.data
-}
+};
 
 const datapointsSlice = createSlice({
-    name: 'datapoints',
+    name: "datapoints",
     initialState,
     reducers: {
         addDatapoint: (state, action) => {
@@ -17,16 +16,17 @@ const datapointsSlice = createSlice({
         },
         updateDatapoint: (state, action) => {
             const idx = state.datapointsArray.findIndex((element) => element.id === action.payload.id);
-            state.projectsArray[idx] = action.payload;
+            state.datapointsArray[idx] = action.payload;
+        },
+        deleteDatapoint: (state, action) => {
+            state.datapointsArray = state.datapointsArray.filter((element) => element.id != action.payload);
         }
     }
 });
 
 export const datapointsReducer = datapointsSlice.reducer;
-export const { addDatapoint, updateDatapoint } = datapointsSlice.actions;
+export const { addDatapoint, updateDatapoint, deleteDatapoint } = datapointsSlice.actions;
 export const selectDatapointsByProjectId = (projectId) => (state) => {
     // console.log('selecting by id ', projectId)
-    return state.datapoints.datapointsArray.filter(
-        (datapoint) => datapoint.projectId === parseInt(projectId)
-    );
-}
+    return state.datapoints.datapointsArray.filter((datapoint) => datapoint.projectId === parseInt(projectId));
+};

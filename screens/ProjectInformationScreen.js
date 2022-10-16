@@ -206,15 +206,15 @@ const ProjectInformationScreen = (props) => {
                 problematic: false,
                 surfaceWater: {
                     present: false,
-                    depth: null
+                    depth: NaN
                 },
                 waterTable: {
                     present: false,
-                    depth: null
+                    depth: NaN
                 },
                 saturation: {
                     present: false,
-                    depth: null
+                    depth: NaN
                 },
                 primaryIndicators: [],
                 secondaryIndicators: [],
@@ -238,7 +238,7 @@ const ProjectInformationScreen = (props) => {
                 problematic: false,
                 restrictiveLayer: {
                     type: "",
-                    depth: null
+                    depth: NaN
                 },
                 layers: [],
                 indicators: [],

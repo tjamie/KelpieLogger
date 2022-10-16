@@ -4,6 +4,7 @@ import { ListItem, Button, Input, CheckBox } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDatapoint } from "../reducers/datapointsReducer";
 import Collapsible from "react-native-collapsible";
+import { enforceNumeric } from "../utils/enforceNumeric";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DatapointScreen = ({ route }) => {
@@ -239,7 +240,97 @@ const DatapointScreen = ({ route }) => {
                     <Text>Hydrology</Text>
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseHydrology}>
-                    <Text>hydrology placeholder</Text>
+                    <CheckBox
+                        title="Wetland hydrology present?"
+                        checked={tempDatapoint.hydrology.present}
+                        onPress={() => {
+                            setTempDatapoint({
+                                ...tempDatapoint,
+                                hydrology: {
+                                    ...tempDatapoint.hydrology,
+                                    present: !tempDatapoint.hydrology.present
+                                }
+                            });
+                        }}
+                    />
+                    <View>
+                        <Text>Surface water depth (inches)</Text>
+                        <Input
+                            keyboardType="numeric"
+                            onChangeText={(depth) =>
+                                setTempDatapoint({
+                                    ...tempDatapoint,
+                                    hydrology: {
+                                        ...tempDatapoint.hydrology,
+                                        surfaceWater: {
+                                            depth: enforceNumeric(depth),
+                                            present: depth > 0
+                                        }
+                                    }
+                                })
+                            }
+                            value={tempDatapoint.hydrology.surfaceWater.depth.toString()}
+                        />
+                    </View>
+                    <View>
+                        <Text>Water table depth (inches)</Text>
+                        <Input
+                            keyboardType="numeric"
+                            onChangeText={(depth) =>
+                                setTempDatapoint({
+                                    ...tempDatapoint,
+                                    hydrology: {
+                                        ...tempDatapoint.hydrology,
+                                        waterTable: {
+                                            depth: enforceNumeric(depth),
+                                            present: depth < 12
+                                        }
+                                    }
+                                })
+                            }
+                            value={tempDatapoint.hydrology.waterTable.depth.toString()}
+                        />
+                    </View>
+                    <View>
+                        <Text>Saturation depth (inches)</Text>
+                        <Input
+                            keyboardType="numeric"
+                            onChangeText={(depth) => {
+                                setTempDatapoint({
+                                    ...tempDatapoint,
+                                    hydrology: {
+                                        ...tempDatapoint.hydrology,
+                                        saturation: {
+                                            depth: enforceNumeric(depth),
+                                            present: depth < 12
+                                        }
+                                    }
+                                });
+                            }}
+                            value={tempDatapoint.hydrology.saturation.depth.toString()}
+                        />
+                    </View>
+                    <View>
+                        <Text>Primary indicators placeholder</Text>
+                    </View>
+                    <View>
+                        <Text>Secondary indicators placeholder</Text>
+                    </View>
+                    <View>
+                        <Text>Remarks</Text>
+                        <Input
+                            onChangeText={(text) => {
+                                setTempDatapoint({
+                                    ...tempDatapoint,
+                                    hydrology: {
+                                        ...tempDatapoint.hydrology,
+                                        remarks: text
+                                    }
+                                });
+                            }}
+                            value={tempDatapoint.hydrology.remarks}
+                        />
+                    </View>
                 </Collapsible>
             </View>
 

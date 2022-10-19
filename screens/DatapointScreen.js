@@ -17,6 +17,11 @@ const DatapointScreen = ({ route }) => {
     const [collapseVegetation, setCollapseVegetation] = useState(true);
     const [collapseSoil, setCollapseSoil] = useState(true);
 
+    const [collapseTree, setCollapseTree] = useState(true);
+    const [collapseSaplingShrub, setCollapseSaplingShrub] = useState(true);
+    const [collapseHerb, setCollapseHerb] = useState(true);
+    const [collapseVine, setCollapseVine] = useState(true);
+
     const dispatch = useDispatch();
 
     const handleSaveDatapoint = () => {
@@ -343,7 +348,50 @@ const DatapointScreen = ({ route }) => {
                     <Text>Vegetation</Text>
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseVegetation}>
-                    <Text>Vegetation placeholder</Text>
+                    <CheckBox
+                        title="Hydric vegetation present?"
+                        checked={tempDatapoint.vegetation.present}
+                        onPress={() => {
+                            setTempDatapoint({
+                                ...tempDatapoint,
+                                vegetation: {
+                                    ...tempDatapoint.vegetation,
+                                    present: !tempDatapoint.vegetation.present
+                                }
+                            });
+                        }}
+                    />
+                    {/* Trees */}
+                    <TouchableOpacity onPress={() => setCollapseTree(!collapseTree)}>
+                        <Text>Tree Stratum</Text>
+                    </TouchableOpacity>
+                    <Collapsible collapsed={collapseTree}>
+                        <Text>Tree flatlist placeholder</Text>
+                    </Collapsible>
+
+                    {/* Saplings/Shrubs */}
+                    <TouchableOpacity onPress={() => setCollapseSaplingShrub(!collapseSaplingShrub)}>
+                        <Text>Sapling/Shrub Stratum</Text>
+                    </TouchableOpacity>
+                    <Collapsible collapsed={collapseSaplingShrub}>
+                        <Text>Sapling/Shrub flatlist placeholder</Text>
+                    </Collapsible>
+
+                    {/* Herbaceous */}
+                    <TouchableOpacity onPress={() => setCollapseHerb(!collapseHerb)}>
+                        <Text>Herb Stratum</Text>
+                    </TouchableOpacity>
+                    <Collapsible collapsed={collapseHerb}>
+                        <Text>Herb flatlist placeholder</Text>
+                    </Collapsible>
+
+                    {/* Woody Vines */}
+                    <TouchableOpacity onPress={() => setCollapseVine(!collapseVine)}>
+                        <Text>Woody Vine Stratum</Text>
+                    </TouchableOpacity>
+                    <Collapsible collapsed={collapseVine}>
+                        <Text>Woody Vine flatlist placeholder</Text>
+                    </Collapsible>
                 </Collapsible>
             </View>
 

@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as projectsData from '../data/projects.json'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import * as projectsData from "../data/projects.json";
 
 // const localProjectsData = '../data/projects.json';
 
@@ -22,8 +22,8 @@ import * as projectsData from '../data/projects.json'
 const initialState = {
     isLoading: false,
     errMess: null,
-    projectsArray: projectsData.data
-}
+    projectsArray: []
+};
 
 // export const postProject = createAsyncThunk(
 //     'projects/postProject',
@@ -36,7 +36,7 @@ const initialState = {
 // )
 
 const projectsSlice = createSlice({
-    name: 'projects',
+    name: "projects",
     initialState,
     reducers: {
         addProject: (state, action) => {

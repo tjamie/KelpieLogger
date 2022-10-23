@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 
+components/PlantsList.js
 data/plant_lists/usace_xls/
 issues.txt
 

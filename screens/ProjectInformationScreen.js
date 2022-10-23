@@ -230,6 +230,12 @@ const ProjectInformationScreen = (props) => {
                     prevIndex: false,
                     problematicVeg: false
                 },
+                strata: {
+                    tree: [],
+                    saplingShrub: [],
+                    herb: [],
+                    vine: []
+                },
                 remarks: ""
             },
             soil: {

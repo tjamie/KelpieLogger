@@ -1,10 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { projectsReducer } from '../reducers/projectsReducer';
-import { datapointsReducer } from '../reducers/datapointsReducer';
-import { persistStore, persistCombineReducers, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { configureStore } from "@reduxjs/toolkit";
+import { projectsReducer } from "../reducers/projectsReducer";
+import { datapointsReducer } from "../reducers/datapointsReducer";
+import { persistStore, persistCombineReducers, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import storage from 'redux-persist/lib/storage';
-
 
 // export const store = configureStore({
 //     reducer: {
@@ -13,10 +12,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // })
 
 const rootConfig = {
-    key: 'root',
+    key: "root",
     storage: AsyncStorage,
     debug: true
-}
+};
 
 export const store = configureStore({
     reducer: persistCombineReducers(rootConfig, {
@@ -30,6 +29,6 @@ export const store = configureStore({
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
             }
         })
-})
+});
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);

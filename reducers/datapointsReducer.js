@@ -4,7 +4,7 @@ import * as datapointsData from "../data/datapoints.json";
 const initialState = {
     isLoading: false,
     errMess: null,
-    datapointsArray: datapointsData.data
+    datapointsArray: []
 };
 
 const datapointsSlice = createSlice({

@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, ScrollView, Text, TouchableOpacity, Alert, FlatList } from "react-native";
 import { ListItem, Button, Input, CheckBox } from "react-native-elements";
+import { SwipeRow } from "react-native-swipe-list-view";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDatapoint } from "../reducers/datapointsReducer";
 import Collapsible from "react-native-collapsible";
 import { enforceNumeric } from "../utils/enforceNumeric";
+import PlantsList from "../components/PlantsList";
+import { dateToUniqueId } from "../utils/dateToUniqueId";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DatapointScreen = ({ route }) => {
@@ -27,6 +30,161 @@ const DatapointScreen = ({ route }) => {
     const handleSaveDatapoint = () => {
         dispatch(updateDatapoint(tempDatapoint));
         console.log("Updated datapoint:", JSON.stringify(tempDatapoint, 0, 2));
+    };
+
+    // Plant list stuff.
+    const PlantsList = (props) => {
+        const { stratum } = props;
+
+        const handleNewPlant = () => {
+            const newPlant = {
+                id: dateToUniqueId(),
+                species: "New Plant",
+                cover: 0,
+                dominant: false,
+                indicator: ""
+            };
+            setTempDatapoint({
+                ...tempDatapoint,
+                vegetation: {
+                    ...tempDatapoint.vegetation,
+                    strata: {
+                        ...tempDatapoint.vegetation.strata,
+                        [stratum]: [...tempDatapoint.vegetation.strata[stratum], newPlant]
+                    }
+                }
+            });
+        };
+
+        const NewPlantItem = () => {
+            return (
+                <View>
+                    <ListItem
+                        onPress={() => {
+                            console.log("NewPlantItem pressed");
+                            handleNewPlant();
+                        }}
+                        containerStyle={{
+                            backgroundColor: "#EFEFEF",
+                            borderColor: "#DDD",
+                            borderWidth: 1
+                        }}
+                    >
+                        <ListItem.Content>
+                            <ListItem.Title>New Plant</ListItem.Title>
+                            <ListItem.Subtitle>Record a new plant</ListItem.Subtitle>
+                        </ListItem.Content>
+                    </ListItem>
+                </View>
+            );
+        };
+
+        const RenderPlantItem = ({ item: plant }) => {
+            return (
+                <SwipeRow rightOpenValue={-80}>
+                    {/* delete plant */}
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                            flex: 1
+                        }}
+                    >
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: "red",
+                                height: "100%",
+                                justifyContent: "center"
+                            }}
+                            onPress={() =>
+                                Alert.alert(
+                                    "Delete Plant",
+                                    `Are you sure you want to delete item for ${plant.species}?`,
+                                    [
+                                        {
+                                            text: "Cancel",
+                                            onPress: () => console.log("Not deleted"),
+                                            style: "cancel"
+                                        },
+                                        {
+                                            text: "OK",
+                                            onPress: () => {
+                                                console.log("DELETE OK PRESSED");
+                                                const idx = tempDatapoint.vegetation.strata[stratum].findIndex(
+                                                    (obj) => obj.id === plant.id
+                                                );
+                                                const plantArr = tempDatapoint.vegetation.strata[stratum];
+                                                setTempDatapoint({
+                                                    ...tempDatapoint,
+                                                    vegetation: {
+                                                        ...tempDatapoint.vegetation,
+                                                        strata: {
+                                                            ...tempDatapoint.vegetation.strata,
+                                                            [stratum]:
+                                                                // tempDatapoint.vegetation.strata[stratum].splice(idx, 1)
+                                                                plantArr.filter((entry) => entry.id != plant.id)
+                                                        }
+                                                    }
+                                                });
+                                                // dispatch(updateDatapoint(tempDatapoint));
+                                            }
+                                        }
+                                    ],
+                                    { cancelable: false }
+                                )
+                            }
+                        >
+                            <Text
+                                style={{
+                                    color: "white",
+                                    fontWeight: "700",
+                                    textAlign: "center",
+                                    fontSize: 16,
+                                    width: 100
+                                }}
+                            >
+                                Delete
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    {/* view plant */}
+                    <View>
+                        <ListItem
+                            onPress={() => {
+                                console.log("Plant pressed: ", plant.species);
+                                console.log(plant);
+                                // navigation.navigate("EditDatapoint", { datapoint });
+                            }}
+                        >
+                            <ListItem.Content>
+                                <ListItem.Title>{plant.species}</ListItem.Title>
+                                <ListItem.Subtitle>{`${plant.indicator} --- ${plant.cover}`}</ListItem.Subtitle>
+                            </ListItem.Content>
+                        </ListItem>
+                    </View>
+                </SwipeRow>
+            );
+        };
+
+        return (
+            <View>
+                <Text>Vegetation ({stratum})</Text>
+                <NewPlantItem />
+
+                {tempDatapoint.vegetation.strata[stratum].map((item) => {
+                    if (item) {
+                        console.log(item);
+                        return (
+                            <View key={item.id.toString()}>
+                                <RenderPlantItem item={item} />
+                                <Text>{item.id.toString()}</Text>
+                            </View>
+                        );
+                    }
+                })}
+            </View>
+        );
     };
 
     return (
@@ -274,7 +432,11 @@ const DatapointScreen = ({ route }) => {
                                     }
                                 })
                             }
-                            value={tempDatapoint.hydrology.surfaceWater.depth.toString()}
+                            value={
+                                tempDatapoint.hydrology.surfaceWater.depth
+                                    ? tempDatapoint.hydrology.surfaceWater.depth.toString()
+                                    : ""
+                            }
                         />
                     </View>
                     <View>
@@ -293,7 +455,11 @@ const DatapointScreen = ({ route }) => {
                                     }
                                 })
                             }
-                            value={tempDatapoint.hydrology.waterTable.depth.toString()}
+                            value={
+                                tempDatapoint.hydrology.waterTable.depth
+                                    ? tempDatapoint.hydrology.waterTable.depth.toString()
+                                    : ""
+                            }
                         />
                     </View>
                     <View>
@@ -312,7 +478,11 @@ const DatapointScreen = ({ route }) => {
                                     }
                                 });
                             }}
-                            value={tempDatapoint.hydrology.saturation.depth.toString()}
+                            value={
+                                tempDatapoint.hydrology.saturation.depth
+                                    ? tempDatapoint.hydrology.saturation.depth.toString()
+                                    : ""
+                            }
                         />
                     </View>
                     <View>
@@ -366,7 +536,7 @@ const DatapointScreen = ({ route }) => {
                         <Text>Tree Stratum</Text>
                     </TouchableOpacity>
                     <Collapsible collapsed={collapseTree}>
-                        <Text>Tree flatlist placeholder</Text>
+                        <PlantsList stratum="tree" />
                     </Collapsible>
 
                     {/* Saplings/Shrubs */}
@@ -374,7 +544,7 @@ const DatapointScreen = ({ route }) => {
                         <Text>Sapling/Shrub Stratum</Text>
                     </TouchableOpacity>
                     <Collapsible collapsed={collapseSaplingShrub}>
-                        <Text>Sapling/Shrub flatlist placeholder</Text>
+                        <PlantsList stratum="saplingShrub" />
                     </Collapsible>
 
                     {/* Herbaceous */}
@@ -382,7 +552,7 @@ const DatapointScreen = ({ route }) => {
                         <Text>Herb Stratum</Text>
                     </TouchableOpacity>
                     <Collapsible collapsed={collapseHerb}>
-                        <Text>Herb flatlist placeholder</Text>
+                        <PlantsList stratum="herb" />
                     </Collapsible>
 
                     {/* Woody Vines */}
@@ -390,7 +560,7 @@ const DatapointScreen = ({ route }) => {
                         <Text>Woody Vine Stratum</Text>
                     </TouchableOpacity>
                     <Collapsible collapsed={collapseVine}>
-                        <Text>Woody Vine flatlist placeholder</Text>
+                        <PlantsList stratum="vine" />
                     </Collapsible>
                 </Collapsible>
             </View>

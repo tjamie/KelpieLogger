@@ -11,7 +11,8 @@ import SoilsList from "../components/SoilsList";
 import { dateToUniqueId } from "../utils/dateToUniqueId";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 
-const DatapointScreen = ({ route }) => {
+const DatapointScreen = (props) => {
+    const { route, navigation } = props;
     const { datapoint } = route.params;
     const [tempDatapoint, setTempDatapoint] = useState(datapoint);
     const [dp, setDp] = useState(datapoint);
@@ -382,7 +383,12 @@ const DatapointScreen = ({ route }) => {
                         <Text>Tree Stratum</Text>
                     </TouchableOpacity>
                     <Collapsible collapsed={collapseTree}>
-                        <PlantsList stratum="tree" tempDatapoint={tempDatapoint} setTempDatapoint={setTempDatapoint} />
+                        <PlantsList
+                            stratum="tree"
+                            navigation={navigation}
+                            tempDatapoint={tempDatapoint}
+                            setTempDatapoint={setTempDatapoint}
+                        />
                     </Collapsible>
 
                     {/* Saplings/Shrubs */}
@@ -392,6 +398,7 @@ const DatapointScreen = ({ route }) => {
                     <Collapsible collapsed={collapseSaplingShrub}>
                         <PlantsList
                             stratum="saplingShrub"
+                            navigation={navigation}
                             tempDatapoint={tempDatapoint}
                             setTempDatapoint={setTempDatapoint}
                         />
@@ -402,7 +409,12 @@ const DatapointScreen = ({ route }) => {
                         <Text>Herb Stratum</Text>
                     </TouchableOpacity>
                     <Collapsible collapsed={collapseHerb}>
-                        <PlantsList stratum="herb" tempDatapoint={tempDatapoint} setTempDatapoint={setTempDatapoint} />
+                        <PlantsList
+                            stratum="herb"
+                            navigation={navigation}
+                            tempDatapoint={tempDatapoint}
+                            setTempDatapoint={setTempDatapoint}
+                        />
                     </Collapsible>
 
                     {/* Woody Vines */}
@@ -410,7 +422,12 @@ const DatapointScreen = ({ route }) => {
                         <Text>Woody Vine Stratum</Text>
                     </TouchableOpacity>
                     <Collapsible collapsed={collapseVine}>
-                        <PlantsList stratum="vine" tempDatapoint={tempDatapoint} setTempDatapoint={setTempDatapoint} />
+                        <PlantsList
+                            stratum="vine"
+                            navigation={navigation}
+                            tempDatapoint={tempDatapoint}
+                            setTempDatapoint={setTempDatapoint}
+                        />
                     </Collapsible>
                 </Collapsible>
             </View>

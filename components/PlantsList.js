@@ -5,7 +5,7 @@ import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const PlantsList = (props) => {
-    const { stratum, tempDatapoint, setTempDatapoint } = props;
+    const { navigation, stratum, tempDatapoint, setTempDatapoint } = props;
 
     const handleNewPlant = () => {
         const newPlant = {
@@ -117,8 +117,8 @@ const PlantsList = (props) => {
                 <View>
                     <ListItem
                         onPress={() => {
-                            console.log("Plant pressed: ", plant.species);
-                            console.log(plant);
+                            console.log("Target plant:", plant);
+                            navigation.navigate("EditPlant", { plant, stratum, tempDatapoint, setTempDatapoint });
                         }}
                     >
                         <ListItem.Content>
@@ -138,7 +138,6 @@ const PlantsList = (props) => {
 
             {tempDatapoint.vegetation.strata[stratum].map((item) => {
                 if (item) {
-                    console.log(item);
                     return (
                         <View key={item.id.toString()}>
                             <RenderPlantItem item={item} />

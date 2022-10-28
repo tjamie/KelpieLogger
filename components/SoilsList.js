@@ -5,15 +5,23 @@ import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const SoilsList = (props) => {
-    const { tempDatapoint, setTempDatapoint } = props;
+    const { navigation, tempDatapoint, setTempDatapoint } = props;
     const handleNewSoil = () => {
         const newSoil = {
             id: dateToUniqueId(),
             depthStart: 0,
             depthEnd: 0,
-            matrixColor: "HHYR V/C",
+            matrixColor: {
+                hue: "0YR",
+                value: "0",
+                chroma: "0"
+            },
             matrixPercent: 0,
-            redoxColor: "",
+            redoxColor: {
+                hue: "",
+                value: "",
+                chroma: ""
+            },
             redoxPercent: "",
             redoxType: "",
             redoxLocation: "",
@@ -112,17 +120,18 @@ const SoilsList = (props) => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                {/* view plant */}
+                {/* view soil */}
                 <View>
                     <ListItem
                         onPress={() => {
-                            console.log("Soil layer pressed: ", soilLayer.matrixColor);
-                            console.log(soilLayer);
-                            // navigation.navigate("EditDatapoint", { datapoint });
+                            console.log("Target soil: ", soilLayer);
+                            navigation.navigate("EditSoil", { soilLayer, tempDatapoint, setTempDatapoint });
                         }}
                     >
                         <ListItem.Content>
-                            <ListItem.Title>{soilLayer.matrixColor}</ListItem.Title>
+                            <ListItem.Title>
+                                {soilLayer.matrixColor.hue} {soilLayer.matrixColor.value}/{soilLayer.matrixColor.chroma}{" "}
+                            </ListItem.Title>
                             <ListItem.Subtitle>{`${soilLayer.depthStart}" - ${soilLayer.depthEnd}"`}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>

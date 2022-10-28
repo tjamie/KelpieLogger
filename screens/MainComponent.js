@@ -8,6 +8,7 @@ import ProjectsScreen from "./ProjectsScreen";
 import ProjectInformationScreen from "./ProjectInformationScreen";
 import DatapointScreen from "./DatapointScreen";
 import EditPlantScreen from "./EditPlantScreen";
+import EditSoilScreen from "./EditSoilScreen";
 import { styles } from "../styles";
 
 const Drawer = createDrawerNavigator();
@@ -62,6 +63,13 @@ const ProjectsNavigator = () => {
                 component={EditPlantScreen}
                 options={() => ({
                     title: "Edit Plant"
+                })}
+            />
+            <Stack.Screen
+                name="EditSoil"
+                component={EditSoilScreen}
+                options={() => ({
+                    title: "Edit Soil"
                 })}
             />
         </Stack.Navigator>

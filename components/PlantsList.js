@@ -3,6 +3,7 @@ import { SwipeRow } from "react-native-swipe-list-view";
 import { Text, View, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { DeviceEventEmitter } from "react-native";
 
 const PlantsList = (props) => {
     const { navigation, stratum, tempDatapoint, setTempDatapoint } = props;
@@ -117,8 +118,32 @@ const PlantsList = (props) => {
                 <View>
                     <ListItem
                         onPress={() => {
+                            DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {
+                                console.log("listener added");
+                                console.log("tempPlant:", tempPlant);
+                                const tempArr = tempDatapoint.vegetation.strata[stratum];
+                                const newStratumArr = tempArr.map((obj) => {
+                                    if (obj.id === tempPlant.id) {
+                                        return tempPlant;
+                                    }
+                                    return obj;
+                                });
+                                console.log("new arr:", newStratumArr);
+
+                                setTempDatapoint({
+                                    ...tempDatapoint,
+                                    vegetation: {
+                                        ...tempDatapoint.vegetation,
+                                        strata: {
+                                            ...tempDatapoint.vegetation.strata,
+                                            [stratum]: newStratumArr
+                                        }
+                                    }
+                                });
+                            });
+
                             console.log("Target plant:", plant);
-                            navigation.navigate("EditPlant", { plant, stratum, tempDatapoint, setTempDatapoint });
+                            navigation.navigate("EditPlant", { plant, navigation });
                         }}
                     >
                         <ListItem.Content>
@@ -135,7 +160,6 @@ const PlantsList = (props) => {
         <View>
             <Text>Vegetation ({stratum})</Text>
             <NewPlantItem />
-
             {tempDatapoint.vegetation.strata[stratum].map((item) => {
                 if (item) {
                     return (

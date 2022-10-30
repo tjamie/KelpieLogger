@@ -147,7 +147,6 @@ const SoilsList = (props) => {
 
             {tempDatapoint.soil.layers.map((item) => {
                 if (item) {
-                    console.log(item);
                     return (
                         <View key={item.id.toString()}>
                             <RenderSoilItem item={item} />

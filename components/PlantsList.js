@@ -128,7 +128,7 @@ const PlantsList = (props) => {
                                     }
                                     return obj;
                                 });
-                                console.log("new arr:", newStratumArr);
+                                // console.log("new arr:", newStratumArr);
 
                                 setTempDatapoint({
                                     ...tempDatapoint,

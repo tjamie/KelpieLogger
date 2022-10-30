@@ -4,9 +4,10 @@ import { ListItem, Button, Input, CheckBox } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { enforceNumeric } from "../utils/enforceNumeric";
 import { clamp } from "../utils/clamp";
+import { DeviceEventEmitter } from "react-native";
 
-const EditSoilScreen = ({ route }) => {
-    const { soilLayer: soil, tempDatapoint, setTempDatapoint } = route.params;
+const EditSoilScreen = ({ navigation, route }) => {
+    const { soilLayer: soil, tempDatapoint } = route.params;
     const [tempSoil, setTempSoil] = useState(soil);
     const [tempMatrixVal, setTempMatrixVal] = useState(tempSoil.matrixColor.value);
     const [tempMatrixChroma, setTempMatrixChroma] = useState(tempSoil.matrixColor.chroma);
@@ -16,20 +17,15 @@ const EditSoilScreen = ({ route }) => {
     const tempArr = tempDatapoint.soil.layers;
 
     useEffect(() => {
-        const newSoilArr = tempArr.map((obj) => {
-            if (obj.id === tempSoil.id) {
-                return tempSoil;
-            }
-            return obj;
+        const unsubscribe = navigation.addListener("beforeRemove", () => {
+            DeviceEventEmitter.removeAllListeners("updateSoilData");
         });
 
-        setTempDatapoint({
-            ...tempDatapoint,
-            soil: {
-                ...tempDatapoint.soil,
-                layers: newSoilArr
-            }
-        });
+        return unsubscribe;
+    }, [navigation]);
+
+    useEffect(() => {
+        DeviceEventEmitter.emit("updateSoilData", tempSoil);
     }, [tempSoil]);
 
     return (

@@ -3,6 +3,7 @@ import { SwipeRow } from "react-native-swipe-list-view";
 import { Text, View, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { DeviceEventEmitter } from "react-native";
 
 const SoilsList = (props) => {
     const { navigation, tempDatapoint, setTempDatapoint } = props;
@@ -124,8 +125,34 @@ const SoilsList = (props) => {
                 <View>
                     <ListItem
                         onPress={() => {
-                            console.log("Target soil: ", soilLayer);
-                            navigation.navigate("EditSoil", { soilLayer, tempDatapoint, setTempDatapoint });
+                            // DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {
+                            //     console.log("listener added");
+                            //     console.log("tempPlant:", tempPlant);
+                            //     const tempArr = tempDatapoint.vegetation.strata[stratum];
+                            //     const newStratumArr = tempArr.map((obj) => {
+                            //         if (obj.id === tempPlant.id) {
+                            //             return tempPlant;
+                            //         }
+                            //         return obj;
+                            //     });
+                            DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
+                                const tempArr = tempDatapoint.soil.layers;
+                                const newSoilArr = tempArr.map((obj) => {
+                                    if (obj.id === tempSoil.id) {
+                                        return tempSoil;
+                                    }
+                                    return obj;
+                                });
+                                setTempDatapoint({
+                                    ...tempDatapoint,
+                                    soil: {
+                                        ...tempDatapoint.soil,
+                                        layers: newSoilArr
+                                    }
+                                });
+                            });
+                            // console.log("Target soil: ", soilLayer);
+                            navigation.navigate("EditSoil", { navigation, soilLayer, tempDatapoint });
                         }}
                     >
                         <ListItem.Content>

@@ -452,7 +452,11 @@ const DatapointScreen = (props) => {
                         }}
                     />
 
-                    <SoilsList tempDatapoint={tempDatapoint} setTempDatapoint={setTempDatapoint} />
+                    <SoilsList
+                        navigation={navigation}
+                        tempDatapoint={tempDatapoint}
+                        setTempDatapoint={setTempDatapoint}
+                    />
                 </Collapsible>
             </View>
             <Button title="Save Changes" onPress={() => handleSaveDatapoint()} />

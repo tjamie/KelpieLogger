@@ -1,35 +1,26 @@
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { ListItem, Button, Input, CheckBox } from "react-native-elements";
+import { Input, CheckBox } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { enforceNumeric } from "../utils/enforceNumeric";
+import { DeviceEventEmitter } from "react-native";
 
-const EditPlantScreen = ({ route }) => {
-    const { plant, stratum, tempDatapoint, setTempDatapoint } = route.params;
+const EditPlantScreen = ({ navigation, route }) => {
+    const { plant } = route.params;
     const [tempPlant, setTempPlant] = useState(plant);
 
-    const tempArr = tempDatapoint.vegetation.strata[stratum];
-    // console.log("tempArr: ", tempArr);
-
-    // triggers on plant update
     useEffect(() => {
-        const newStratumArr = tempArr.map((obj) => {
-            if (obj.id === tempPlant.id) {
-                return tempPlant;
-            }
-            return obj;
+        const unsubscribe = navigation.addListener("beforeRemove", () => {
+            DeviceEventEmitter.removeAllListeners("updatePlantData");
+            // console.log("listener removed");
         });
 
-        setTempDatapoint({
-            ...tempDatapoint,
-            vegetation: {
-                ...tempDatapoint.vegetation,
-                strata: {
-                    ...tempDatapoint.vegetation.strata,
-                    [stratum]: newStratumArr
-                }
-            }
-        });
+        return unsubscribe;
+    }, [navigation]);
+
+    useEffect(() => {
+        DeviceEventEmitter.emit("updatePlantData", tempPlant);
+        // console.log("useEffect triggered");
     }, [tempPlant]);
 
     return (
@@ -77,16 +68,6 @@ const EditPlantScreen = ({ route }) => {
                     <Picker.Item label="FACU" value="FACU" />
                     <Picker.Item label="UPL" value="UPL" />
                 </Picker>
-
-                <Input
-                    onChangeText={(species) =>
-                        setTempPlant({
-                            ...tempPlant,
-                            species: species
-                        })
-                    }
-                    value={tempPlant.species}
-                />
             </View>
             <CheckBox
                 title="Dominant?"

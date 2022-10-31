@@ -3,17 +3,26 @@ import { SwipeRow } from "react-native-swipe-list-view";
 import { Text, View, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { DeviceEventEmitter } from "react-native";
 
 const SoilsList = (props) => {
-    const { tempDatapoint, setTempDatapoint } = props;
+    const { navigation, tempDatapoint, setTempDatapoint } = props;
     const handleNewSoil = () => {
         const newSoil = {
             id: dateToUniqueId(),
             depthStart: 0,
             depthEnd: 0,
-            matrixColor: "HHYR V/C",
+            matrixColor: {
+                hue: "0YR",
+                value: "0",
+                chroma: "0"
+            },
             matrixPercent: 0,
-            redoxColor: "",
+            redoxColor: {
+                hue: "",
+                value: "",
+                chroma: ""
+            },
             redoxPercent: "",
             redoxType: "",
             redoxLocation: "",
@@ -112,17 +121,44 @@ const SoilsList = (props) => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                {/* view plant */}
+                {/* view soil */}
                 <View>
                     <ListItem
                         onPress={() => {
-                            console.log("Soil layer pressed: ", soilLayer.matrixColor);
-                            console.log(soilLayer);
-                            // navigation.navigate("EditDatapoint", { datapoint });
+                            // DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {
+                            //     console.log("listener added");
+                            //     console.log("tempPlant:", tempPlant);
+                            //     const tempArr = tempDatapoint.vegetation.strata[stratum];
+                            //     const newStratumArr = tempArr.map((obj) => {
+                            //         if (obj.id === tempPlant.id) {
+                            //             return tempPlant;
+                            //         }
+                            //         return obj;
+                            //     });
+                            DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
+                                const tempArr = tempDatapoint.soil.layers;
+                                const newSoilArr = tempArr.map((obj) => {
+                                    if (obj.id === tempSoil.id) {
+                                        return tempSoil;
+                                    }
+                                    return obj;
+                                });
+                                setTempDatapoint({
+                                    ...tempDatapoint,
+                                    soil: {
+                                        ...tempDatapoint.soil,
+                                        layers: newSoilArr
+                                    }
+                                });
+                            });
+                            // console.log("Target soil: ", soilLayer);
+                            navigation.navigate("EditSoil", { navigation, soilLayer, tempDatapoint });
                         }}
                     >
                         <ListItem.Content>
-                            <ListItem.Title>{soilLayer.matrixColor}</ListItem.Title>
+                            <ListItem.Title>
+                                {soilLayer.matrixColor.hue} {soilLayer.matrixColor.value}/{soilLayer.matrixColor.chroma}{" "}
+                            </ListItem.Title>
                             <ListItem.Subtitle>{`${soilLayer.depthStart}" - ${soilLayer.depthEnd}"`}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
@@ -138,7 +174,6 @@ const SoilsList = (props) => {
 
             {tempDatapoint.soil.layers.map((item) => {
                 if (item) {
-                    console.log(item);
                     return (
                         <View key={item.id.toString()}>
                             <RenderSoilItem item={item} />

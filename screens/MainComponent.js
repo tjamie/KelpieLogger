@@ -8,13 +8,15 @@ import ProjectsScreen from "./ProjectsScreen";
 import ProjectInformationScreen from "./ProjectInformationScreen";
 import DatapointScreen from "./DatapointScreen";
 import EditPlantScreen from "./EditPlantScreen";
+import EditSoilScreen from "./EditSoilScreen";
 import { styles } from "../styles";
 
 const Drawer = createDrawerNavigator();
 
 const screenOptions = {
-    headerTintColor: "#EFEFEF",
-    headerStyle: { backgroundColor: "#6DBF52" }
+    // headerTintColor: "#c1d6b0",
+    headerTintColor: "#efefef",
+    headerStyle: styles.stackNavHeader
 };
 
 const HomeNavigator = () => {
@@ -62,6 +64,13 @@ const ProjectsNavigator = () => {
                 component={EditPlantScreen}
                 options={() => ({
                     title: "Edit Plant"
+                })}
+            />
+            <Stack.Screen
+                name="EditSoil"
+                component={EditSoilScreen}
+                options={() => ({
+                    title: "Edit Soil"
                 })}
             />
         </Stack.Navigator>

@@ -4,6 +4,7 @@ import { Text, View, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { DeviceEventEmitter } from "react-native";
+import { styles } from "../styles";
 
 const PlantsList = (props) => {
     const { navigation, stratum, tempDatapoint, setTempDatapoint } = props;
@@ -36,15 +37,11 @@ const PlantsList = (props) => {
                         console.log("NewPlantItem pressed");
                         handleNewPlant();
                     }}
-                    containerStyle={{
-                        backgroundColor: "#EFEFEF",
-                        borderColor: "#DDD",
-                        borderWidth: 1
-                    }}
+                    containerStyle={styles.subsectionListHeadContainer}
                 >
                     <ListItem.Content>
-                        <ListItem.Title>New Plant</ListItem.Title>
-                        <ListItem.Subtitle>Record a new plant</ListItem.Subtitle>
+                        <ListItem.Title style={styles.listPrimaryText}>New Plant</ListItem.Title>
+                        <ListItem.Subtitle style={styles.listSecondaryText}>Record a new plant</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
             </View>
@@ -55,20 +52,9 @@ const PlantsList = (props) => {
         return (
             <SwipeRow rightOpenValue={-100}>
                 {/* delete plant */}
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        flex: 1
-                    }}
-                >
+                <View style={styles.swipeBackground}>
                     <TouchableOpacity
-                        style={{
-                            backgroundColor: "red",
-                            height: "100%",
-                            justifyContent: "center"
-                        }}
+                        style={styles.swipeDelete}
                         onPress={() =>
                             Alert.alert(
                                 "Delete Plant",
@@ -145,10 +131,13 @@ const PlantsList = (props) => {
                             console.log("Target plant:", plant);
                             navigation.navigate("EditPlant", { plant, navigation });
                         }}
+                        containerStyle={styles.subsectionListContainer}
                     >
                         <ListItem.Content>
-                            <ListItem.Title>{plant.species}</ListItem.Title>
-                            <ListItem.Subtitle>{`${plant.indicator} --- ${plant.cover}`}</ListItem.Subtitle>
+                            <ListItem.Title style={styles.listPrimaryText}>{plant.species}</ListItem.Title>
+                            <ListItem.Subtitle
+                                style={styles.listSecondaryText}
+                            >{`${plant.indicator} --- ${plant.cover}`}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
                 </View>
@@ -158,14 +147,14 @@ const PlantsList = (props) => {
 
     return (
         <View>
-            <Text>Vegetation ({stratum})</Text>
+            {/* <Text>Vegetation ({stratum})</Text> */}
             <NewPlantItem />
             {tempDatapoint.vegetation.strata[stratum].map((item) => {
                 if (item) {
                     return (
                         <View key={item.id.toString()}>
                             <RenderPlantItem item={item} />
-                            <Text>{item.id.toString()}</Text>
+                            {/* <Text>{item.id.toString()}</Text> */}
                         </View>
                     );
                 }

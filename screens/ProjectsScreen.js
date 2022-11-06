@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Text, View, ScrollView, FlatList, Modal, Button, Alert } from "react-native";
+import { Text, View, ScrollView, FlatList, Modal, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { ListItem, Input } from "react-native-elements";
+import { ListItem, Input, Button } from "react-native-elements";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { dateToUniqueId } from "../utils/dateToUniqueId";
 import Loading from "../components/LoadingComponent";
 import { addProject, deleteProject } from "../reducers/projectsReducer";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { styles } from "../styles";
 
 const ProjectsScreen = ({ navigation }) => {
     const projects = useSelector((state) => state.projects);
@@ -15,13 +16,13 @@ const ProjectsScreen = ({ navigation }) => {
     const [showNewProjectModal, setShowNewProjectModal] = useState(false);
 
     // USACE Data Form Project-Wide Fields
-    const [projectName, setProjectName] = useState('');
-    const [projectApplicant, setProjectApplicant] = useState('');
-    const [projectCounty, setProjectCounty] = useState('');
-    const [projectState, setProjectState] = useState('');
-    const [projectSection, setProjectSection] = useState(''); //only applicable to certain areas
-    const [projectSubregion, setProjectSubregion] = useState('');
-    const [projectDatum, setProjectDatum] = useState('');
+    const [projectName, setProjectName] = useState("");
+    const [projectApplicant, setProjectApplicant] = useState("");
+    const [projectCounty, setProjectCounty] = useState("");
+    const [projectState, setProjectState] = useState("");
+    const [projectSection, setProjectSection] = useState(""); //only applicable to certain areas
+    const [projectSubregion, setProjectSubregion] = useState("");
+    const [projectDatum, setProjectDatum] = useState("");
 
     const handleSubmit = () => {
         const newProject = {
@@ -35,30 +36,30 @@ const ProjectsScreen = ({ navigation }) => {
             id: dateToUniqueId(),
             updatedDate: Date.now()
         };
-        console.log('New project: ', newProject);
+        console.log("New project: ", newProject);
         //dispatch
         dispatch(addProject(newProject));
         setShowNewProjectModal(!showNewProjectModal);
-    }
+    };
 
     const resetForm = () => {
-        setProjectName('');
-        setProjectApplicant('');
-        setProjectCounty('');
-        setProjectState('');
-        setProjectSection('');
-        setProjectSubregion('');
-    }
+        setProjectName("");
+        setProjectApplicant("");
+        setProjectCounty("");
+        setProjectState("");
+        setProjectSection("");
+        setProjectSubregion("");
+    };
 
     if (projects.isLoading) {
-        return (
-            <Loading />
-        )
+        return <Loading />;
     }
     if (projects.errMess) {
         return (
-            <View><Text>{projects.errMess}</Text></View>
-        )
+            <View>
+                <Text>{projects.errMess}</Text>
+            </View>
+        );
     }
 
     const NewProjectItem = () => {
@@ -66,54 +67,49 @@ const ProjectsScreen = ({ navigation }) => {
             <View>
                 <ListItem
                     onPress={() => {
-                        console.log('NewProjectItem pressed')
-                        setShowNewProjectModal(true)
+                        console.log("NewProjectItem pressed");
+                        setShowNewProjectModal(true);
                     }}
-                    containerStyle={{ backgroundColor: '#EFEFEF', borderColor: '#DDD', borderWidth: 1 }}
+                    containerStyle={styles.listHeadContainer}
                 >
                     <ListItem.Content>
-                        <ListItem.Title>New Project</ListItem.Title>
-                        <ListItem.Subtitle>Create a new project</ListItem.Subtitle>
+                        <ListItem.Title style={styles.listPrimaryText}>New Project</ListItem.Title>
+                        <ListItem.Subtitle style={styles.listSecondaryText}>Create a new project</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
             </View>
-        )
-    }
+        );
+    };
 
     const renderProjectItem = ({ item: project }) => {
         return (
             <SwipeRow rightOpenValue={-100}>
                 {/* delete project */}
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                    flex: 1
-                }}>
+                <View style={styles.swipeBackground}>
                     <TouchableOpacity
-                        style={{
-                            backgroundColor: 'red',
-                            height: '100%',
-                            justifyContent: 'center'
-                        }}
-                        onPress={() => Alert.alert(
-                            'Delete Project',
-                            `Are you sure you want to delete project ${project.projectName}?`,
-                            [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => console.log('Not deleted'),
-                                    style: 'cancel'
-                                },
-                                {
-                                    text: 'OK',
-                                    onPress: () => dispatch(deleteProject(project.id))
-                                }
-                            ],
-                            { cancelable: false }
-                        )}
+                        style={styles.swipeDelete}
+                        onPress={() =>
+                            Alert.alert(
+                                "Delete Project",
+                                `Are you sure you want to delete project ${project.projectName}?`,
+                                [
+                                    {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Not deleted"),
+                                        style: "cancel"
+                                    },
+                                    {
+                                        text: "OK",
+                                        onPress: () => dispatch(deleteProject(project.id))
+                                    }
+                                ],
+                                { cancelable: false }
+                            )
+                        }
                     >
-                        <Text style={{ color: 'white', fontWeight: '700', textAlign: 'center', fontSize: 16, width: 100 }}>
+                        <Text
+                            style={{ color: "white", fontWeight: "700", textAlign: "center", fontSize: 16, width: 100 }}
+                        >
                             Delete
                         </Text>
                     </TouchableOpacity>
@@ -122,22 +118,28 @@ const ProjectsScreen = ({ navigation }) => {
                 <View>
                     <ListItem
                         onPress={() => {
-                            console.log('Project pressed: ', project.id);
-                            navigation.navigate('ProjectInformation', { project })
+                            console.log("Project pressed: ", project.id);
+                            navigation.navigate("ProjectInformation", { project });
                         }}
+                        containerStyle={styles.listContainer}
                     >
                         <ListItem.Content>
-                            <ListItem.Title>{project.projectName}</ListItem.Title>
-                            <ListItem.Subtitle>Description Placeholder</ListItem.Subtitle>
+                            <ListItem.Title style={styles.listPrimaryText}>{project.projectName}</ListItem.Title>
+                            <ListItem.Subtitle style={styles.listSecondaryText}>
+                                Description Placeholder
+                            </ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
                 </View>
             </SwipeRow>
-        )
-    }
+        );
+    };
 
     return (
-        <>
+        <View style={styles.projectContainer}>
+            <Text style={styles.projectInfoText}>
+                Press "New Project" to create a new project. Each project can contain multiple datapoints.
+            </Text>
             <NewProjectItem />
             <FlatList
                 data={projects.projectsArray}
@@ -149,12 +151,12 @@ const ProjectsScreen = ({ navigation }) => {
                 visible={showNewProjectModal}
                 onRequestClose={() => setShowNewProjectModal(!showNewProjectModal)}
             >
-                <ScrollView>
-                    <Text>Project Creation</Text>
+                <ScrollView style={styles.projectContainer}>
+                    <Text style={styles.projectHeaderText}>New Project Details</Text>
                     <View>
-                        <Text>Project Name</Text>
+                        <Text style={styles.projectText}>Project Name</Text>
                         <Input
-                            placeholder='Project Name'
+                            placeholder="Project Name"
                             // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
                             // leftIconContainerStyle={{ paddingRight: 10 }}
                             onChangeText={(projectName) => setProjectName(projectName)}
@@ -162,57 +164,62 @@ const ProjectsScreen = ({ navigation }) => {
                         />
                     </View>
                     <View>
-                        <Text>Owner/Applicant</Text>
+                        <Text style={styles.projectText}>Owner/Applicant</Text>
                         <Input
-                            placeholder='Owner/Applicant'
+                            placeholder="Owner/Applicant"
                             onChangeText={(projectApplicant) => setProjectApplicant(projectApplicant)}
                             value={projectApplicant}
                         />
                     </View>
                     <View>
-                        <Text>City/County</Text>
+                        <Text style={styles.projectText}>City/County</Text>
                         <Input
-                            placeholder='City/County'
+                            placeholder="City/County"
                             onChangeText={(projectCounty) => setProjectCounty(projectCounty)}
                             value={projectCounty}
                         />
                     </View>
                     <View>
-                        <Text>State</Text>
+                        <Text style={styles.projectText}>State</Text>
                         <Input
-                            placeholder='State'
+                            placeholder="State"
                             onChangeText={(projectState) => setProjectState(projectState)}
                             value={projectState}
                         />
                     </View>
                     <View>
-                        <Text>Section, Township, Range {'('}optional{')'}</Text>
+                        <Text style={styles.projectText}>
+                            Section, Township, Range {"("}optional{")"}
+                        </Text>
                         <Input
-                            placeholder='Section, Township, Range'
+                            placeholder="Section, Township, Range"
                             onChangeText={(projectSection) => setProjectSection(projectSection)}
                             value={projectSection}
                         />
                     </View>
                     <View>
-                        <Text>Subregion {'('}LRR and/or MLRA{')'}</Text>
+                        <Text style={styles.projectText}>
+                            Subregion {"("}LRR and/or MLRA{")"}
+                        </Text>
                         <Input
-                            placeholder='Subregion'
+                            placeholder="Subregion"
                             onChangeText={(projectSubregion) => setProjectSubregion(projectSubregion)}
                             value={projectSubregion}
                         />
                     </View>
                     <View>
-                        <Text>Datum</Text>
+                        <Text style={styles.projectText}>Datum</Text>
                         <Input
-                            placeholder='Datum'
+                            placeholder="Datum"
                             onChangeText={(projectDatum) => setProjectDatum(projectDatum)}
                             value={projectDatum}
                         />
                     </View>
                     <View>
                         <Button
-                            title='Submit'
-                            color='#00FF00'
+                            title="Submit"
+                            buttonStyle={styles.buttonMain}
+                            titleStyle={styles.buttonMainText}
                             onPress={() => {
                                 handleSubmit();
                                 resetForm();
@@ -221,8 +228,9 @@ const ProjectsScreen = ({ navigation }) => {
                     </View>
                     <View>
                         <Button
-                            title='Cancel'
-                            color='#FF0000'
+                            title="Cancel"
+                            buttonStyle={styles.buttonSecondary}
+                            titleStyle={styles.buttonSecondaryText}
                             onPress={() => {
                                 setShowNewProjectModal(!showNewProjectModal);
                                 resetForm();
@@ -231,9 +239,8 @@ const ProjectsScreen = ({ navigation }) => {
                     </View>
                 </ScrollView>
             </Modal>
-        </>
-    )
-
-}
+        </View>
+    );
+};
 
 export default ProjectsScreen;

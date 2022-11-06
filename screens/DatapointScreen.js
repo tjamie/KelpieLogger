@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity, Alert, FlatList } from "react-native";
-import { ListItem, Button, Input, CheckBox } from "react-native-elements";
-import { SwipeRow } from "react-native-swipe-list-view";
-import { useDispatch, useSelector } from "react-redux";
+import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { Button, Input, CheckBox } from "react-native-elements";
+import { useDispatch } from "react-redux";
 import { updateDatapoint } from "../reducers/datapointsReducer";
 import Collapsible from "react-native-collapsible";
 import { enforceNumeric } from "../utils/enforceNumeric";
 import PlantsList from "../components/PlantsList";
 import SoilsList from "../components/SoilsList";
-import { dateToUniqueId } from "../utils/dateToUniqueId";
-// import { TouchableOpacity } from "react-native-gesture-handler";
+import { styles, colors } from "../styles";
 
 const DatapointScreen = (props) => {
     const { route, navigation } = props;
@@ -35,17 +33,26 @@ const DatapointScreen = (props) => {
     };
 
     return (
-        <ScrollView>
-            <Button title="print datapoint" onPress={() => console.log(JSON.stringify(tempDatapoint, 0, 2))} />
-
+        <ScrollView style={styles.projectContainer}>
+            <View>
+                <Button
+                    title="[DEBUG] print datapoint"
+                    onPress={() => console.log(JSON.stringify(tempDatapoint, 0, 2))}
+                />
+            </View>
             {/* General info*/}
             <View style={styles.sectionContainer}>
                 <TouchableOpacity style={styles.sectionHeader} onPress={() => setCollapseGeneral(!collapseGeneral)}>
-                    <Text>Datapoint Setting and Information</Text>
+                    <Text style={styles.projectHeaderText}>General Information</Text>
+                    {collapseGeneral && (
+                        <Text style={styles.projectInfoText}>
+                            Press here to display information regarding datapoint conditions and local topography.
+                        </Text>
+                    )}
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseGeneral}>
                     <View>
-                        <Text>Sampling Point</Text>
+                        <Text style={styles.projectText}>Sampling Point</Text>
                         <Input
                             onChangeText={(name) =>
                                 setTempDatapoint({
@@ -57,7 +64,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Investigator(s)</Text>
+                        <Text style={styles.projectText}>Investigator(s)</Text>
                         <Input
                             onChangeText={(investigators) => {
                                 setTempDatapoint({
@@ -69,7 +76,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Landform</Text>
+                        <Text style={styles.projectText}>Landform</Text>
                         <Input
                             onChangeText={(landform) => {
                                 setTempDatapoint({
@@ -81,7 +88,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Relief</Text>
+                        <Text style={styles.projectText}>Relief</Text>
                         <Input
                             onChangeText={(relief) => {
                                 setTempDatapoint({
@@ -93,7 +100,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Slope</Text>
+                        <Text style={styles.projectText}>Slope</Text>
                         <Input
                             onChangeText={(slope) => {
                                 setTempDatapoint({
@@ -106,7 +113,7 @@ const DatapointScreen = (props) => {
                     </View>
                     {/* TODO get lat/long via device's GPS */}
                     <View>
-                        <Text>Latitude</Text>
+                        <Text style={styles.projectText}>Latitude</Text>
                         <Input
                             keyboardType="numeric"
                             onChangeText={(lat) => {
@@ -120,7 +127,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Longitude</Text>
+                        <Text style={styles.projectText}>Longitude</Text>
                         <Input
                             keyboardType="numeric"
                             onChangeText={(long) => {
@@ -134,7 +141,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Soil Mapping Unit</Text>
+                        <Text style={styles.projectText}>Soil Mapping Unit</Text>
                         <Input
                             onChangeText={(soilUnit) => {
                                 setTempDatapoint({
@@ -146,7 +153,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>NWI Classification</Text>
+                        <Text style={styles.projectText}>NWI Classification</Text>
                         <Input
                             onChangeText={(NWI) => {
                                 setTempDatapoint({
@@ -160,6 +167,9 @@ const DatapointScreen = (props) => {
 
                     <CheckBox
                         title="Disturbed soil?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.soil.disturbed}
                         onPress={() => {
                             setTempDatapoint({
@@ -174,6 +184,9 @@ const DatapointScreen = (props) => {
                     />
                     <CheckBox
                         title="Disturbed hydrology?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.hydrology.disturbed}
                         onPress={() => {
                             setTempDatapoint({
@@ -187,6 +200,9 @@ const DatapointScreen = (props) => {
                     />
                     <CheckBox
                         title="Disturbed vegetation?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.vegetation.disturbed}
                         onPress={() => {
                             setTempDatapoint({
@@ -202,6 +218,9 @@ const DatapointScreen = (props) => {
 
                     <CheckBox
                         title="Problematic soil?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.soil.problematic}
                         onPress={() => {
                             setTempDatapoint({
@@ -216,6 +235,9 @@ const DatapointScreen = (props) => {
                     />
                     <CheckBox
                         title="Problematic hydrology?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.hydrology.problematic}
                         onPress={() => {
                             setTempDatapoint({
@@ -229,6 +251,9 @@ const DatapointScreen = (props) => {
                     />
                     <CheckBox
                         title="Problematic vegetation?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.vegetation.problematic}
                         onPress={() => {
                             setTempDatapoint({
@@ -247,11 +272,19 @@ const DatapointScreen = (props) => {
             {/* Hydrology */}
             <View style={styles.sectionContainer}>
                 <TouchableOpacity style={styles.sectionHeader} onPress={() => setCollapseHydrology(!collapseHydrology)}>
-                    <Text>Hydrology</Text>
+                    <Text style={styles.projectHeaderText}>Hydrology</Text>
+                    {collapseHydrology && (
+                        <Text style={styles.projectInfoText}>
+                            Press here to display information regarding hydrology.
+                        </Text>
+                    )}
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseHydrology}>
                     <CheckBox
                         title="Wetland hydrology present?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.hydrology.present}
                         onPress={() => {
                             setTempDatapoint({
@@ -264,7 +297,7 @@ const DatapointScreen = (props) => {
                         }}
                     />
                     <View>
-                        <Text>Surface water depth (inches)</Text>
+                        <Text style={styles.projectText}>Surface water depth (inches)</Text>
                         <Input
                             keyboardType="numeric"
                             onChangeText={(depth) =>
@@ -287,7 +320,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Water table depth (inches)</Text>
+                        <Text style={styles.projectText}>Water table depth (inches)</Text>
                         <Input
                             keyboardType="numeric"
                             onChangeText={(depth) =>
@@ -310,7 +343,7 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Saturation depth (inches)</Text>
+                        <Text style={styles.projectText}>Saturation depth (inches)</Text>
                         <Input
                             keyboardType="numeric"
                             onChangeText={(depth) => {
@@ -333,14 +366,15 @@ const DatapointScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Primary indicators placeholder</Text>
+                        <Text style={styles.projectText}>Primary indicators placeholder</Text>
                     </View>
                     <View>
-                        <Text>Secondary indicators placeholder</Text>
+                        <Text style={styles.projectText}>Secondary indicators placeholder</Text>
                     </View>
                     <View>
-                        <Text>Remarks</Text>
+                        <Text style={styles.projectText}>Remarks</Text>
                         <Input
+                            multiline={true}
                             onChangeText={(text) => {
                                 setTempDatapoint({
                                     ...tempDatapoint,
@@ -362,11 +396,19 @@ const DatapointScreen = (props) => {
                     style={styles.sectionHeader}
                     onPress={() => setCollapseVegetation(!collapseVegetation)}
                 >
-                    <Text>Vegetation</Text>
+                    <Text style={styles.projectHeaderText}>Vegetation</Text>
+                    {collapseVegetation && (
+                        <Text style={styles.projectInfoText}>
+                            Press here to display information regarding vegetation.
+                        </Text>
+                    )}
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseVegetation}>
                     <CheckBox
                         title="Hydric vegetation present?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.vegetation.present}
                         onPress={() => {
                             setTempDatapoint({
@@ -379,67 +421,127 @@ const DatapointScreen = (props) => {
                         }}
                     />
                     {/* Trees */}
-                    <TouchableOpacity onPress={() => setCollapseTree(!collapseTree)}>
-                        <Text>Tree Stratum</Text>
-                    </TouchableOpacity>
-                    <Collapsible collapsed={collapseTree}>
-                        <PlantsList
-                            stratum="tree"
-                            navigation={navigation}
-                            tempDatapoint={tempDatapoint}
-                            setTempDatapoint={setTempDatapoint}
-                        />
-                    </Collapsible>
+                    <View style={collapseTree ? styles.subsectionContainer : styles.subsectionContainerExpanded}>
+                        <TouchableOpacity
+                            style={styles.subsectionHeader}
+                            onPress={() => setCollapseTree(!collapseTree)}
+                        >
+                            <Text style={styles.projectText}>Tree Stratum</Text>
+                            {collapseTree ? (
+                                <Text style={styles.projectInfoText}>Press here to display tree species.</Text>
+                            ) : (
+                                <Text style={styles.projectInfoText}>
+                                    Press "New Plant" to record a new tree species.
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                        <Collapsible collapsed={collapseTree}>
+                            <PlantsList
+                                stratum="tree"
+                                navigation={navigation}
+                                tempDatapoint={tempDatapoint}
+                                setTempDatapoint={setTempDatapoint}
+                            />
+                        </Collapsible>
+                    </View>
 
                     {/* Saplings/Shrubs */}
-                    <TouchableOpacity onPress={() => setCollapseSaplingShrub(!collapseSaplingShrub)}>
-                        <Text>Sapling/Shrub Stratum</Text>
-                    </TouchableOpacity>
-                    <Collapsible collapsed={collapseSaplingShrub}>
-                        <PlantsList
-                            stratum="saplingShrub"
-                            navigation={navigation}
-                            tempDatapoint={tempDatapoint}
-                            setTempDatapoint={setTempDatapoint}
-                        />
-                    </Collapsible>
+                    <View
+                        style={collapseSaplingShrub ? styles.subsectionContainer : styles.subsectionContainerExpanded}
+                    >
+                        <TouchableOpacity
+                            style={styles.subsectionHeader}
+                            onPress={() => setCollapseSaplingShrub(!collapseSaplingShrub)}
+                        >
+                            <Text style={styles.projectText}>Sapling and Shrub Stratum</Text>
+                            {collapseSaplingShrub ? (
+                                <Text style={styles.projectInfoText}>
+                                    Press here to display sapling and shrub species.
+                                </Text>
+                            ) : (
+                                <Text style={styles.projectInfoText}>
+                                    Press "New Plant" to record a new sapling or shrub species.
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                        <Collapsible collapsed={collapseSaplingShrub}>
+                            <PlantsList
+                                stratum="saplingShrub"
+                                navigation={navigation}
+                                tempDatapoint={tempDatapoint}
+                                setTempDatapoint={setTempDatapoint}
+                            />
+                        </Collapsible>
+                    </View>
 
                     {/* Herbaceous */}
-                    <TouchableOpacity onPress={() => setCollapseHerb(!collapseHerb)}>
-                        <Text>Herb Stratum</Text>
-                    </TouchableOpacity>
-                    <Collapsible collapsed={collapseHerb}>
-                        <PlantsList
-                            stratum="herb"
-                            navigation={navigation}
-                            tempDatapoint={tempDatapoint}
-                            setTempDatapoint={setTempDatapoint}
-                        />
-                    </Collapsible>
+                    <View style={collapseHerb ? styles.subsectionContainer : styles.subsectionContainerExpanded}>
+                        <TouchableOpacity
+                            style={styles.subsectionHeader}
+                            onPress={() => setCollapseHerb(!collapseHerb)}
+                        >
+                            <Text style={styles.projectText}>Herb Stratum</Text>
+                            {collapseHerb ? (
+                                <Text style={styles.projectInfoText}>Press here to display herbaceous species.</Text>
+                            ) : (
+                                <Text style={styles.projectInfoText}>
+                                    Press "New Plant" to record a new herbaceous species.
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                        <Collapsible collapsed={collapseHerb}>
+                            <PlantsList
+                                stratum="herb"
+                                navigation={navigation}
+                                tempDatapoint={tempDatapoint}
+                                setTempDatapoint={setTempDatapoint}
+                            />
+                        </Collapsible>
+                    </View>
 
                     {/* Woody Vines */}
-                    <TouchableOpacity onPress={() => setCollapseVine(!collapseVine)}>
-                        <Text>Woody Vine Stratum</Text>
-                    </TouchableOpacity>
-                    <Collapsible collapsed={collapseVine}>
-                        <PlantsList
-                            stratum="vine"
-                            navigation={navigation}
-                            tempDatapoint={tempDatapoint}
-                            setTempDatapoint={setTempDatapoint}
-                        />
-                    </Collapsible>
+                    <View style={collapseVine ? styles.subsectionContainer : styles.subsectionContainerExpanded}>
+                        <TouchableOpacity
+                            style={styles.subsectionHeader}
+                            onPress={() => setCollapseVine(!collapseVine)}
+                        >
+                            <Text style={styles.projectText}>Woody Vine Stratum</Text>
+                            {collapseVine ? (
+                                <Text style={styles.projectInfoText}>Press here to display woody vine species.</Text>
+                            ) : (
+                                <Text style={styles.projectInfoText}>
+                                    Press "New Plant" to record a new woody vine species.
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                        <Collapsible collapsed={collapseVine}>
+                            <PlantsList
+                                stratum="vine"
+                                navigation={navigation}
+                                tempDatapoint={tempDatapoint}
+                                setTempDatapoint={setTempDatapoint}
+                            />
+                        </Collapsible>
+                    </View>
                 </Collapsible>
             </View>
 
             {/* Soil */}
             <View style={styles.sectionContainer}>
                 <TouchableOpacity style={styles.sectionHeader} onPress={() => setCollapseSoil(!collapseSoil)}>
-                    <Text>Soil</Text>
+                    <Text style={styles.projectHeaderText}>Soil</Text>
+                    {collapseSoil ? (
+                        <Text style={styles.projectInfoText}>Press here to display information regarding soil.</Text>
+                    ) : (
+                        <Text style={styles.projectInfoText}>Press "New Soil" to record a new soil layer.</Text>
+                    )}
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseSoil}>
                     <CheckBox
                         title="Hydric soil present?"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
                         checked={tempDatapoint.soil.present}
                         onPress={() => {
                             setTempDatapoint({
@@ -459,22 +561,17 @@ const DatapointScreen = (props) => {
                     />
                 </Collapsible>
             </View>
-            <Button title="Save Changes" onPress={() => handleSaveDatapoint()} />
+
+            <View>
+                <Button
+                    title="Save Changes"
+                    onPress={() => handleSaveDatapoint()}
+                    buttonStyle={styles.buttonMain}
+                    titleStyle={styles.buttonMainText}
+                />
+            </View>
         </ScrollView>
     );
 };
-
-const styles = StyleSheet.create({
-    sectionContainer: {
-        borderWidth: 1,
-        borderColor: "#000",
-        padding: 5,
-        margin: 5
-    },
-    sectionHeader: {
-        paddingTop: 16,
-        paddingBottom: 16
-    }
-});
 
 export default DatapointScreen;

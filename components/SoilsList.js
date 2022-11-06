@@ -4,6 +4,7 @@ import { Text, View, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { DeviceEventEmitter } from "react-native";
+import { styles } from "../styles";
 
 const SoilsList = (props) => {
     const { navigation, tempDatapoint, setTempDatapoint } = props;
@@ -46,15 +47,11 @@ const SoilsList = (props) => {
                         console.log("NewSoilItem pressed");
                         handleNewSoil();
                     }}
-                    containerStyle={{
-                        backgroundColor: "#EFEFEF",
-                        borderColor: "#DDD",
-                        borderWidth: 1
-                    }}
+                    containerStyle={styles.subsectionListHeadContainer}
                 >
                     <ListItem.Content>
-                        <ListItem.Title>New Soil</ListItem.Title>
-                        <ListItem.Subtitle>Record a new soil layer</ListItem.Subtitle>
+                        <ListItem.Title style={styles.listPrimaryText}>New Soil</ListItem.Title>
+                        <ListItem.Subtitle style={styles.listSecondaryText}>Record a new soil layer</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
             </View>
@@ -125,16 +122,6 @@ const SoilsList = (props) => {
                 <View>
                     <ListItem
                         onPress={() => {
-                            // DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {
-                            //     console.log("listener added");
-                            //     console.log("tempPlant:", tempPlant);
-                            //     const tempArr = tempDatapoint.vegetation.strata[stratum];
-                            //     const newStratumArr = tempArr.map((obj) => {
-                            //         if (obj.id === tempPlant.id) {
-                            //             return tempPlant;
-                            //         }
-                            //         return obj;
-                            //     });
                             DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
                                 const tempArr = tempDatapoint.soil.layers;
                                 const newSoilArr = tempArr.map((obj) => {
@@ -154,12 +141,15 @@ const SoilsList = (props) => {
                             // console.log("Target soil: ", soilLayer);
                             navigation.navigate("EditSoil", { navigation, soilLayer, tempDatapoint });
                         }}
+                        containerStyle={styles.subsectionListContainer}
                     >
                         <ListItem.Content>
-                            <ListItem.Title>
+                            <ListItem.Title style={styles.listPrimaryText}>
                                 {soilLayer.matrixColor.hue} {soilLayer.matrixColor.value}/{soilLayer.matrixColor.chroma}{" "}
                             </ListItem.Title>
-                            <ListItem.Subtitle>{`${soilLayer.depthStart}" - ${soilLayer.depthEnd}"`}</ListItem.Subtitle>
+                            <ListItem.Subtitle
+                                style={styles.listSecondaryText}
+                            >{`${soilLayer.depthStart}" - ${soilLayer.depthEnd}"`}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
                 </View>
@@ -169,7 +159,7 @@ const SoilsList = (props) => {
 
     return (
         <View>
-            <Text>Soil View Placeholder</Text>
+            {/* <Text>Soil View Placeholder</Text> */}
             <NewSoilItem />
 
             {tempDatapoint.soil.layers.map((item) => {
@@ -177,7 +167,7 @@ const SoilsList = (props) => {
                     return (
                         <View key={item.id.toString()}>
                             <RenderSoilItem item={item} />
-                            <Text>{item.id.toString()}</Text>
+                            {/* <Text>{item.id.toString()}</Text> */}
                         </View>
                     );
                 }

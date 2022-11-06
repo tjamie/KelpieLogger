@@ -4,6 +4,7 @@ import { Input, CheckBox } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { enforceNumeric } from "../utils/enforceNumeric";
 import { DeviceEventEmitter } from "react-native";
+import { styles, colors } from "../styles";
 
 const EditPlantScreen = ({ navigation, route }) => {
     const { plant } = route.params;
@@ -24,9 +25,9 @@ const EditPlantScreen = ({ navigation, route }) => {
     }, [tempPlant]);
 
     return (
-        <View>
+        <View style={styles.projectContainer}>
             <View>
-                <Text>Species</Text>
+                <Text style={styles.projectText}>Species</Text>
                 <Input
                     onChangeText={(species) =>
                         setTempPlant({
@@ -38,7 +39,7 @@ const EditPlantScreen = ({ navigation, route }) => {
                 />
             </View>
             <View>
-                <Text>Percent Absolute Cover</Text>
+                <Text style={styles.projectText}>Percent Absolute Cover</Text>
                 <Input
                     keyboardType="numeric"
                     onChangeText={(cover) =>
@@ -51,7 +52,7 @@ const EditPlantScreen = ({ navigation, route }) => {
                 />
             </View>
             <View>
-                <Text>Indicator Status</Text>
+                <Text style={styles.projectText}>Indicator Status</Text>
                 <Picker
                     selectedValue={tempPlant.indicator}
                     onValueChange={(indicator) => {
@@ -71,6 +72,9 @@ const EditPlantScreen = ({ navigation, route }) => {
             </View>
             <CheckBox
                 title="Dominant?"
+                containerStyle={styles.checkBoxContainer}
+                textStyle={styles.projectText}
+                checkedColor={colors.darkGreen}
                 checked={tempPlant.dominant}
                 onPress={() => {
                     setTempPlant({

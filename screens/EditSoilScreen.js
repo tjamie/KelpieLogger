@@ -5,6 +5,7 @@ import { Picker } from "@react-native-picker/picker";
 import { enforceNumeric } from "../utils/enforceNumeric";
 import { clamp } from "../utils/clamp";
 import { DeviceEventEmitter } from "react-native";
+import { styles } from "../styles";
 
 const EditSoilScreen = ({ navigation, route }) => {
     const { soilLayer: soil, tempDatapoint } = route.params;
@@ -29,9 +30,9 @@ const EditSoilScreen = ({ navigation, route }) => {
     }, [tempSoil]);
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.projectContainer}>
             <View>
-                <Text>Layer start depth</Text>
+                <Text style={styles.projectText}>Layer start depth</Text>
                 <Input
                     keyboardType="number-pad"
                     onChangeText={(depth) => {
@@ -44,7 +45,7 @@ const EditSoilScreen = ({ navigation, route }) => {
                 />
             </View>
             <View>
-                <Text>Layer end depth</Text>
+                <Text style={styles.projectText}>Layer end depth</Text>
                 <Input
                     keyboardType="number-pad"
                     onChangeText={(depth) => {
@@ -57,10 +58,10 @@ const EditSoilScreen = ({ navigation, route }) => {
                 />
             </View>
 
-            <Text>Matrix Color</Text>
+            <Text style={styles.projectText}>Matrix Color</Text>
             <View style={{ flexDirection: "row" }}>
                 <View style={{ flex: 2 }}>
-                    <Text>hue</Text>
+                    <Text style={styles.projectText}>hue</Text>
                     <Picker
                         selectedValue={tempSoil.matrixColor.hue}
                         onValueChange={(hue) => {
@@ -88,7 +89,7 @@ const EditSoilScreen = ({ navigation, route }) => {
                     </Picker>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text>value</Text>
+                    <Text style={styles.projectText}>value</Text>
                     <Input
                         keyboardType="number-pad"
                         onChangeText={(tempVal) => {
@@ -109,7 +110,7 @@ const EditSoilScreen = ({ navigation, route }) => {
                     />
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text>chroma</Text>
+                    <Text style={styles.projectText}>chroma</Text>
                     <Input
                         keyboardType="number-pad"
                         onChangeText={(tempVal) => {
@@ -132,7 +133,7 @@ const EditSoilScreen = ({ navigation, route }) => {
             </View>
 
             <View>
-                <Text>Matrix percent volume</Text>
+                <Text style={styles.projectText}>Matrix percent volume</Text>
                 <Input
                     keyboardType="number-pad"
                     onChangeText={(perc) => {
@@ -145,10 +146,10 @@ const EditSoilScreen = ({ navigation, route }) => {
                 />
             </View>
 
-            <Text>Redox Color</Text>
+            <Text style={styles.projectText}>Redox Color</Text>
             <View style={{ flexDirection: "row" }}>
                 <View style={{ flex: 2 }}>
-                    <Text>hue</Text>
+                    <Text style={styles.projectText}>hue</Text>
                     <Picker
                         selectedValue={tempSoil.redoxColor.hue}
                         onValueChange={(hue) => {
@@ -176,7 +177,7 @@ const EditSoilScreen = ({ navigation, route }) => {
                     </Picker>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text>value</Text>
+                    <Text style={styles.projectText}>value</Text>
                     <Input
                         keyboardType="number-pad"
                         onChangeText={(tempVal) => {
@@ -197,7 +198,7 @@ const EditSoilScreen = ({ navigation, route }) => {
                     />
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text>chroma</Text>
+                    <Text style={styles.projectText}>chroma</Text>
                     <Input
                         keyboardType="number-pad"
                         onChangeText={(tempVal) => {
@@ -220,7 +221,7 @@ const EditSoilScreen = ({ navigation, route }) => {
             </View>
 
             <View>
-                <Text>Redox percent volume</Text>
+                <Text style={styles.projectText}>Redox percent volume</Text>
                 <Input
                     keyboardType="number-pad"
                     onChangeText={(perc) => {
@@ -234,7 +235,7 @@ const EditSoilScreen = ({ navigation, route }) => {
             </View>
 
             <View>
-                <Text>Redox type</Text>
+                <Text style={styles.projectText}>Redox type</Text>
                 <Picker
                     selectedValue={tempSoil.redoxType}
                     onValueChange={(type) => {
@@ -253,7 +254,7 @@ const EditSoilScreen = ({ navigation, route }) => {
             </View>
 
             <View>
-                <Text>Redox location</Text>
+                <Text style={styles.projectText}>Redox location</Text>
                 <Picker
                     selectedValue={tempSoil.redoxLocation}
                     onValueChange={(location) => {
@@ -270,7 +271,7 @@ const EditSoilScreen = ({ navigation, route }) => {
             </View>
 
             <View>
-                <Text>Texture</Text>
+                <Text style={styles.projectText}>Texture</Text>
                 <Input
                     onChangeText={(texture) => {
                         setTempSoil({
@@ -283,7 +284,7 @@ const EditSoilScreen = ({ navigation, route }) => {
             </View>
 
             <View>
-                <Text>Remarks</Text>
+                <Text style={styles.projectText}>Remarks</Text>
                 <Input
                     onChangeText={(text) => {
                         setTempSoil({

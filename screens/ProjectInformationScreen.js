@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ListItem, Button, Input } from "react-native-elements";
+import { ListItem, Button, Input, Divider } from "react-native-elements";
 import { ScrollView, View, Text, Modal, Alert } from "react-native";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { FlatList } from "react-native-gesture-handler";
 import DateComponent from "../components/DateComponent";
 import { TouchableOpacity } from "react-native";
 import { dateToUniqueId } from "../utils/dateToUniqueId";
+import { styles } from "../styles";
 
 const ProjectInformationScreen = (props) => {
     const { route, navigation } = props;
@@ -22,7 +23,7 @@ const ProjectInformationScreen = (props) => {
     const [projectCounty, setProjectCounty] = useState(project.projectCounty);
     const [projectState, setProjectState] = useState(project.projectState);
     const [projectSection, setProjectSection] = useState(project.projectSection);
-    const [projectSubregion, setProjectSubregion] = useState(project.projectState);
+    const [projectSubregion, setProjectSubregion] = useState(project.projectSubregion);
     const [projectDatum, setProjectDatum] = useState(project.projectDatum);
     const [projectUpdatedDate, setProjectUpdatedDate] = useState(project.updatedDate);
 
@@ -36,7 +37,7 @@ const ProjectInformationScreen = (props) => {
         const [tempCounty, setTempCounty] = useState(project.projectCounty);
         const [tempState, setTempState] = useState(project.projectState);
         const [tempSection, setTempSection] = useState(project.projectSection);
-        const [tempSubregion, setTempSubregion] = useState(project.projectState);
+        const [tempSubregion, setTempSubregion] = useState(project.projectSubregion);
         const [tempDatum, setTempDatum] = useState(project.projectDatum);
 
         const handleSubmit = () => {
@@ -72,10 +73,10 @@ const ProjectInformationScreen = (props) => {
 
         return (
             <Modal transparent={false} visible={showModal} onRequestClose={() => setShowModal(!showModal)}>
-                <ScrollView>
-                    <Text>Project Edit</Text>
+                <ScrollView style={styles.projectContainer}>
+                    <Text style={styles.projectHeaderText}>Project Details</Text>
                     <View>
-                        <Text>Project Name</Text>
+                        <Text style={styles.projectText}>Project Name</Text>
                         <Input
                             placeholder="Project Name"
                             // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
@@ -85,7 +86,7 @@ const ProjectInformationScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Owner/Applicant</Text>
+                        <Text style={styles.projectText}>Owner/Applicant</Text>
                         <Input
                             placeholder="Owner/Applicant"
                             onChangeText={(tempApplicant) => setTempApplicant(tempApplicant)}
@@ -93,7 +94,7 @@ const ProjectInformationScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>City/County</Text>
+                        <Text style={styles.projectText}>City/County</Text>
                         <Input
                             placeholder="City/County"
                             onChangeText={(tempCounty) => setTempCounty(tempCounty)}
@@ -101,7 +102,7 @@ const ProjectInformationScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>State</Text>
+                        <Text style={styles.projectText}>State</Text>
                         <Input
                             placeholder="State"
                             onChangeText={(tempState) => setTempState(tempState)}
@@ -109,7 +110,7 @@ const ProjectInformationScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>
+                        <Text style={styles.projectText}>
                             Section, Township, Range {"("}optional{")"}
                         </Text>
                         <Input
@@ -119,7 +120,7 @@ const ProjectInformationScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>
+                        <Text style={styles.projectText}>
                             Subregion {"("}LRR and/or MLRA{")"}
                         </Text>
                         <Input
@@ -129,7 +130,7 @@ const ProjectInformationScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Text>Datum</Text>
+                        <Text style={styles.projectText}>Datum</Text>
                         <Input
                             placeholder="Datum"
                             onChangeText={(tempDatum) => setTempDatum(tempDatum)}
@@ -137,24 +138,28 @@ const ProjectInformationScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <Button
-                            title="Save Changes"
-                            color="#00FF00"
-                            onPress={() => {
-                                handleSubmit();
-                                // resetForm();
-                            }}
-                        />
-                    </View>
-                    <View>
-                        <Button
-                            title="Cancel"
-                            color="#FF0000"
-                            onPress={() => {
-                                setShowModal(!showModal);
-                                // resetForm();
-                            }}
-                        />
+                        <View>
+                            <Button
+                                title="Save Changes"
+                                buttonStyle={styles.buttonMain}
+                                titleStyle={styles.buttonMainText}
+                                onPress={() => {
+                                    handleSubmit();
+                                    // resetForm();
+                                }}
+                            />
+                        </View>
+                        <View>
+                            <Button
+                                title="Cancel"
+                                buttonStyle={styles.buttonSecondary}
+                                titleStyle={styles.buttonSecondaryText}
+                                onPress={() => {
+                                    setShowModal(!showModal);
+                                    // resetForm();
+                                }}
+                            />
+                        </View>
                     </View>
                 </ScrollView>
             </Modal>
@@ -169,15 +174,11 @@ const ProjectInformationScreen = (props) => {
                         console.log("NewDatapointItem pressed");
                         handleNewDatapoint();
                     }}
-                    containerStyle={{
-                        backgroundColor: "#EFEFEF",
-                        borderColor: "#DDD",
-                        borderWidth: 1
-                    }}
+                    containerStyle={styles.listHeadContainer}
                 >
                     <ListItem.Content>
-                        <ListItem.Title>New Datapoint</ListItem.Title>
-                        <ListItem.Subtitle>Create a new datapoint</ListItem.Subtitle>
+                        <ListItem.Title style={styles.listPrimaryText}>New Datapoint</ListItem.Title>
+                        <ListItem.Subtitle style={styles.listSecondaryText}>Create a new datapoint</ListItem.Subtitle>
                     </ListItem.Content>
                 </ListItem>
             </View>
@@ -259,20 +260,9 @@ const ProjectInformationScreen = (props) => {
         return (
             <SwipeRow rightOpenValue={-100}>
                 {/* delete datapoint */}
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        flex: 1
-                    }}
-                >
+                <View style={styles.swipeBackground}>
                     <TouchableOpacity
-                        style={{
-                            backgroundColor: "red",
-                            height: "100%",
-                            justifyContent: "center"
-                        }}
+                        style={styles.swipeDelete}
                         onPress={() =>
                             Alert.alert(
                                 "Delete Datapoint",
@@ -306,10 +296,11 @@ const ProjectInformationScreen = (props) => {
                             console.log("Datapoint pressed: ", datapoint.id);
                             navigation.navigate("EditDatapoint", { datapoint });
                         }}
+                        containerStyle={styles.listContainer}
                     >
                         <ListItem.Content>
-                            <ListItem.Title>{datapoint.name}</ListItem.Title>
-                            <ListItem.Subtitle>{datapoint.NWI}</ListItem.Subtitle>
+                            <ListItem.Title style={styles.listPrimaryText}>{datapoint.name}</ListItem.Title>
+                            <ListItem.Subtitle style={styles.listSecondaryText}>{datapoint.NWI}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
                 </View>
@@ -327,7 +318,8 @@ const ProjectInformationScreen = (props) => {
         return (
             <>
                 <View>
-                    <Text>Datapoints</Text>
+                    <Text style={styles.projectHeaderText}>Datapoints</Text>
+                    <Text style={styles.projectInfoText}>Press "New Datapoint" to create a new datapoint.</Text>
                 </View>
                 <NewDatapointItem />
                 <FlatList
@@ -340,25 +332,44 @@ const ProjectInformationScreen = (props) => {
         );
     };
 
+    const UnspecifiedField = () => {
+        return <Text style={{ ...styles.projectText, fontStyle: "italic" }}>Unspecified</Text>;
+    };
+
     return (
-        <View>
-            <View style={{ flexDirection: "row" }}>
+        <View style={styles.projectContainer}>
+            {/* <View style={{ flexDirection: "row" }}>
                 <Text style={{ flex: 1 }}>Project Information</Text>
-                <Button title="Edit" style={{ flex: 1 }} onPress={() => setShowProjectEditModal(true)} />
-            </View>
-            <Text>Project: {projectName}</Text>
-            <Text>
-                {projectCounty}, {projectState}
+                <Button title="Edit Project" style={{ flex: 1 }} onPress={() => setShowProjectEditModal(true)} />
+            </View> */}
+            <Button
+                title="Edit Project"
+                onPress={() => setShowProjectEditModal(true)}
+                buttonStyle={styles.buttonMain}
+                titleStyle={styles.buttonMainText}
+                type="outline"
+            />
+            <Text style={styles.projectHeaderText}>{projectName}</Text>
+            <Text style={styles.projectText}>
+                {projectCounty ? projectCounty : <UnspecifiedField />}
+                {", "}
+                {projectState ? projectState : <UnspecifiedField />}
             </Text>
-            <Text>Applicant: {projectApplicant}</Text>
-            {projectSection.length > 1 && <Text>Section, Township: {projectSection}</Text>}
-            <Text>Subregion: {projectSubregion}</Text>
-            <Text>Datum: {projectDatum}</Text>
-            <Text style={{ fontStyle: "italic" }}>Project ID: {project.id}</Text>
-            <Text style={{ fontStyle: "italic" }}>
+            <Text style={styles.projectText}>
+                {"Applicant: "}
+                {projectApplicant ? projectApplicant : <UnspecifiedField />}
+            </Text>
+            <Text style={styles.projectText}>
+                {"Section, Township: "}
+                {projectSection ? projectSection : <UnspecifiedField />}
+            </Text>
+            <Text style={styles.projectText}>Subregion: {projectSubregion}</Text>
+            <Text style={styles.projectText}>Datum: {projectDatum}</Text>
+            <Text style={styles.projectInfoText}>Project ID: {project.id}</Text>
+            <Text style={styles.projectInfoText}>
                 Last updated <DateComponent date={projectUpdatedDate} />
             </Text>
-
+            <Divider style={styles.divider} />
             <DatapointsList projectId={project.id} />
 
             <ProjectEditModal

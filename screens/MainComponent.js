@@ -49,14 +49,15 @@ const ProjectsNavigator = () => {
                 name="ProjectInformation"
                 component={ProjectInformationScreen}
                 options={({ route }) => ({
-                    title: route.params.project.projectName
+                    title: "Project Information"
                 })}
             />
             <Stack.Screen
                 name="EditDatapoint"
                 component={DatapointScreen}
                 options={({ route }) => ({
-                    title: route.params.datapoint.name
+                    // title: route.params.datapoint.name
+                    title: "Datapoint"
                 })}
             />
             <Stack.Screen

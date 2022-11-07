@@ -7,6 +7,7 @@ import Collapsible from "react-native-collapsible";
 import { enforceNumeric } from "../utils/enforceNumeric";
 import PlantsList from "../components/PlantsList";
 import SoilsList from "../components/SoilsList";
+import IndicatorsList from "../components/IndicatorsList";
 import { styles, colors } from "../styles";
 
 const DatapointScreen = (props) => {
@@ -365,12 +366,22 @@ const DatapointScreen = (props) => {
                             }
                         />
                     </View>
-                    <View>
-                        <Text style={styles.projectText}>Primary indicators placeholder</Text>
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>Secondary indicators placeholder</Text>
-                    </View>
+                    <IndicatorsList
+                        navigation={navigation}
+                        tempDatapoint={tempDatapoint}
+                        setTempDatapoint={setTempDatapoint}
+                        medium="hydrology"
+                        indicatorType="primaryIndicators"
+                        name="Primary indicators"
+                    />
+                    <IndicatorsList
+                        navigation={navigation}
+                        tempDatapoint={tempDatapoint}
+                        setTempDatapoint={setTempDatapoint}
+                        medium="hydrology"
+                        indicatorType="secondaryIndicators"
+                        name="Secondary indicators"
+                    />
                     <View>
                         <Text style={styles.projectText}>Remarks</Text>
                         <Input

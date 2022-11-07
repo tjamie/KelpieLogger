@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ListItem, Button, Input, Divider } from "react-native-elements";
 import { ScrollView, View, Text, Modal, Alert } from "react-native";
 import { SwipeRow } from "react-native-swipe-list-view";
+import { Picker } from "@react-native-picker/picker";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProject } from "../reducers/projectsReducer";
 import { addDatapoint, deleteDatapoint } from "../reducers/datapointsReducer";
@@ -23,6 +24,7 @@ const ProjectInformationScreen = (props) => {
     const [projectCounty, setProjectCounty] = useState(project.projectCounty);
     const [projectState, setProjectState] = useState(project.projectState);
     const [projectSection, setProjectSection] = useState(project.projectSection);
+    const [projectRegion, setProjectRegion] = useState(project.projectRegion);
     const [projectSubregion, setProjectSubregion] = useState(project.projectSubregion);
     const [projectDatum, setProjectDatum] = useState(project.projectDatum);
     const [projectUpdatedDate, setProjectUpdatedDate] = useState(project.updatedDate);
@@ -32,13 +34,14 @@ const ProjectInformationScreen = (props) => {
     const ProjectEditModal = (props) => {
         // const dispatch = useDispatch();
         const { showModal, setShowModal } = props;
-        const [tempName, setTempName] = useState(project.projectName);
-        const [tempApplicant, setTempApplicant] = useState(project.projectApplicant);
-        const [tempCounty, setTempCounty] = useState(project.projectCounty);
-        const [tempState, setTempState] = useState(project.projectState);
-        const [tempSection, setTempSection] = useState(project.projectSection);
-        const [tempSubregion, setTempSubregion] = useState(project.projectSubregion);
-        const [tempDatum, setTempDatum] = useState(project.projectDatum);
+        const [tempName, setTempName] = useState(projectName);
+        const [tempApplicant, setTempApplicant] = useState(projectApplicant);
+        const [tempCounty, setTempCounty] = useState(projectCounty);
+        const [tempState, setTempState] = useState(projectState);
+        const [tempSection, setTempSection] = useState(projectSection);
+        const [tempRegion, setTempRegion] = useState(projectRegion);
+        const [tempSubregion, setTempSubregion] = useState(projectSubregion);
+        const [tempDatum, setTempDatum] = useState(projectDatum);
 
         const handleSubmit = () => {
             // set states now to reflect changes on project info screen without reloading
@@ -49,6 +52,7 @@ const ProjectInformationScreen = (props) => {
             setProjectCounty(tempCounty);
             setProjectState(tempState);
             setProjectSection(tempSection);
+            setProjectRegion(tempRegion);
             setProjectSubregion(tempSubregion);
             setProjectDatum(tempDatum);
             setProjectUpdatedDate(tempDate);
@@ -60,6 +64,7 @@ const ProjectInformationScreen = (props) => {
                 projectCounty: tempCounty,
                 projectState: tempState,
                 projectSection: tempSection,
+                projectRegion: tempRegion,
                 projectSubregion: tempSubregion,
                 projectDatum: tempDatum,
                 id: project.id,
@@ -118,6 +123,21 @@ const ProjectInformationScreen = (props) => {
                             onChangeText={(tempSection) => setTempSection(tempSection)}
                             value={tempSection}
                         />
+                    </View>
+                    <View>
+                        <Text style={styles.projectText}>Region</Text>
+                        <Picker
+                            selectedValue={tempRegion}
+                            onValueChange={(region) => {
+                                setTempRegion(region);
+                            }}
+                        >
+                            <Picker.Item label="-" value="" />
+                            <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
+                            <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
+                            <Picker.Item label="MW - Midwest" value="MW" />
+                            <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
+                        </Picker>
                     </View>
                     <View>
                         <Text style={styles.projectText}>
@@ -363,8 +383,17 @@ const ProjectInformationScreen = (props) => {
                 {"Section, Township: "}
                 {projectSection ? projectSection : <UnspecifiedField />}
             </Text>
-            <Text style={styles.projectText}>Subregion: {projectSubregion}</Text>
-            <Text style={styles.projectText}>Datum: {projectDatum}</Text>
+            <Text style={styles.projectText}>
+                {"Region: "}
+                {projectRegion ? projectRegion : <UnspecifiedField />}
+            </Text>
+            <Text style={styles.projectText}>
+                {"Subregion: "} {projectSubregion ? projectSubregion : <UnspecifiedField />}
+            </Text>
+            <Text style={styles.projectText}>
+                {"Datum: "}
+                {projectDatum ? projectDatum : <UnspecifiedField />}
+            </Text>
             <Text style={styles.projectInfoText}>Project ID: {project.id}</Text>
             <Text style={styles.projectInfoText}>
                 Last updated <DateComponent date={projectUpdatedDate} />

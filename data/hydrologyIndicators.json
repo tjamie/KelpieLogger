@@ -1,0 +1,38 @@
+{
+    "EMP": {
+        "primaryIndicators": [
+            "Surface Water (A1)",
+            "High Water Table (A2)",
+            "Saturation (A3)",
+            "Water Marks (B1)",
+            "Sediment Deposits (B2)",
+            "Drift Deposits (B3)",
+            "Algal Mat or Crust (B4)",
+            "Iron Deposits (B5)",
+            "Inundation Visible on Aerial Imagery (B7)",
+            "Water-Stained Leaves (B9)",
+            "Aquatic Fauna (B13)",
+            "True Aquatic Plants (B14)",
+            "Hydrogen Sulfide Odor (C1)",
+            "Oxidized Rizospheres on Living Roots (C3)",
+            "Presence of Reduced Iron (C4)",
+            "Recent Iron Reduction in Tilled Soils (C6)",
+            "Thin Muck Surface (C7)",
+            "Other (Explain in Remarks)"
+        ],
+        "secondaryIndicators": [
+            "Surface Soil Cracks (B6)",
+            "Sparsely Vegetated Concave Surface (B8)",
+            "Drainage Patterns (B10)",
+            "Moss Trim Lines (B16)",
+            "Dry-Season Water Table (C2)",
+            "Crayfish Burrows (C8)",
+            "Saturation Visible on Aerial Imagery (C9)",
+            "Stunted or Stressed Plants (D1)",
+            "Geomorphic Position (D2)",
+            "Shallow Aquitard (D3)",
+            "Microtopographic Relief (D4)",
+            "FAC-Neutral Test (D5)"
+        ]
+    }
+}

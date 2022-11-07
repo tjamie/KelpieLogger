@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Text, View, ScrollView, FlatList, Modal, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { ListItem, Input, Button } from "react-native-elements";
+import { Picker } from "@react-native-picker/picker";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { dateToUniqueId } from "../utils/dateToUniqueId";
 import Loading from "../components/LoadingComponent";
@@ -21,6 +22,7 @@ const ProjectsScreen = ({ navigation }) => {
     const [projectCounty, setProjectCounty] = useState("");
     const [projectState, setProjectState] = useState("");
     const [projectSection, setProjectSection] = useState(""); //only applicable to certain areas
+    const [projectRegion, setProjectRegion] = useState("");
     const [projectSubregion, setProjectSubregion] = useState("");
     const [projectDatum, setProjectDatum] = useState("");
 
@@ -31,6 +33,7 @@ const ProjectsScreen = ({ navigation }) => {
             projectCounty,
             projectState,
             projectSection,
+            projectRegion,
             projectSubregion,
             projectDatum,
             id: dateToUniqueId(),
@@ -196,6 +199,21 @@ const ProjectsScreen = ({ navigation }) => {
                             onChangeText={(projectSection) => setProjectSection(projectSection)}
                             value={projectSection}
                         />
+                    </View>
+                    <View>
+                        <Text style={styles.projectText}>Region</Text>
+                        <Picker
+                            selectedValue={projectRegion}
+                            onValueChange={(region) => {
+                                setProjectRegion(region);
+                            }}
+                        >
+                            <Picker.Item label="-" value="" />
+                            <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
+                            <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
+                            <Picker.Item label="MW - Midwest" value="MW" />
+                            <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
+                        </Picker>
                     </View>
                     <View>
                         <Text style={styles.projectText}>

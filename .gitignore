@@ -11,6 +11,8 @@ npm-debug.*
 web-build/
 
 data/plant_lists/usace_xls/
+data/datapoints.json
+data/projects.json
 issues.txt
 
 # macOS

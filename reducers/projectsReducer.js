@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as projectsData from "../data/projects.json";
 
 // const localProjectsData = '../data/projects.json';
 
@@ -47,10 +46,13 @@ const projectsSlice = createSlice({
             state.projectsArray[idx] = action.payload;
         },
         deleteProject: (state, action) => {
-            // console.log(`num projects: ${state.projectsArray.length}`);
             const idx = state.projectsArray.findIndex((element) => element.id === action.payload);
             console.log(`Target: ${state.projectsArray[idx].projectName}`);
             state.projectsArray = state.projectsArray.filter((element) => element.id != action.payload);
+        },
+        getProjectById: (state, action) => {
+            const activeProject = state.projectsArray.find((element) => element.id === action.payload);
+            return activeProject;
         }
     }
     // extraReducers: {
@@ -70,4 +72,4 @@ const projectsSlice = createSlice({
 });
 
 export const projectsReducer = projectsSlice.reducer;
-export const { addProject, updateProject, deleteProject } = projectsSlice.actions;
+export const { addProject, updateProject, deleteProject, getProjectById } = projectsSlice.actions;

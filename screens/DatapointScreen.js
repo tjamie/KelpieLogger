@@ -372,7 +372,7 @@ const DatapointScreen = (props) => {
                         setTempDatapoint={setTempDatapoint}
                         medium="hydrology"
                         indicatorType="primaryIndicators"
-                        name="Primary indicators"
+                        name="Primary Hydrology Indicators"
                     />
                     <IndicatorsList
                         navigation={navigation}
@@ -380,7 +380,7 @@ const DatapointScreen = (props) => {
                         setTempDatapoint={setTempDatapoint}
                         medium="hydrology"
                         indicatorType="secondaryIndicators"
-                        name="Secondary indicators"
+                        name="Secondary Hydrology Indicators"
                     />
                     <View>
                         <Text style={styles.projectText}>Remarks</Text>
@@ -569,6 +569,23 @@ const DatapointScreen = (props) => {
                         navigation={navigation}
                         tempDatapoint={tempDatapoint}
                         setTempDatapoint={setTempDatapoint}
+                    />
+
+                    <IndicatorsList
+                        navigation={navigation}
+                        tempDatapoint={tempDatapoint}
+                        setTempDatapoint={setTempDatapoint}
+                        medium="soil"
+                        indicatorType="indicators"
+                        name="Hydric Soil Indicators"
+                    />
+                    <IndicatorsList
+                        navigation={navigation}
+                        tempDatapoint={tempDatapoint}
+                        setTempDatapoint={setTempDatapoint}
+                        medium="soil"
+                        indicatorType="problematicIndicators"
+                        name="Indicators for Problematic Hydric Soils"
                     />
                 </Collapsible>
             </View>

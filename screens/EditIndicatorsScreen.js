@@ -8,7 +8,7 @@ import { styles, colors } from "../styles";
 import * as hydrologyIndicators from "../data/hydrologyIndicators.json";
 import * as soilIndicators from "../data/soilIndicators.json";
 
-const EditIndicatorsScreen = ({ navigation, route }) => {
+const EditIndicatorsScreen = ({ route }) => {
     const { medium, indicatorType, tempDatapoint } = route.params;
     const [tempIndicators, setTempIndicators] = useState(tempDatapoint[medium][indicatorType]);
 
@@ -16,14 +16,6 @@ const EditIndicatorsScreen = ({ navigation, route }) => {
     const activeProject = getProjectById(projectsState, tempDatapoint.projectId).payload[0];
     console.log(activeProject);
     const region = activeProject.projectRegion;
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener("beforeRemove", () => {
-            DeviceEventEmitter.removeAllListeners("updateIndicatorData");
-        });
-
-        return unsubscribe;
-    }, [navigation]);
 
     useEffect(() => {
         DeviceEventEmitter.emit("updateIndicatorData", tempIndicators);

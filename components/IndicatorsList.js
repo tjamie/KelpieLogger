@@ -16,6 +16,8 @@ const IndicatorsList = (props) => {
                     <Button
                         title="Edit"
                         onPress={() => {
+                            DeviceEventEmitter.removeAllListeners("updateIndicatorData");
+                            console.log("indicator emitter removed");
                             DeviceEventEmitter.addListener("updateIndicatorData", (tempIndicators) => {
                                 //tempIndicators should be an array
                                 setTempDatapoint({
@@ -26,8 +28,7 @@ const IndicatorsList = (props) => {
                                     }
                                 });
                             });
-                            // console.log("navigation:", navigation.getParent().getState().state);
-                            navigation.navigate("EditIndicators", { navigation, medium, indicatorType, tempDatapoint });
+                            navigation.navigate("EditIndicators", { medium, indicatorType, tempDatapoint });
                         }}
                         buttonStyle={styles.buttonMain}
                         titleStyle={styles.buttonMainText}

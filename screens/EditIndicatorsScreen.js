@@ -6,6 +6,7 @@ import { DeviceEventEmitter } from "react-native";
 import { getProjectById } from "../reducers/projectsReducer";
 import { styles, colors } from "../styles";
 import * as hydrologyIndicators from "../data/hydrologyIndicators.json";
+import * as soilIndicators from "../data/soilIndicators.json";
 
 const EditIndicatorsScreen = ({ navigation, route }) => {
     const { medium, indicatorType, tempDatapoint } = route.params;
@@ -31,8 +32,9 @@ const EditIndicatorsScreen = ({ navigation, route }) => {
     const indicatorsSourceList = (medium) => {
         if (medium === "hydrology") {
             return hydrologyIndicators;
+        } else if (medium === "soil") {
+            return soilIndicators;
         }
-        // more media here etc
         return [];
     };
 

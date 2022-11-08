@@ -36,8 +36,12 @@ const IndicatorsList = (props) => {
             </View>
             <View style={{ paddingLeft: 8 }}>
                 {tempDatapoint[medium][indicatorType].length > 0 ? (
-                    tempDatapoint[medium][indicatorType].map((item) => {
-                        return <Text style={styles.projectText}>{item}</Text>;
+                    tempDatapoint[medium][indicatorType].map((item, index) => {
+                        return (
+                            <Text key={index} style={styles.projectText}>
+                                {item}
+                            </Text>
+                        );
                     })
                 ) : (
                     <Text style={styles.projectText}>No indicators selected.</Text>

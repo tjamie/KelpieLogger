@@ -1,0 +1,111 @@
+{
+    "EMP": {
+        "indicators": [
+            "Histosol (A1)",
+            "Histic Epipedon (A2)",
+            "Black Histic (A3)",
+            "Hydrogen Sulfide (A4)",
+            "Stratified Layers (A5)",
+            "2 cm Muck (A10) (LRR N)",
+            "Depleted Below Dark Surface (A11)",
+            "Thick Dark Surface (A12)",
+            "Sandy Mucky Mineral (S1) (LRR N, MLRA 147, 148)",
+            "Sandy Gleyed Matrix (S4)",
+            "Sandy Redox (S5)",
+            "Stripped Matrix (S6)",
+            "Dark Surface (S7)",
+            "Polyvalue Below Surface (S8) (MLRA 147, 148)",
+            "Thin Dark Surface (S9) (MLRA 147, 148)",
+            "Loamy Gleyed Matrix (F2)",
+            "Depleted Matrix (F3)",
+            "Redox Dark Surface (F6)",
+            "Depleted Dark Surface (F7)",
+            "Redox Depressions (F8)",
+            "Iron-Manganese Masses (F12) (LRR N, MLRA 136)",
+            "Umbric Surface (F13) (MLRA 136, 122)",
+            "Piedmont Floodplain Soils (F19) (MLRA 148)",
+            "Red Parent Material (F21) (MLRA 127, 147)"
+        ],
+        "problematicIndicators": [
+            "2 cm Muck (A10) (MLRA 147)",
+            "Coast Prairie Redox (A16) (MLRA 147, 148)",
+            "Piedmont Floodplain Soils (F19) (MLRA 136, 147)",
+            "Very Shallow Dark Surface (TF12)",
+            "Other (Explains in Remarks)"
+        ]
+    },
+    "AGCP": {
+        "indicators": [
+            "Histosol (A1)",
+            "Histic Epipedon (A2)",
+            "Black Histic (A3)",
+            "Hydrogen Sulfide (A4)",
+            "Stratified Layers (A5)",
+            "Organic Bodies (A6) (LRR P, T, U)",
+            "5 cm Mucky Mineral (A7) (LRR P, T, U)",
+            "Muck Presence (A8) (LRR U)",
+            "1 cm Muck (A9) (LRR P, T)",
+            "Depleted Below Dark Surface (A11)",
+            "Thick Dark Surface (A12)",
+            "Coast Prairie Redox (A16) (MLRA 150A)",
+            "Sandy Mucky Mineral (S1) (LRR O, S)",
+            "Sandy Gleyed Matrix (S4)",
+            "Sandy Redox (S5)",
+            "Stripped Matrix (S6)",
+            "Dark Surface (S7) (LRR P, S, T, U)",
+            "Polyvalue Below Surface (S8) (LRR S, T, U)",
+            "Thin Dark Surface (S9) (LRR S, T, U)",
+            "Loamy Mucky Mineral (F1) (LRR O)",
+            "Loamy Gleyed Matrix (F2)",
+            "Depleted Matrix (F3)",
+            "Redox Dark Surface (F6)",
+            "Depleted Dark Surface (F7)",
+            "Redox Depressions (F8)",
+            "Marl (F10) (LRR U)",
+            "Depleted Ochric (F11) (MLRA 151)",
+            "Iron-Manganese Masses (F12) (LRR O, P, T)",
+            "Umbric Surface (F13) (LRR P, T, U)",
+            "Delta Ochric (F17) (MLRA 151)",
+            "Reduced Vertic (F18) (MLRA 150A, 150B)"
+        ],
+        "problematicIndicators": [
+            "1 cm Muck (A9) (LRR O)",
+            "2 cm Muck (A10) (LRR S)",
+            "Reduced Vertic (F18) (outside MLRA 150A,B)",
+            "Piedmont Floodplain Soils (F19) (LRR P, S, T)",
+            "Anomalous Bright Loamy Soils (F20) (MLRA 153B)",
+            "Red Parent Material (TF2)",
+            "Very Shallow Dark Surface (TF12)",
+            "Other (Explains in Remarks)"
+        ]
+    },
+    "MW": {
+        "indicators": [
+            "Histosol (A1)",
+            "Histic Epipedon (A2)",
+            "Black Histic (A3)",
+            "Hydrogen Sulfide (A4)",
+            "Stratified Layers (A5)",
+            "2 cm Muck (A10)",
+            "Depleted Below Dark Surface (A11)",
+            "Thick Dark Surface (A12)",
+            "Sandy Mucky Mineral (S1)",
+            "5 cm Mucky Peat or Peat (S3)",
+            "Sandy Gleyed Matrix (S4)",
+            "Sandy Redox (S5)",
+            "Stripped Matrix (S6)",
+            "Loamy Mucky Mineral (F1)",
+            "Depleted Matrix (F3)",
+            "Redox Dark Surface (F6)",
+            "Depleted Dark Surface (F7)",
+            "Redox Depressions (F8)"
+        ],
+        "problematicIndicators": [
+            "Coast Prairie Redox (A16)",
+            "Dark Surface (S7)",
+            "Iron-Manganese Masses (F12)",
+            "Very Shallow Dark Surface (TF12)",
+            "Other (Explains in Remarks)"
+        ]
+    }
+}

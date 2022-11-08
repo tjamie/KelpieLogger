@@ -7,7 +7,7 @@ import { clamp } from "../utils/clamp";
 import { DeviceEventEmitter } from "react-native";
 import { styles } from "../styles";
 
-const EditSoilScreen = ({ navigation, route }) => {
+const EditSoilScreen = ({ route }) => {
     const { soilLayer: soil, tempDatapoint } = route.params;
     const [tempSoil, setTempSoil] = useState(soil);
     const [tempMatrixVal, setTempMatrixVal] = useState(tempSoil.matrixColor.value);
@@ -16,14 +16,6 @@ const EditSoilScreen = ({ navigation, route }) => {
     const [tempRedoxChroma, setTempRedoxChroma] = useState(tempSoil.redoxColor.chroma);
 
     const tempArr = tempDatapoint.soil.layers;
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener("beforeRemove", () => {
-            DeviceEventEmitter.removeAllListeners("updateSoilData");
-        });
-
-        return unsubscribe;
-    }, [navigation]);
 
     useEffect(() => {
         DeviceEventEmitter.emit("updateSoilData", tempSoil);

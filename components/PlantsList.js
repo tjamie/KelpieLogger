@@ -104,8 +104,10 @@ const PlantsList = (props) => {
                 <View>
                     <ListItem
                         onPress={() => {
+                            DeviceEventEmitter.removeAllListeners("updatePlantData");
+                            console.log("plant listeners removed");
                             DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {
-                                console.log("listener added");
+                                console.log("updating plant");
                                 console.log("tempPlant:", tempPlant);
                                 const tempArr = tempDatapoint.vegetation.strata[stratum];
                                 const newStratumArr = tempArr.map((obj) => {
@@ -129,7 +131,7 @@ const PlantsList = (props) => {
                             });
 
                             console.log("Target plant:", plant);
-                            navigation.navigate("EditPlant", { plant, navigation });
+                            navigation.navigate("EditPlant", { plant });
                         }}
                         containerStyle={styles.subsectionListContainer}
                     >

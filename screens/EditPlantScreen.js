@@ -6,22 +6,12 @@ import { enforceNumeric } from "../utils/enforceNumeric";
 import { DeviceEventEmitter } from "react-native";
 import { styles, colors } from "../styles";
 
-const EditPlantScreen = ({ navigation, route }) => {
+const EditPlantScreen = ({ route }) => {
     const { plant } = route.params;
     const [tempPlant, setTempPlant] = useState(plant);
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener("beforeRemove", () => {
-            DeviceEventEmitter.removeAllListeners("updatePlantData");
-            // console.log("listener removed");
-        });
-
-        return unsubscribe;
-    }, [navigation]);
-
-    useEffect(() => {
         DeviceEventEmitter.emit("updatePlantData", tempPlant);
-        // console.log("useEffect triggered");
     }, [tempPlant]);
 
     return (

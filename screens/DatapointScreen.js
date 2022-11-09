@@ -8,6 +8,7 @@ import { enforceNumeric } from "../utils/enforceNumeric";
 import PlantsList from "../components/PlantsList";
 import SoilsList from "../components/SoilsList";
 import IndicatorsList from "../components/IndicatorsList";
+import * as Location from "expo-location";
 import { styles, colors } from "../styles";
 
 const DatapointScreen = (props) => {
@@ -33,6 +34,42 @@ const DatapointScreen = (props) => {
         console.log("Updated datapoint:", JSON.stringify(tempDatapoint, 0, 2));
     };
 
+    const LocationButton = () => {
+        const defaultText = "Get Current Position";
+        const [buttonText, setButtonText] = useState(defaultText);
+
+        const getLocation = async () => {
+            setButtonText("Getting location permission...");
+
+            const locationPermission = await Location.requestForegroundPermissionsAsync();
+            console.log("location permission status:", locationPermission.status);
+
+            if (locationPermission.status === "granted") {
+                setButtonText("Getting current position...");
+                const tempLocation = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
+                console.log("location: ", tempLocation);
+                setTempDatapoint({
+                    ...tempDatapoint,
+                    lat: tempLocation.coords.latitude,
+                    long: tempLocation.coords.longitude
+                });
+            } else if (locationPermission.status !== "granted") {
+                console.log("permission denied");
+            }
+
+            setButtonText(defaultText);
+        };
+
+        return (
+            <Button
+                title={buttonText}
+                onPress={() => getLocation()}
+                buttonStyle={styles.buttonMain}
+                titleStyle={styles.buttonMainText}
+            />
+        );
+    };
+
     return (
         <ScrollView style={styles.projectContainer}>
             <View>
@@ -52,6 +89,9 @@ const DatapointScreen = (props) => {
                     )}
                 </TouchableOpacity>
                 <Collapsible collapsed={collapseGeneral}>
+                    <View>
+                        <LocationButton />
+                    </View>
                     <View>
                         <Text style={styles.projectText}>Sampling Point</Text>
                         <Input
@@ -112,7 +152,6 @@ const DatapointScreen = (props) => {
                             value={tempDatapoint.slope}
                         />
                     </View>
-                    {/* TODO get lat/long via device's GPS */}
                     <View>
                         <Text style={styles.projectText}>Latitude</Text>
                         <Input
@@ -122,9 +161,8 @@ const DatapointScreen = (props) => {
                                     ...tempDatapoint,
                                     lat: lat
                                 });
-                                // console.log(lat);
                             }}
-                            value={tempDatapoint.lat}
+                            value={tempDatapoint.lat.toString()}
                         />
                     </View>
                     <View>
@@ -138,7 +176,7 @@ const DatapointScreen = (props) => {
                                 });
                                 // console.log(long);
                             }}
-                            value={tempDatapoint.long}
+                            value={tempDatapoint.long.toString()}
                         />
                     </View>
                     <View>

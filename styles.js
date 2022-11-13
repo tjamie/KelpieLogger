@@ -69,14 +69,17 @@ export const styles = StyleSheet.create({
     listHeadContainer: {
         backgroundColor: primaryBackground,
         borderColor: secondaryBackground,
-        borderWidth: 2,
+        borderWidth: 1,
+        borderBottomWidth: 2,
+        borderRadius: 4,
         marginBottom: -1
     },
     listContainer: {
         backgroundColor: primaryBackground,
         borderColor: secondaryBackground,
-        borderWidth: 2,
+        borderWidth: 1,
         borderBottomWidth: 2,
+        borderRadius: 4,
         marginBottom: -1,
         marginTop: -1
     },
@@ -160,6 +163,7 @@ export const styles = StyleSheet.create({
     swipeDelete: {
         backgroundColor: "red",
         height: "100%",
-        justifyContent: "center"
+        justifyContent: "center",
+        margin: 4
     }
 });

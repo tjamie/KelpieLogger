@@ -10,6 +10,7 @@ import DatapointScreen from "./DatapointScreen";
 import EditPlantScreen from "./EditPlantScreen";
 import EditSoilScreen from "./EditSoilScreen";
 import EditIndicatorsScreen from "./EditIndicatorsScreen";
+import RegionalPlantListsScreen from "./RegionalPlantListsScreen";
 import { styles } from "../styles";
 
 const Drawer = createDrawerNavigator();
@@ -86,6 +87,21 @@ const ProjectsNavigator = () => {
     );
 };
 
+const RegionalPlantsNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen
+                name="ViewRegionalPlantLists"
+                component={RegionalPlantListsScreen}
+                options={() => ({
+                    title: "Regional Plant Lists"
+                })}
+            />
+        </Stack.Navigator>
+    );
+};
+
 const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props}>
         <View>
@@ -120,6 +136,13 @@ const Main = () => {
                     component={ProjectsNavigator}
                     options={{
                         title: "Projects"
+                    }}
+                />
+                <Drawer.Screen
+                    name="RegionalPlantListsDrawer"
+                    component={RegionalPlantsNavigator}
+                    options={{
+                        title: "Regional Plant Lists"
                     }}
                 />
             </Drawer.Navigator>

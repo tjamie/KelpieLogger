@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as datapointsData from "../data/datapoints.json";
 
 const initialState = {
     isLoading: false,

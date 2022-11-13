@@ -2,7 +2,8 @@ import { StyleSheet } from "react-native";
 
 export const colors = {
     darkGreen: "#345716",
-    paleGreen: "#e1f2d3"
+    paleGreen: "#e1f2d3",
+    gray: "#bdbdbd"
 };
 
 const primaryBackground = "#eee";
@@ -94,8 +95,6 @@ export const styles = StyleSheet.create({
     projectHeaderText: {
         fontSize: 18,
         color: primaryText
-        // paddingTop: 4,
-        // paddingBottom: 4
     },
     projectInfoText: {
         fontSize: 12,
@@ -108,7 +107,8 @@ export const styles = StyleSheet.create({
         color: primaryText
     },
     sectionContainer: {
-        borderWidth: 2,
+        borderWidth: 1,
+        borderRadius: 4,
         borderColor: secondaryBackground,
         padding: 5,
         marginTop: 5,

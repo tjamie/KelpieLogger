@@ -131,7 +131,7 @@ const PlantsList = (props) => {
                             });
 
                             console.log("Target plant:", plant);
-                            navigation.navigate("EditPlant", { plant });
+                            navigation.navigate("EditPlant", { plant, tempDatapoint });
                         }}
                         containerStyle={styles.subsectionListContainer}
                     >
@@ -139,7 +139,7 @@ const PlantsList = (props) => {
                             <ListItem.Title style={styles.listPrimaryText}>{plant.species}</ListItem.Title>
                             <ListItem.Subtitle
                                 style={styles.listSecondaryText}
-                            >{`${plant.indicator} --- ${plant.cover}`}</ListItem.Subtitle>
+                            >{`${plant.indicator} - ${plant.cover}% cover`}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
                 </View>

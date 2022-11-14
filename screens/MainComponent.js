@@ -1,7 +1,7 @@
-import { Platform, Text, View } from "react-native";
+import { Platform, Text, View, StatusBar } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
-import { useEffect } from "react";
+import { Icon } from "react-native-elements";
 import Constants from "expo-constants";
 import HomeScreen from "./HomeScreen";
 import ProjectsScreen from "./ProjectsScreen";
@@ -10,13 +10,13 @@ import DatapointScreen from "./DatapointScreen";
 import EditPlantScreen from "./EditPlantScreen";
 import EditSoilScreen from "./EditSoilScreen";
 import EditIndicatorsScreen from "./EditIndicatorsScreen";
-import { styles } from "../styles";
+import RegionalPlantListsScreen from "./RegionalPlantListsScreen";
+import { styles, colors } from "../styles";
 
 const Drawer = createDrawerNavigator();
 
 const screenOptions = {
-    // headerTintColor: "#c1d6b0",
-    headerTintColor: "#efefef",
+    headerTintColor: colors.lightGray,
     headerStyle: styles.stackNavHeader
 };
 
@@ -28,7 +28,15 @@ const HomeNavigator = () => {
                 name="HomeStack"
                 component={HomeScreen}
                 options={({ navigation }) => ({
-                    title: "Home"
+                    title: "Home",
+                    headerLeft: () => (
+                        <Icon
+                            name="home"
+                            type="feather"
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
                 })}
             />
         </Stack.Navigator>
@@ -43,7 +51,15 @@ const ProjectsNavigator = () => {
                 name="ProjectsStack"
                 component={ProjectsScreen}
                 options={({ navigation }) => ({
-                    title: "Projects"
+                    title: "Projects",
+                    headerLeft: () => (
+                        <Icon
+                            name="edit-2"
+                            type="feather"
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
                 })}
             />
             <Stack.Screen
@@ -86,6 +102,29 @@ const ProjectsNavigator = () => {
     );
 };
 
+const RegionalPlantsNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen
+                name="ViewRegionalPlantLists"
+                component={RegionalPlantListsScreen}
+                options={({ navigation }) => ({
+                    title: "Regional Plant Lists",
+                    headerLeft: () => (
+                        <Icon
+                            name="list"
+                            type="feather"
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+                })}
+            />
+        </Stack.Navigator>
+    );
+};
+
 const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props}>
         <View>
@@ -99,14 +138,19 @@ const Main = () => {
     return (
         <View
             style={{
-                flex: 1,
-                paddingTop: Platform.OS === "ios" ? 0 : Constants.statusBarHeight
+                flex: 1
+                // paddingTop: Platform.OS === "ios" ? 0 : Constants.statusBarHeight
             }}
         >
+            <StatusBar backgroundColor={"#000"} />
             <Drawer.Navigator
                 initialRouteName="HomeDrawer"
                 drawerContent={CustomDrawerContent}
-                // drawerStyle={{}}
+                drawerStyle={styles.drawer}
+                drawerContentOptions={{
+                    activeTintColor: colors.lightGray,
+                    activeBackgroundColor: colors.darkGreen
+                }}
             >
                 <Drawer.Screen
                     name="HomeDrawer"
@@ -120,6 +164,13 @@ const Main = () => {
                     component={ProjectsNavigator}
                     options={{
                         title: "Projects"
+                    }}
+                />
+                <Drawer.Screen
+                    name="RegionalPlantListsDrawer"
+                    component={RegionalPlantsNavigator}
+                    options={{
+                        title: "Regional Plant Lists"
                     }}
                 />
             </Drawer.Navigator>

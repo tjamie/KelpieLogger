@@ -129,7 +129,7 @@ const ProjectsScreen = ({ navigation }) => {
                         <ListItem.Content>
                             <ListItem.Title style={styles.listPrimaryText}>{project.projectName}</ListItem.Title>
                             <ListItem.Subtitle style={styles.listSecondaryText}>
-                                Description Placeholder
+                                {project.projectCounty}, {project.projectState}
                             </ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>

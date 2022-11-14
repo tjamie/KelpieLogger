@@ -11,7 +11,6 @@ import { styles, colors } from "../styles";
 import * as reg_AGCP from "../data/plant_lists/reg_AGCP.json";
 import * as reg_EMP from "../data/plant_lists/reg_EMP.json";
 import * as reg_MW from "../data/plant_lists/reg_MW.json";
-import { color } from "react-native-reanimated";
 
 const EditPlantScreen = ({ route }) => {
     const { plant, tempDatapoint } = route.params;

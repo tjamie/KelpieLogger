@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { Text, ScrollView } from "react-native";
+import { Text } from "react-native";
 import { styles } from "../styles";
-// import { StyleSheet } from "react-native";
 
 const HomeScreen = () => {
     return (

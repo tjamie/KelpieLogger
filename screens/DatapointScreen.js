@@ -73,10 +73,10 @@ const DatapointScreen = (props) => {
     return (
         <ScrollView style={styles.projectContainer}>
             <View>
-                <Button
+                {/* <Button
                     title="[DEBUG] print datapoint"
                     onPress={() => console.log(JSON.stringify(tempDatapoint, 0, 2))}
-                />
+                /> */}
             </View>
             {/* General info*/}
             <View style={styles.sectionContainer}>
@@ -88,7 +88,7 @@ const DatapointScreen = (props) => {
                         </Text>
                     )}
                 </TouchableOpacity>
-                <Collapsible collapsed={collapseGeneral}>
+                <Collapsible collapsed={collapseGeneral} renderChildrenCollapsed={false}>
                     <View>
                         <LocationButton />
                     </View>
@@ -318,7 +318,7 @@ const DatapointScreen = (props) => {
                         </Text>
                     )}
                 </TouchableOpacity>
-                <Collapsible collapsed={collapseHydrology}>
+                <Collapsible collapsed={collapseHydrology} renderChildrenCollapsed={false}>
                     <CheckBox
                         title="Wetland hydrology present?"
                         textStyle={styles.projectText}
@@ -452,7 +452,7 @@ const DatapointScreen = (props) => {
                         </Text>
                     )}
                 </TouchableOpacity>
-                <Collapsible collapsed={collapseVegetation}>
+                <Collapsible collapsed={collapseVegetation} renderChildrenCollapsed={false}>
                     <CheckBox
                         title="Hydric vegetation present?"
                         textStyle={styles.projectText}
@@ -484,7 +484,7 @@ const DatapointScreen = (props) => {
                                 </Text>
                             )}
                         </TouchableOpacity>
-                        <Collapsible collapsed={collapseTree}>
+                        <Collapsible collapsed={collapseTree} renderChildrenCollapsed={false}>
                             <PlantsList
                                 stratum="tree"
                                 navigation={navigation}
@@ -513,7 +513,7 @@ const DatapointScreen = (props) => {
                                 </Text>
                             )}
                         </TouchableOpacity>
-                        <Collapsible collapsed={collapseSaplingShrub}>
+                        <Collapsible collapsed={collapseSaplingShrub} renderChildrenCollapsed={false}>
                             <PlantsList
                                 stratum="saplingShrub"
                                 navigation={navigation}
@@ -538,7 +538,7 @@ const DatapointScreen = (props) => {
                                 </Text>
                             )}
                         </TouchableOpacity>
-                        <Collapsible collapsed={collapseHerb}>
+                        <Collapsible collapsed={collapseHerb} renderChildrenCollapsed={false}>
                             <PlantsList
                                 stratum="herb"
                                 navigation={navigation}
@@ -563,7 +563,7 @@ const DatapointScreen = (props) => {
                                 </Text>
                             )}
                         </TouchableOpacity>
-                        <Collapsible collapsed={collapseVine}>
+                        <Collapsible collapsed={collapseVine} renderChildrenCollapsed={false}>
                             <PlantsList
                                 stratum="vine"
                                 navigation={navigation}
@@ -585,7 +585,7 @@ const DatapointScreen = (props) => {
                         <Text style={styles.projectInfoText}>Press "New Soil" to record a new soil layer.</Text>
                     )}
                 </TouchableOpacity>
-                <Collapsible collapsed={collapseSoil}>
+                <Collapsible collapsed={collapseSoil} renderChildrenCollapsed={false}>
                     <CheckBox
                         title="Hydric soil present?"
                         textStyle={styles.projectText}

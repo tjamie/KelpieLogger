@@ -74,7 +74,7 @@ const RegionalPlantListsScreen = () => {
                 }}
                 value={speciesFilter}
             />
-            <View style={styles.subsectionContainer}>
+            <View style={{ ...styles.subsectionContainer, marginBottom: 16 }}>
                 {filteredList && filteredList.length < 1 && <EmptyItem />}
                 <FlatList data={filteredList} renderItem={renderItem} keyExtractor={(item) => item.id} />
             </View>

@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const colors = {
     darkGreen: "#345716",
     paleGreen: "#e1f2d3",
-    gray: "#bdbdbd"
+    lightGray: "#efefef"
 };
 
 const primaryBackground = "#eee";
@@ -36,13 +36,18 @@ export const styles = StyleSheet.create({
     divider: {
         padding: 4
     },
+    drawer: {
+        backgroundColor: primaryBackground
+    },
     drawerHeader: {
         height: 80,
         alignItems: "center",
         justifyContent: "center"
     },
     drawerHeaderText: {
-        fontSize: 24
+        fontSize: 24,
+        fontFamily: "Rakkas-Regular",
+        paddingLeft: 8
     },
     stackNavHeader: {
         backgroundColor: secondaryBackground
@@ -56,6 +61,7 @@ export const styles = StyleSheet.create({
     homeLogoText: {
         fontSize: 36,
         textAlign: "center",
+        fontFamily: "Rakkas-Regular",
         color: primaryText
     },
     homeView: {
@@ -120,6 +126,11 @@ export const styles = StyleSheet.create({
     sectionHeader: {
         paddingTop: 16,
         paddingBottom: 16
+    },
+    stackIcon: {
+        marginLeft: 10,
+        color: colors.lightGray,
+        fontSize: 24
     },
     subsectionContainer: {
         borderTopWidth: 1,

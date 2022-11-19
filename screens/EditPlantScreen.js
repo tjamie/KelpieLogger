@@ -85,6 +85,13 @@ const EditPlantScreen = ({ route }) => {
         DeviceEventEmitter.emit("updatePlantData", tempPlant);
     }, [tempPlant]);
 
+    useEffect(() => {
+        // remove listener on unmount
+        return () => {
+            DeviceEventEmitter.removeAllListeners("updatePlantData");
+        };
+    }, []);
+
     return (
         <View style={{ ...styles.projectContainer }}>
             {/* species input, suggestions flatlist */}

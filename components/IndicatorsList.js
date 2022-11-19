@@ -16,8 +16,6 @@ const IndicatorsList = (props) => {
                     <Button
                         title="Edit"
                         onPress={() => {
-                            DeviceEventEmitter.removeAllListeners("updateIndicatorData");
-                            console.log("indicator emitter removed");
                             DeviceEventEmitter.addListener("updateIndicatorData", (tempIndicators) => {
                                 //tempIndicators should be an array
                                 setTempDatapoint({

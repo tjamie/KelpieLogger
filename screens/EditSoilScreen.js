@@ -21,6 +21,13 @@ const EditSoilScreen = ({ route }) => {
         DeviceEventEmitter.emit("updateSoilData", tempSoil);
     }, [tempSoil]);
 
+    useEffect(() => {
+        // remove listener on unmount
+        return () => {
+            DeviceEventEmitter.removeAllListeners("updateSoilData");
+        };
+    }, []);
+
     return (
         <ScrollView style={styles.projectContainer}>
             <View>

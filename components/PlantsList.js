@@ -104,8 +104,6 @@ const PlantsList = (props) => {
                 <View>
                     <ListItem
                         onPress={() => {
-                            DeviceEventEmitter.removeAllListeners("updatePlantData");
-                            console.log("plant listeners removed");
                             DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {
                                 console.log("updating plant");
                                 console.log("tempPlant:", tempPlant);

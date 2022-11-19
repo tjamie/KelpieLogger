@@ -21,6 +21,13 @@ const EditIndicatorsScreen = ({ route }) => {
         DeviceEventEmitter.emit("updateIndicatorData", tempIndicators);
     }, [tempIndicators]);
 
+    useEffect(() => {
+        // remove listener on unmount
+        return () => {
+            DeviceEventEmitter.removeAllListeners("updateIndicatorData");
+        };
+    }, []);
+
     const indicatorsSourceList = (medium) => {
         if (medium === "hydrology") {
             return hydrologyIndicators;

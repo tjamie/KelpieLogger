@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import { Alert, View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import { updateDatapoint } from "../reducers/datapointsReducer";
@@ -15,7 +15,6 @@ const DatapointScreen = (props) => {
     const { route, navigation } = props;
     const { datapoint } = route.params;
     const [tempDatapoint, setTempDatapoint] = useState(datapoint);
-    const [dp, setDp] = useState(datapoint);
 
     const [collapseGeneral, setCollapseGeneral] = useState(true);
     const [collapseHydrology, setCollapseHydrology] = useState(true);
@@ -31,7 +30,7 @@ const DatapointScreen = (props) => {
 
     const handleSaveDatapoint = () => {
         dispatch(updateDatapoint(tempDatapoint));
-        console.log("Updated datapoint:", JSON.stringify(tempDatapoint, 0, 2));
+        console.log("Updated datapoint:", tempDatapoint.id);
     };
 
     const LocationButton = () => {
@@ -70,6 +69,16 @@ const DatapointScreen = (props) => {
         );
     };
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("beforeRemove", () => {
+            if (tempDatapoint !== datapoint) {
+                console.log("saving");
+                handleSaveDatapoint();
+            }
+        });
+        return unsubscribe;
+    }, [navigation, tempDatapoint]);
+
     return (
         <ScrollView style={styles.projectContainer}>
             <View>
@@ -95,12 +104,12 @@ const DatapointScreen = (props) => {
                     <View>
                         <Text style={styles.projectText}>Sampling Point</Text>
                         <Input
-                            onChangeText={(name) =>
+                            onChangeText={(name) => {
                                 setTempDatapoint({
                                     ...tempDatapoint,
                                     name: name
-                                })
-                            }
+                                });
+                            }}
                             value={tempDatapoint.name}
                         />
                     </View>
@@ -339,7 +348,7 @@ const DatapointScreen = (props) => {
                         <Text style={styles.projectText}>Surface water depth (inches)</Text>
                         <Input
                             keyboardType="numeric"
-                            onChangeText={(depth) =>
+                            onChangeText={(depth) => {
                                 setTempDatapoint({
                                     ...tempDatapoint,
                                     hydrology: {
@@ -349,8 +358,8 @@ const DatapointScreen = (props) => {
                                             present: depth > 0
                                         }
                                     }
-                                })
-                            }
+                                });
+                            }}
                             value={
                                 tempDatapoint.hydrology.surfaceWater.depth
                                     ? tempDatapoint.hydrology.surfaceWater.depth.toString()
@@ -362,7 +371,7 @@ const DatapointScreen = (props) => {
                         <Text style={styles.projectText}>Water table depth (inches)</Text>
                         <Input
                             keyboardType="numeric"
-                            onChangeText={(depth) =>
+                            onChangeText={(depth) => {
                                 setTempDatapoint({
                                     ...tempDatapoint,
                                     hydrology: {
@@ -372,8 +381,8 @@ const DatapointScreen = (props) => {
                                             present: depth < 12
                                         }
                                     }
-                                })
-                            }
+                                });
+                            }}
                             value={
                                 tempDatapoint.hydrology.waterTable.depth
                                     ? tempDatapoint.hydrology.waterTable.depth.toString()
@@ -628,13 +637,8 @@ const DatapointScreen = (props) => {
                 </Collapsible>
             </View>
 
-            <View>
-                <Button
-                    title="Save Changes"
-                    onPress={() => handleSaveDatapoint()}
-                    buttonStyle={styles.buttonMain}
-                    titleStyle={styles.buttonMainText}
-                />
+            <View style={{ alignItems: "center" }}>
+                <Text style={styles.projectInfoText}>Any changes will be automatically saved.</Text>
             </View>
         </ScrollView>
     );

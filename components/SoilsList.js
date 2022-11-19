@@ -122,8 +122,6 @@ const SoilsList = (props) => {
                 <View>
                     <ListItem
                         onPress={() => {
-                            DeviceEventEmitter.removeAllListeners("updateSoilData");
-                            console.log("soil listener removed");
                             DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
                                 const tempArr = tempDatapoint.soil.layers;
                                 const newSoilArr = tempArr.map((obj) => {

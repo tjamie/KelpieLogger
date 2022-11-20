@@ -14,6 +14,10 @@ data/plant_lists/usace_xls/
 data/datapoints.json
 data/projects.json
 issues.txt
+assets/adaptive-icon.png
+assets/favicon.png
+assets/icon.png
+assets/splash.png
 
 # macOS
 .DS_Store

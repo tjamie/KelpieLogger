@@ -21,11 +21,17 @@
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#FFFFFF"
-            }
+                "backgroundColor": "#e1f2d3"
+            },
+            "package": "com.tjamie.KelpieLogger"
         },
         "web": {
             "favicon": "./assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "ba609071-c6b3-4a71-b999-5fec662a325f"
+            }
         }
     }
 }

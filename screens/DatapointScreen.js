@@ -349,6 +349,7 @@ const DatapointScreen = (props) => {
                         <Input
                             keyboardType="numeric"
                             onChangeText={(depth) => {
+                                console.log("depth:", tempDatapoint.hydrology.surfaceWater.depth);
                                 setTempDatapoint({
                                     ...tempDatapoint,
                                     hydrology: {
@@ -361,7 +362,9 @@ const DatapointScreen = (props) => {
                                 });
                             }}
                             value={
-                                tempDatapoint.hydrology.surfaceWater.depth
+                                tempDatapoint.hydrology.surfaceWater.depth === 0
+                                    ? "0"
+                                    : tempDatapoint.hydrology.surfaceWater.depth
                                     ? tempDatapoint.hydrology.surfaceWater.depth.toString()
                                     : ""
                             }
@@ -384,7 +387,9 @@ const DatapointScreen = (props) => {
                                 });
                             }}
                             value={
-                                tempDatapoint.hydrology.waterTable.depth
+                                tempDatapoint.hydrology.waterTable.depth === 0
+                                    ? "0"
+                                    : tempDatapoint.hydrology.waterTable.depth
                                     ? tempDatapoint.hydrology.waterTable.depth.toString()
                                     : ""
                             }
@@ -407,7 +412,9 @@ const DatapointScreen = (props) => {
                                 });
                             }}
                             value={
-                                tempDatapoint.hydrology.saturation.depth
+                                tempDatapoint.hydrology.saturation.depth === 0
+                                    ? "0"
+                                    : tempDatapoint.hydrology.saturation.depth
                                     ? tempDatapoint.hydrology.saturation.depth.toString()
                                     : ""
                             }

@@ -15,5 +15,7 @@ data/datapoints.json
 data/projects.json
 issues.txt
 
+eas.json
+
 # macOS
 .DS_Store

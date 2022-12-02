@@ -20,6 +20,7 @@ const RegionalPlantListsScreen = () => {
         MW: reg_MW.data
     };
 
+    // update rendered items based on user text input
     useEffect(() => {
         if (speciesFilter.length < minFilterLength) {
             setFilteredList(filterSpeciesArray(regions[selectedRegion], ""));
@@ -54,27 +55,31 @@ const RegionalPlantListsScreen = () => {
     };
 
     return (
-        <View style={styles.projectContainer}>
-            <Text style={styles.projectText}>Selected Region</Text>
-            <Picker
-                selectedValue={selectedRegion}
-                onValueChange={(region) => {
-                    setSelectedRegion(region);
-                }}
-            >
-                <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
-                <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
-                <Picker.Item label="MW - Midwest" value="MW" />
-            </Picker>
-            <Text style={styles.projectText}>Filter Species</Text>
-            <Input
-                placeholder={`Enter ${minFilterLength} or more characters`}
-                onChangeText={(text) => {
-                    setSpeciesFilter(text);
-                }}
-                value={speciesFilter}
-            />
-            <View style={{ ...styles.subsectionContainer, marginBottom: 16 }}>
+        <View style={{ ...styles.projectContainer }}>
+            {/* user input and filter selection */}
+            <View>
+                <Text style={styles.projectText}>Selected Region</Text>
+                <Picker
+                    selectedValue={selectedRegion}
+                    onValueChange={(region) => {
+                        setSelectedRegion(region);
+                    }}
+                >
+                    <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
+                    <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
+                    <Picker.Item label="MW - Midwest" value="MW" />
+                </Picker>
+                <Text style={styles.projectText}>Filter Species</Text>
+                <Input
+                    placeholder={`Enter ${minFilterLength} or more characters`}
+                    onChangeText={(text) => {
+                        setSpeciesFilter(text);
+                    }}
+                    value={speciesFilter}
+                />
+            </View>
+            {/* filtered plant list */}
+            <View style={{ ...styles.subsectionContainer, flex: 1 }}>
                 {filteredList && filteredList.length < 1 && <EmptyItem />}
                 <FlatList data={filteredList} renderItem={renderItem} keyExtractor={(item) => item.id} />
             </View>

@@ -5,6 +5,7 @@ import { ListItem } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { DeviceEventEmitter } from "react-native";
 import { styles } from "../styles";
+import { useState } from "react";
 
 const PlantsList = (props) => {
     const { navigation, stratum, tempDatapoint, setTempDatapoint } = props;
@@ -105,16 +106,33 @@ const PlantsList = (props) => {
                     <ListItem
                         onPress={() => {
                             DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {
-                                console.log("updating plant");
-                                console.log("tempPlant:", tempPlant);
+                                // console.log("tempPlant:", tempPlant);
+
+                                // replace old version of target plant with updated information and calculate cover
+                                let totalCover = 0;
                                 const tempArr = tempDatapoint.vegetation.strata[stratum];
                                 const newStratumArr = tempArr.map((obj) => {
                                     if (obj.id === tempPlant.id) {
+                                        totalCover = tempPlant.cover ? totalCover + tempPlant.cover : totalCover;
                                         return tempPlant;
                                     }
+                                    totalCover = obj.cover ? totalCover + obj.cover : totalCover;
                                     return obj;
                                 });
-                                // console.log("new arr:", newStratumArr);
+                                // console.log("total cover:", totalCover);
+
+                                // sort stratum by descending cover and apply 50-20 rule
+                                let dominantCover = 0;
+                                const sortedStratumArr = [...newStratumArr]
+                                    .sort((a, b) => b.cover - a.cover)
+                                    .map((obj) => {
+                                        if (dominantCover < 50 || obj.cover >= totalCover * 0.2) {
+                                            dominantCover += obj.cover;
+                                            return { ...obj, dominant: true };
+                                        }
+                                        return obj;
+                                    });
+                                // console.log("new stratum arr:", sortedStratumArr);
 
                                 setTempDatapoint({
                                     ...tempDatapoint,
@@ -122,7 +140,7 @@ const PlantsList = (props) => {
                                         ...tempDatapoint.vegetation,
                                         strata: {
                                             ...tempDatapoint.vegetation.strata,
-                                            [stratum]: newStratumArr
+                                            [stratum]: sortedStratumArr
                                         }
                                     }
                                 });
@@ -135,9 +153,10 @@ const PlantsList = (props) => {
                     >
                         <ListItem.Content>
                             <ListItem.Title style={styles.listPrimaryText}>{plant.species}</ListItem.Title>
-                            <ListItem.Subtitle
-                                style={styles.listSecondaryText}
-                            >{`${plant.indicator} - ${plant.cover}% cover`}</ListItem.Subtitle>
+                            <ListItem.Subtitle style={styles.listSecondaryText}>
+                                {`${plant.indicator} - ${plant.cover}% cover`}
+                                {plant.dominant && ` (dominant)`}
+                            </ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
                 </View>

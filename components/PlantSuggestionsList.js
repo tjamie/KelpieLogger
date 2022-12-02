@@ -4,7 +4,7 @@ import { styles } from "../styles";
 
 const PlantSuggestionsList = (props) => {
     const { listData, tempPlant, setTempPlant } = props;
-    console.log("list data:", listData);
+    // console.log("list data:", listData);
     const renderItem = ({ item: plant }) => {
         return (
             <ListItem

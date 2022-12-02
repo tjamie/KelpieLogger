@@ -159,12 +159,7 @@ const EditPlantScreen = ({ route }) => {
                             textStyle={styles.projectText}
                             checkedColor={colors.darkGreen}
                             checked={tempPlant.dominant}
-                            onPress={() => {
-                                setTempPlant({
-                                    ...tempPlant,
-                                    dominant: !tempPlant.dominant
-                                });
-                            }}
+                            // dominance calculated in PlantsList
                         />
                     </View>
                 </View>

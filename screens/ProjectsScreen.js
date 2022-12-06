@@ -154,106 +154,114 @@ const ProjectsScreen = ({ navigation }) => {
                 visible={showNewProjectModal}
                 onRequestClose={() => setShowNewProjectModal(!showNewProjectModal)}
             >
-                <ScrollView style={styles.projectContainer}>
-                    <Text style={styles.projectHeaderText}>New Project Details</Text>
-                    <View>
-                        <Text style={styles.projectText}>Project Name</Text>
-                        <Input
-                            placeholder="Project Name"
-                            // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                            // leftIconContainerStyle={{ paddingRight: 10 }}
-                            onChangeText={(projectName) => setProjectName(projectName)}
-                            value={projectName}
-                        />
+                <ScrollView style={styles.projectContainer} contentContainerStyle={{ flexGrow: 1 }}>
+                    {/* project elements */}
+                    <View style={{ flex: 1 }}>
+                        <Text style={styles.projectHeaderText}>New Project Details</Text>
+                        <View>
+                            <Text style={styles.projectText}>Project Name</Text>
+                            <Input
+                                placeholder="Project Name"
+                                // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                                // leftIconContainerStyle={{ paddingRight: 10 }}
+                                onChangeText={(projectName) => setProjectName(projectName)}
+                                value={projectName}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>Owner/Applicant</Text>
+                            <Input
+                                placeholder="Owner/Applicant"
+                                onChangeText={(projectApplicant) => setProjectApplicant(projectApplicant)}
+                                value={projectApplicant}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>City/County</Text>
+                            <Input
+                                placeholder="City/County"
+                                onChangeText={(projectCounty) => setProjectCounty(projectCounty)}
+                                value={projectCounty}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>State</Text>
+                            <Input
+                                placeholder="State"
+                                onChangeText={(projectState) => setProjectState(projectState)}
+                                value={projectState}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>
+                                Section, Township, Range {"("}optional{")"}
+                            </Text>
+                            <Input
+                                placeholder="Section, Township, Range"
+                                onChangeText={(projectSection) => setProjectSection(projectSection)}
+                                value={projectSection}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>Region</Text>
+                            <Picker
+                                selectedValue={projectRegion}
+                                onValueChange={(region) => {
+                                    setProjectRegion(region);
+                                }}
+                            >
+                                <Picker.Item label="-" value="" />
+                                <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
+                                <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
+                                <Picker.Item label="MW - Midwest" value="MW" />
+                                <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
+                            </Picker>
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>
+                                Subregion {"("}LRR and/or MLRA{")"}
+                            </Text>
+                            <Input
+                                placeholder="Subregion"
+                                onChangeText={(projectSubregion) => setProjectSubregion(projectSubregion)}
+                                value={projectSubregion}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>Datum</Text>
+                            <Input
+                                placeholder="Datum"
+                                onChangeText={(projectDatum) => setProjectDatum(projectDatum)}
+                                value={projectDatum}
+                            />
+                        </View>
                     </View>
-                    <View>
-                        <Text style={styles.projectText}>Owner/Applicant</Text>
-                        <Input
-                            placeholder="Owner/Applicant"
-                            onChangeText={(projectApplicant) => setProjectApplicant(projectApplicant)}
-                            value={projectApplicant}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>City/County</Text>
-                        <Input
-                            placeholder="City/County"
-                            onChangeText={(projectCounty) => setProjectCounty(projectCounty)}
-                            value={projectCounty}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>State</Text>
-                        <Input
-                            placeholder="State"
-                            onChangeText={(projectState) => setProjectState(projectState)}
-                            value={projectState}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>
-                            Section, Township, Range {"("}optional{")"}
-                        </Text>
-                        <Input
-                            placeholder="Section, Township, Range"
-                            onChangeText={(projectSection) => setProjectSection(projectSection)}
-                            value={projectSection}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>Region</Text>
-                        <Picker
-                            selectedValue={projectRegion}
-                            onValueChange={(region) => {
-                                setProjectRegion(region);
-                            }}
-                        >
-                            <Picker.Item label="-" value="" />
-                            <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
-                            <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
-                            <Picker.Item label="MW - Midwest" value="MW" />
-                            <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
-                        </Picker>
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>
-                            Subregion {"("}LRR and/or MLRA{")"}
-                        </Text>
-                        <Input
-                            placeholder="Subregion"
-                            onChangeText={(projectSubregion) => setProjectSubregion(projectSubregion)}
-                            value={projectSubregion}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>Datum</Text>
-                        <Input
-                            placeholder="Datum"
-                            onChangeText={(projectDatum) => setProjectDatum(projectDatum)}
-                            value={projectDatum}
-                        />
-                    </View>
-                    <View>
-                        <Button
-                            title="Submit"
-                            buttonStyle={styles.buttonMain}
-                            titleStyle={styles.buttonMainText}
-                            onPress={() => {
-                                handleSubmit();
-                                resetForm();
-                            }}
-                        />
-                    </View>
-                    <View>
-                        <Button
-                            title="Cancel"
-                            buttonStyle={styles.buttonSecondary}
-                            titleStyle={styles.buttonSecondaryText}
-                            onPress={() => {
-                                setShowNewProjectModal(!showNewProjectModal);
-                                resetForm();
-                            }}
-                        />
+                    {/* save/cancel buttons */}
+                    <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 8 }}>
+                        <View style={{ flexDirection: "row" }}>
+                            <View style={{ flex: 1, paddingRight: 2 }}>
+                                <Button
+                                    title="Submit"
+                                    buttonStyle={styles.buttonMain}
+                                    titleStyle={styles.buttonMainText}
+                                    onPress={() => {
+                                        handleSubmit();
+                                        resetForm();
+                                    }}
+                                />
+                            </View>
+                            <View style={{ flex: 1, paddingLeft: 2 }}>
+                                <Button
+                                    title="Cancel"
+                                    buttonStyle={styles.buttonSecondary}
+                                    titleStyle={styles.buttonSecondaryText}
+                                    onPress={() => {
+                                        setShowNewProjectModal(!showNewProjectModal);
+                                        resetForm();
+                                    }}
+                                />
+                            </View>
+                        </View>
                     </View>
                 </ScrollView>
             </Modal>

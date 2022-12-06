@@ -124,17 +124,21 @@ const SoilsList = (props) => {
                         onPress={() => {
                             DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
                                 const tempArr = tempDatapoint.soil.layers;
+                                // replace old soil layer with new soil layer
                                 const newSoilArr = tempArr.map((obj) => {
                                     if (obj.id === tempSoil.id) {
                                         return tempSoil;
                                     }
                                     return obj;
                                 });
+                                // sort soil layers by start depth
+                                const sortedSoilArr = [...newSoilArr].sort((a, b) => a.depthStart - b.depthStart);
+
                                 setTempDatapoint({
                                     ...tempDatapoint,
                                     soil: {
                                         ...tempDatapoint.soil,
-                                        layers: newSoilArr
+                                        layers: sortedSoilArr
                                     }
                                 });
                             });

@@ -78,107 +78,113 @@ const ProjectInformationScreen = (props) => {
 
         return (
             <Modal transparent={false} visible={showModal} onRequestClose={() => setShowModal(!showModal)}>
-                <ScrollView style={styles.projectContainer}>
-                    <Text style={styles.projectHeaderText}>Project Details</Text>
-                    <View>
-                        <Text style={styles.projectText}>Project Name</Text>
-                        <Input
-                            placeholder="Project Name"
-                            // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                            // leftIconContainerStyle={{ paddingRight: 10 }}
-                            onChangeText={(tempName) => setTempName(tempName)}
-                            value={tempName}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>Owner/Applicant</Text>
-                        <Input
-                            placeholder="Owner/Applicant"
-                            onChangeText={(tempApplicant) => setTempApplicant(tempApplicant)}
-                            value={tempApplicant}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>City/County</Text>
-                        <Input
-                            placeholder="City/County"
-                            onChangeText={(tempCounty) => setTempCounty(tempCounty)}
-                            value={tempCounty}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>State</Text>
-                        <Input
-                            placeholder="State"
-                            onChangeText={(tempState) => setTempState(tempState)}
-                            value={tempState}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>
-                            Section, Township, Range {"("}optional{")"}
-                        </Text>
-                        <Input
-                            placeholder="Section, Township, Range"
-                            onChangeText={(tempSection) => setTempSection(tempSection)}
-                            value={tempSection}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>Region</Text>
-                        <Picker
-                            selectedValue={tempRegion}
-                            onValueChange={(region) => {
-                                setTempRegion(region);
-                            }}
-                        >
-                            <Picker.Item label="-" value="" />
-                            <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
-                            <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
-                            <Picker.Item label="MW - Midwest" value="MW" />
-                            <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
-                        </Picker>
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>
-                            Subregion {"("}LRR and/or MLRA{")"}
-                        </Text>
-                        <Input
-                            placeholder="Subregion"
-                            onChangeText={(tempSubregion) => setTempSubregion(tempSubregion)}
-                            value={tempSubregion}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.projectText}>Datum</Text>
-                        <Input
-                            placeholder="Datum"
-                            onChangeText={(tempDatum) => setTempDatum(tempDatum)}
-                            value={tempDatum}
-                        />
-                    </View>
-                    <View>
+                <ScrollView style={{ ...styles.projectContainer, flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+                    {/* project elements */}
+                    <View style={{ flex: 1 }}>
+                        <Text style={styles.projectHeaderText}>Project Details</Text>
                         <View>
-                            <Button
-                                title="Save Changes"
-                                buttonStyle={styles.buttonMain}
-                                titleStyle={styles.buttonMainText}
-                                onPress={() => {
-                                    handleSubmit();
-                                    // resetForm();
-                                }}
+                            <Text style={styles.projectText}>Project Name</Text>
+                            <Input
+                                placeholder="Project Name"
+                                // leftIcon={{ type: 'font-awesome', name: 'user-o' }}
+                                // leftIconContainerStyle={{ paddingRight: 10 }}
+                                onChangeText={(tempName) => setTempName(tempName)}
+                                value={tempName}
                             />
                         </View>
                         <View>
-                            <Button
-                                title="Cancel"
-                                buttonStyle={styles.buttonSecondary}
-                                titleStyle={styles.buttonSecondaryText}
-                                onPress={() => {
-                                    setShowModal(!showModal);
-                                    // resetForm();
-                                }}
+                            <Text style={styles.projectText}>Owner/Applicant</Text>
+                            <Input
+                                placeholder="Owner/Applicant"
+                                onChangeText={(tempApplicant) => setTempApplicant(tempApplicant)}
+                                value={tempApplicant}
                             />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>City/County</Text>
+                            <Input
+                                placeholder="City/County"
+                                onChangeText={(tempCounty) => setTempCounty(tempCounty)}
+                                value={tempCounty}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>State</Text>
+                            <Input
+                                placeholder="State"
+                                onChangeText={(tempState) => setTempState(tempState)}
+                                value={tempState}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>
+                                Section, Township, Range {"("}optional{")"}
+                            </Text>
+                            <Input
+                                placeholder="Section, Township, Range"
+                                onChangeText={(tempSection) => setTempSection(tempSection)}
+                                value={tempSection}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>Region</Text>
+                            <Picker
+                                selectedValue={tempRegion}
+                                onValueChange={(region) => {
+                                    setTempRegion(region);
+                                }}
+                            >
+                                <Picker.Item label="-" value="" />
+                                <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
+                                <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
+                                <Picker.Item label="MW - Midwest" value="MW" />
+                                <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
+                            </Picker>
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>
+                                Subregion {"("}LRR and/or MLRA{")"}
+                            </Text>
+                            <Input
+                                placeholder="Subregion"
+                                onChangeText={(tempSubregion) => setTempSubregion(tempSubregion)}
+                                value={tempSubregion}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.projectText}>Datum</Text>
+                            <Input
+                                placeholder="Datum"
+                                onChangeText={(tempDatum) => setTempDatum(tempDatum)}
+                                value={tempDatum}
+                            />
+                        </View>
+                    </View>
+                    {/* save/cancel buttons */}
+                    <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 8 }}>
+                        <View style={{ flexDirection: "row" }}>
+                            <View style={{ flex: 1, paddingRight: 2 }}>
+                                <Button
+                                    title="Save Changes"
+                                    buttonStyle={styles.buttonMain}
+                                    titleStyle={styles.buttonMainText}
+                                    onPress={() => {
+                                        handleSubmit();
+                                        // resetForm();
+                                    }}
+                                />
+                            </View>
+                            <View style={{ flex: 1, paddingLeft: 2 }}>
+                                <Button
+                                    title="Cancel"
+                                    buttonStyle={styles.buttonSecondary}
+                                    titleStyle={styles.buttonSecondaryText}
+                                    onPress={() => {
+                                        setShowModal(!showModal);
+                                        // resetForm();
+                                    }}
+                                />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>

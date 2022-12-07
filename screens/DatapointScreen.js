@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Alert, View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { Button, Input, CheckBox } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import { updateDatapoint } from "../reducers/datapointsReducer";
@@ -485,6 +485,38 @@ const DatapointScreen = (props) => {
                             });
                         }}
                     />
+                    {/* vegetation indicators */}
+                    {/* vegetation.rapidTest, vegetation.domTest, vegetation.prevIndex */}
+                    <CheckBox
+                        title="Rapid test"
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
+                        checked={tempDatapoint.vegetation.indicators.rapidTest}
+                    />
+                    <CheckBox
+                        title={
+                            "domWet" in tempDatapoint.vegetation.indicators
+                                ? `Dominance test (${tempDatapoint.vegetation.indicators.domWet}/${tempDatapoint.vegetation.indicators.domTotal})`
+                                : "Dominance test"
+                        }
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
+                        checked={tempDatapoint.vegetation.indicators.domTest}
+                    />
+                    <CheckBox
+                        title={
+                            "prevIndexValue" in tempDatapoint.vegetation.indicators
+                                ? `Prevalence index (${tempDatapoint.vegetation.indicators.prevIndexValue.toFixed(2)})`
+                                : "Prevalence index"
+                        }
+                        textStyle={styles.projectText}
+                        containerStyle={styles.checkBoxContainer}
+                        checkedColor={colors.darkGreen}
+                        checked={tempDatapoint.vegetation.indicators.prevIndex}
+                    />
+
                     {/* Trees */}
                     <View style={collapseTree ? styles.subsectionContainer : styles.subsectionContainerExpanded}>
                         <TouchableOpacity

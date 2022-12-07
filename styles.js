@@ -137,17 +137,18 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: secondaryBackground,
         padding: 2,
-        marginTop: 2,
-        marginBottom: 2
+        marginBottom: -1
+        // marginTop: 2,
+        // marginBottom: 2
     },
     subsectionContainerExpanded: {
         borderWidth: 1,
         borderColor: secondaryBackground,
         backgroundColor: tertiaryBackground,
         padding: 8,
-        paddingLeft: 12,
-        marginTop: 8,
-        marginBottom: 8
+        paddingLeft: 12
+        // marginTop: 8,
+        // marginBottom: 8
     },
     subsectionHeader: {
         paddingTop: 8,

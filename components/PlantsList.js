@@ -50,6 +50,7 @@ const PlantsList = (props) => {
     };
 
     const RenderPlantItem = ({ item: plant }) => {
+        const [vegetation, setVegetation] = useState(tempDatapoint.vegetation);
         return (
             <SwipeRow rightOpenValue={-100}>
                 {/* delete plant */}
@@ -110,7 +111,8 @@ const PlantsList = (props) => {
 
                                 // replace old version of target plant with updated information and calculate cover
                                 let totalCover = 0;
-                                const tempArr = tempDatapoint.vegetation.strata[stratum];
+                                // const tempArr = tempDatapoint.vegetation.strata[stratum];
+                                const tempArr = vegetation.strata[stratum];
                                 const newStratumArr = tempArr.map((obj) => {
                                     if (obj.id === tempPlant.id) {
                                         totalCover = tempPlant.cover ? totalCover + tempPlant.cover : totalCover;
@@ -119,7 +121,7 @@ const PlantsList = (props) => {
                                     totalCover = obj.cover ? totalCover + obj.cover : totalCover;
                                     return obj;
                                 });
-                                // console.log("total cover:", totalCover);
+                                console.log("total cover:", totalCover);
 
                                 // sort stratum by descending cover and apply 50-20 rule
                                 let dominantCover = 0;
@@ -130,19 +132,108 @@ const PlantsList = (props) => {
                                             dominantCover += obj.cover;
                                             return { ...obj, dominant: true };
                                         }
-                                        return obj;
+                                        return { ...obj, dominant: false };
                                     });
-                                // console.log("new stratum arr:", sortedStratumArr);
+                                console.log("new stratum arr:", sortedStratumArr);
 
+                                console.log("setting temp vegetation");
+                                let tempVegetation = {
+                                    ...vegetation,
+                                    strata: {
+                                        ...vegetation.strata,
+                                        [stratum]: sortedStratumArr
+                                    }
+                                };
+                                // console.log("vegetation object:", JSON.stringify(tempVegetation, null, 4));
+
+                                // determine vegetation indicators
+                                const plantsCombined = [
+                                    ...tempVegetation.strata.herb,
+                                    ...tempVegetation.strata.vine,
+                                    ...tempVegetation.strata.saplingShrub,
+                                    ...tempVegetation.strata.tree
+                                ];
+                                if (plantsCombined && plantsCombined.length > 0) {
+                                    let indicators = {
+                                        rapidTest: false,
+                                        domTest: false,
+                                        prevIndex: false,
+                                        domWet: 0,
+                                        domTotal: 0,
+                                        prevIndexValue: 0
+                                    };
+
+                                    let domCount = {
+                                        UPL: 0,
+                                        FACU: 0,
+                                        FAC: 0,
+                                        FACW: 0,
+                                        OBL: 0
+                                    };
+                                    let statusCover = {
+                                        UPL: 0,
+                                        FACU: 0,
+                                        FAC: 0,
+                                        FACW: 0,
+                                        OBL: 0
+                                    };
+
+                                    // counts number of dominant species per stratum and sums total cover per stratum
+                                    // species listings with no recorded indicator status will be ignored
+                                    plantsCombined.forEach((item) => {
+                                        if (item.cover > 0 && item.indicator.toUpperCase() in domCount) {
+                                            if (item.dominant) {
+                                                ++domCount[item.indicator.toUpperCase()];
+                                            }
+                                            statusCover[item.indicator.toUpperCase()] += item.cover;
+                                        }
+                                    });
+
+                                    // check rapid test
+                                    if (
+                                        !domCount.UPL &&
+                                        !domCount.FACU &&
+                                        !domCount.FAC &&
+                                        (domCount.FACW || domCount.OBL)
+                                    ) {
+                                        indicators.rapidTest = true;
+                                    }
+
+                                    // check dominance test
+                                    indicators.domWet = domCount.OBL + domCount.FACW + domCount.FAC;
+                                    indicators.domTotal = indicators.domWet + domCount.FACU + domCount.UPL;
+                                    if (indicators.domWet > domCount.FACU + domCount.UPL) {
+                                        indicators.domTest = true;
+                                    }
+
+                                    // calculate prevalence index - must be <= 3.0 for indicator
+                                    const totalVegetationCover =
+                                        domCount.OBL + domCount.FACW + domCount.FAC + domCount.FACU + domCount.UPL;
+                                    const multipliedCover =
+                                        domCount.OBL +
+                                        domCount.FACW * 2 +
+                                        domCount.FAC * 3 +
+                                        domCount.FACU * 4 +
+                                        domCount.UPL * 5;
+                                    indicators.prevIndexValue = multipliedCover / totalVegetationCover;
+                                    if (indicators.prevIndexValue <= 3) {
+                                        indicators.prevIndex = false;
+                                    }
+
+                                    // update tempVegetation with indicators
+                                    tempVegetation = {
+                                        ...tempVegetation,
+                                        indicators: {
+                                            ...vegetation.indicators,
+                                            ...indicators
+                                        }
+                                    };
+                                }
+
+                                // update datapoint with new vegetation
                                 setTempDatapoint({
                                     ...tempDatapoint,
-                                    vegetation: {
-                                        ...tempDatapoint.vegetation,
-                                        strata: {
-                                            ...tempDatapoint.vegetation.strata,
-                                            [stratum]: sortedStratumArr
-                                        }
-                                    }
+                                    vegetation: tempVegetation
                                 });
                             });
 

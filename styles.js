@@ -3,13 +3,13 @@ import { StyleSheet } from "react-native";
 export const colors = {
     darkGreen: "#345716",
     paleGreen: "#e1f2d3",
-    lightGray: "#efefef"
+    lightGray: "#efefef",
+    offWhite: "#eee"
 };
 
-const primaryBackground = "#eee";
+const primaryBackground = colors.offWhite;
 const secondaryBackground = colors.darkGreen;
 const tertiaryBackground = colors.paleGreen;
-const quaternaryBackground = "#d1e6c1";
 const primaryText = "#080d03";
 const secondaryText = "#555555";
 

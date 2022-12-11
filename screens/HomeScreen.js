@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Text } from "react-native";
 import { styles } from "../styles";
+import Constants from "expo-constants";
 
 const HomeScreen = () => {
     return (
@@ -24,6 +24,9 @@ const HomeScreen = () => {
                 </Text>
             </View>
             <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                <Text style={{ textAlign: "center", fontStyle: "italic", color: "#666" }}>
+                    Version {Constants.manifest.version}
+                </Text>
                 <Text style={{ textAlign: "center", fontStyle: "italic", color: "#666" }}>
                     Please note that this tool is undergoing active development. Do not use this as your only means of
                     storing data.

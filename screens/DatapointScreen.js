@@ -676,7 +676,7 @@ const DatapointScreen = (props) => {
                 </Collapsible>
             </View>
 
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center", marginBottom: 8 }}>
                 <Text style={styles.projectInfoText}>Any changes will be automatically saved.</Text>
             </View>
         </ScrollView>

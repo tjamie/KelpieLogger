@@ -93,7 +93,7 @@ const EditPlantScreen = ({ route }) => {
     }, []);
 
     return (
-        <View style={{ ...styles.projectContainer }}>
+        <View style={styles.projectContainer}>
             {/* species input, suggestions flatlist */}
             <View style={{ flex: 1 }}>
                 <Text style={styles.projectText}>Species</Text>
@@ -120,7 +120,8 @@ const EditPlantScreen = ({ route }) => {
             {/* everything else */}
             {(!speciesInputActive || !keyboardOpen) && (
                 <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                    <View>
+                    {/* reapply background to prevent longer list contents from displaying beneath input */}
+                    <View style={{ backgroundColor: colors.offWhite }}>
                         <Text style={styles.projectText}>Percent Absolute Cover</Text>
                         <Input
                             keyboardType="numeric"
@@ -133,7 +134,7 @@ const EditPlantScreen = ({ route }) => {
                             value={tempPlant.cover ? tempPlant.cover.toString() : ""}
                         />
                     </View>
-                    <View>
+                    <View style={{ backgroundColor: colors.offWhite }}>
                         <Text style={styles.projectText}>Indicator Status</Text>
                         <Picker
                             selectedValue={tempPlant.indicator}

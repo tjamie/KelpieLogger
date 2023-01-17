@@ -124,14 +124,23 @@ const PlantsList = (props) => {
                                 console.log("total cover:", totalCover);
 
                                 // sort stratum by descending cover and apply 50-20 rule
+                                // if two plants of equivalent cover in the same stratum are each under 20% and the
+                                // first breaks the 50% threshold, want to include both
                                 let dominantCover = 0;
+                                let prevDominant = false;
                                 const sortedStratumArr = [...newStratumArr]
                                     .sort((a, b) => b.cover - a.cover)
-                                    .map((obj) => {
-                                        if (dominantCover < 50 || obj.cover >= totalCover * 0.2) {
+                                    .map((obj, idx, arr) => {
+                                        if (
+                                            dominantCover < 50
+                                            || obj.cover >= totalCover * 0.2
+                                            || (idx > 0 && obj.cover === arr[idx-1].cover && prevDominant)
+                                            ) {
                                             dominantCover += obj.cover;
+                                            prevDominant = true;
                                             return { ...obj, dominant: true };
                                         }
+                                        prevDominant = false;
                                         return { ...obj, dominant: false };
                                     });
                                 console.log("new stratum arr:", sortedStratumArr);
@@ -217,7 +226,7 @@ const PlantsList = (props) => {
                                         domCount.UPL * 5;
                                     indicators.prevIndexValue = multipliedCover / totalVegetationCover;
                                     if (indicators.prevIndexValue <= 3) {
-                                        indicators.prevIndex = false;
+                                        indicators.prevIndex = true;
                                     }
 
                                     // update tempVegetation with indicators

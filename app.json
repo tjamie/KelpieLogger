@@ -2,7 +2,7 @@
     "expo": {
         "name": "KelpieLogger",
         "slug": "KelpieLogger",
-        "version": "1.1.0",
+        "version": "1.1.1",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
@@ -24,7 +24,7 @@
                 "backgroundColor": "#e1f2d3"
             },
             "package": "com.tjamie.KelpieLogger",
-            "versionCode": 2
+            "versionCode": 3
         },
         "web": {
             "favicon": "./assets/favicon.png"

@@ -7,6 +7,13 @@ import { filterSpeciesArray } from "../utils/filterSpeciesArray";
 import * as reg_AGCP from "../data/plant_lists/reg_AGCP.json";
 import * as reg_EMP from "../data/plant_lists/reg_EMP.json";
 import * as reg_MW from "../data/plant_lists/reg_MW.json";
+import * as reg_GP from "../data/plant_lists/reg_GP.json";
+import * as reg_NCNE from "../data/plant_lists/reg_NCNE.json";
+import * as reg_AW from "../data/plant_lists/reg_AW.json";
+import * as reg_WMVC from "../data/plant_lists/reg_WMVC.json";
+import * as reg_AK from "../data/plant_lists/reg_AK.json";
+import * as reg_HI from "../data/plant_lists/reg_HI.json";
+import * as reg_CB from "../data/plant_lists/reg_CB.json";
 
 const RegionalPlantListsScreen = () => {
     const [selectedRegion, setSelectedRegion] = useState("AGCP");
@@ -17,7 +24,14 @@ const RegionalPlantListsScreen = () => {
     const regions = {
         AGCP: reg_AGCP.data,
         EMP: reg_EMP.data,
-        MW: reg_MW.data
+        MW: reg_MW.data,
+        GP: reg_GP.data,
+        NCNE: reg_NCNE.data,
+        AW: reg_AW.data,
+        WMVC: reg_WMVC.data,
+        AK: reg_AK.data,
+        HI: reg_HI.data,
+        CB: reg_CB.data
     };
 
     // update rendered items based on user text input
@@ -68,6 +82,13 @@ const RegionalPlantListsScreen = () => {
                     <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
                     <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
                     <Picker.Item label="MW - Midwest" value="MW" />
+                    <Picker.Item label="GP - Great Plains" value = "GP" />
+                    <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
+                    <Picker.Item label="AW - Arid West" value="AW" />
+                    <Picker.Item label="WMVC - Western Mountains, Valleys & Coast" value="WMVC" />
+                    <Picker.Item label="AK - Alaska" value="AK" />
+                    <Picker.Item label="HI - Hawaii" value="HI" />
+                    <Picker.Item label="CB - Caribbean" value="CB" />
                 </Picker>
                 <Text style={styles.projectText}>Filter Species</Text>
                 <Input

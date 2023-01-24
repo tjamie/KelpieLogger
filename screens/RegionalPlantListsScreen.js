@@ -7,6 +7,8 @@ import { filterSpeciesArray } from "../utils/filterSpeciesArray";
 import * as reg_AGCP from "../data/plant_lists/reg_AGCP.json";
 import * as reg_EMP from "../data/plant_lists/reg_EMP.json";
 import * as reg_MW from "../data/plant_lists/reg_MW.json";
+import * as reg_GP from "../data/plant_lists/reg_GP.json";
+import * as reg_NCNE from "../data/plant_lists/reg_NCNE.json";
 
 const RegionalPlantListsScreen = () => {
     const [selectedRegion, setSelectedRegion] = useState("AGCP");
@@ -17,7 +19,9 @@ const RegionalPlantListsScreen = () => {
     const regions = {
         AGCP: reg_AGCP.data,
         EMP: reg_EMP.data,
-        MW: reg_MW.data
+        MW: reg_MW.data,
+        GP: reg_GP.data,
+        NCNE: reg_NCNE.data
     };
 
     // update rendered items based on user text input
@@ -68,6 +72,8 @@ const RegionalPlantListsScreen = () => {
                     <Picker.Item label="AGCP - Atlantic and Gulf Coastal Plain" value="AGCP" />
                     <Picker.Item label="EMP - Eastern Mountains and Piedmont" value="EMP" />
                     <Picker.Item label="MW - Midwest" value="MW" />
+                    <Picker.Item label="GP - Great Plains" value = "GP" />
+                    <Picker.Item label="NCNE - Northcentral and Northeast" value="NCNE" />
                 </Picker>
                 <Text style={styles.projectText}>Filter Species</Text>
                 <Input

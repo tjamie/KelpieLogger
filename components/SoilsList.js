@@ -58,6 +58,21 @@ const SoilsList = (props) => {
         );
     };
 
+    const SoilLabel = (soil) =>{
+        // label for soil hue/value/chroma
+        const soilLayer = soil.soil
+        //console.log(soilLayer)
+        let text = `${soilLayer.matrixColor.hue} ${soilLayer.matrixColor.value}/${soilLayer.matrixColor.chroma} (${soilLayer.matrixPercent}%)`
+        
+        if (soilLayer.redoxColor.hue){
+            text += ` -- ${soilLayer.redoxColor.hue} ${soilLayer.redoxColor.value}/${soilLayer.redoxColor.chroma} (${soilLayer.redoxPercent}%)`
+        }
+        
+        return(
+            text            
+        )
+    }
+
     const RenderSoilItem = ({ item: soilLayer }) => {
         return (
             <SwipeRow rightOpenValue={-100}>
@@ -149,7 +164,8 @@ const SoilsList = (props) => {
                     >
                         <ListItem.Content>
                             <ListItem.Title style={styles.listPrimaryText}>
-                                {soilLayer.matrixColor.hue} {soilLayer.matrixColor.value}/{soilLayer.matrixColor.chroma}{" "}
+                                {/* break up the label to make it easier to change based on redox presence */}
+                                <SoilLabel soil={soilLayer}/>
                             </ListItem.Title>
                             <ListItem.Subtitle
                                 style={styles.listSecondaryText}

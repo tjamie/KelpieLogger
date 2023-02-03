@@ -523,7 +523,7 @@ const DatapointScreen = (props) => {
                             style={styles.subsectionHeader}
                             onPress={() => setCollapseTree(!collapseTree)}
                         >
-                            <Text style={styles.projectText}>Tree Stratum</Text>
+                            <Text style={collapseTree ? styles.projectText : styles.projectTextActive}>Tree Stratum</Text>
                             {collapseTree ? (
                                 <Text style={styles.projectInfoText}>Press here to display tree species.</Text>
                             ) : (
@@ -550,7 +550,7 @@ const DatapointScreen = (props) => {
                             style={styles.subsectionHeader}
                             onPress={() => setCollapseSaplingShrub(!collapseSaplingShrub)}
                         >
-                            <Text style={styles.projectText}>Sapling and Shrub Stratum</Text>
+                            <Text style={collapseSaplingShrub ? styles.projectText : styles.projectTextActive}>Sapling and Shrub Stratum</Text>
                             {collapseSaplingShrub ? (
                                 <Text style={styles.projectInfoText}>
                                     Press here to display sapling and shrub species.
@@ -577,7 +577,7 @@ const DatapointScreen = (props) => {
                             style={styles.subsectionHeader}
                             onPress={() => setCollapseHerb(!collapseHerb)}
                         >
-                            <Text style={styles.projectText}>Herb Stratum</Text>
+                            <Text style={collapseHerb ? styles.projectText : styles.projectTextActive}>Herb Stratum</Text>
                             {collapseHerb ? (
                                 <Text style={styles.projectInfoText}>Press here to display herbaceous species.</Text>
                             ) : (
@@ -602,7 +602,7 @@ const DatapointScreen = (props) => {
                             style={styles.subsectionHeader}
                             onPress={() => setCollapseVine(!collapseVine)}
                         >
-                            <Text style={styles.projectText}>Woody Vine Stratum</Text>
+                            <Text style={collapseVine ? styles.projectText : styles.projectTextActive}>Woody Vine Stratum</Text>
                             {collapseVine ? (
                                 <Text style={styles.projectInfoText}>Press here to display woody vine species.</Text>
                             ) : (

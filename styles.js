@@ -115,6 +115,11 @@ export const styles = StyleSheet.create({
         fontWeight: "normal",
         color: primaryText
     },
+    projectTextActive: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: primaryText
+    },
     sectionContainer: {
         borderWidth: 1,
         borderRadius: 4,
@@ -138,17 +143,15 @@ export const styles = StyleSheet.create({
         borderColor: secondaryBackground,
         padding: 2,
         marginBottom: -1
-        // marginTop: 2,
-        // marginBottom: 2
     },
     subsectionContainerExpanded: {
-        borderWidth: 1,
+        borderTopWidth: 1,
+        borderRightWidth: 8,
+        borderBottomWidth: 1,
         borderColor: secondaryBackground,
-        backgroundColor: tertiaryBackground,
-        padding: 8,
-        paddingLeft: 12
-        // marginTop: 8,
-        // marginBottom: 8
+        borderRightColor: colors.lightGray,
+        padding: 2,
+        marginBottom: -1
     },
     subsectionHeader: {
         paddingTop: 8,

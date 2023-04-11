@@ -54,7 +54,7 @@ const PlantsList = (props) => {
         return (
             <SwipeRow rightOpenValue={-100}>
                 {/* delete plant */}
-                <View style={styles.swipeBackground}>
+                {/* <View style={styles.swipeBackground}> */}
                     <TouchableOpacity
                         style={styles.swipeDelete}
                         onPress={() =>
@@ -101,7 +101,7 @@ const PlantsList = (props) => {
                             Delete
                         </Text>
                     </TouchableOpacity>
-                </View>
+                {/* </View> */}
                 {/* view plant */}
                 <View>
                     <ListItem
@@ -217,13 +217,13 @@ const PlantsList = (props) => {
 
                                     // calculate prevalence index - must be <= 3.0 for indicator
                                     const totalVegetationCover =
-                                        domCount.OBL + domCount.FACW + domCount.FAC + domCount.FACU + domCount.UPL;
+                                        statusCover.OBL + statusCover.FACW + statusCover.FAC + statusCover.FACU + statusCover.UPL;
                                     const multipliedCover =
-                                        domCount.OBL +
-                                        domCount.FACW * 2 +
-                                        domCount.FAC * 3 +
-                                        domCount.FACU * 4 +
-                                        domCount.UPL * 5;
+                                        statusCover.OBL +
+                                        statusCover.FACW * 2 +
+                                        statusCover.FAC * 3 +
+                                        statusCover.FACU * 4 +
+                                        statusCover.UPL * 5;
                                     indicators.prevIndexValue = multipliedCover / totalVegetationCover;
                                     if (indicators.prevIndexValue <= 3) {
                                         indicators.prevIndex = true;

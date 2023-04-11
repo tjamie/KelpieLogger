@@ -132,7 +132,7 @@ const PlantsList = (props) => {
                                     .sort((a, b) => b.cover - a.cover)
                                     .map((obj, idx, arr) => {
                                         if (
-                                            dominantCover < 50
+                                            dominantCover < totalCover * 0.5
                                             || obj.cover >= totalCover * 0.2
                                             || (idx > 0 && obj.cover === arr[idx-1].cover && prevDominant)
                                             ) {

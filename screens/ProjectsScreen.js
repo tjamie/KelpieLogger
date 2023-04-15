@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Text, View, ScrollView, FlatList, Modal, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { ListItem, Input, Button } from "react-native-elements";
+import { Input, Button } from "react-native-elements";
+import { ListItem } from "@rneui/themed";
 import { Picker } from "@react-native-picker/picker";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { dateToUniqueId } from "../utils/dateToUniqueId";
@@ -84,57 +85,51 @@ const ProjectsScreen = ({ navigation }) => {
         );
     };
 
+    const handleDeleteProject = (project) =>{
+        Alert.alert(
+            "Delete Project",
+            `Are you sure you want to delete project ${project.projectName}?`,
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Not deleted"),
+                    style: "cancel"
+                },
+                {
+                    text: "OK",
+                    onPress: () => dispatch(deleteProject(project.id))
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+
     const renderProjectItem = ({ item: project }) => {
         return (
-            <SwipeRow rightOpenValue={-100}>
-                {/* delete project */}
-                <View style={styles.swipeBackground}>
-                    <TouchableOpacity
-                        style={styles.swipeDelete}
-                        onPress={() =>
-                            Alert.alert(
-                                "Delete Project",
-                                `Are you sure you want to delete project ${project.projectName}?`,
-                                [
-                                    {
-                                        text: "Cancel",
-                                        onPress: () => console.log("Not deleted"),
-                                        style: "cancel"
-                                    },
-                                    {
-                                        text: "OK",
-                                        onPress: () => dispatch(deleteProject(project.id))
-                                    }
-                                ],
-                                { cancelable: false }
-                            )
-                        }
-                    >
-                        <Text
-                            style={{ color: "white", fontWeight: "700", textAlign: "center", fontSize: 16, width: 100 }}
-                        >
-                            Delete
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                {/* view project */}
-                <View>
-                    <ListItem
-                        onPress={() => {
-                            console.log("Project pressed: ", project.id);
-                            navigation.navigate("ProjectInformation", { project });
-                        }}
-                        containerStyle={styles.listContainer}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={styles.listPrimaryText}>{project.projectName}</ListItem.Title>
-                            <ListItem.Subtitle style={styles.listSecondaryText}>
-                                {project.projectCounty}, {project.projectState}
-                            </ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
-                </View>
-            </SwipeRow>
+            <View>
+                <ListItem.Swipeable
+                    rightContent={()=>(
+                        <Button
+                            title="Delete"
+                            onPress={()=>{handleDeleteProject(project)}}
+                            icon={{ name: 'trash-2', type:'feather', color: 'white' }}
+                            buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+                        />
+                    )}
+                    onPress={() => {
+                        console.log("Project pressed: ", project.id);
+                        navigation.navigate("ProjectInformation", { project });
+                    }}
+                    containerStyle={styles.listContainer}
+                >
+                    <ListItem.Content>
+                        <ListItem.Title style={styles.listPrimaryText}>{project.projectName}</ListItem.Title>
+                        <ListItem.Subtitle style={styles.listSecondaryText}>
+                            {project.projectCounty}, {project.projectState}
+                        </ListItem.Subtitle>
+                    </ListItem.Content>
+                </ListItem.Swipeable>
+            </View>
         );
     };
 

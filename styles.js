@@ -167,18 +167,5 @@ export const styles = StyleSheet.create({
         backgroundColor: primaryBackground,
         borderColor: secondaryBackground,
         borderBottomWidth: 1
-    },
-    swipeBackground: {
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        flex: 1,
-        backgroundColor: tertiaryBackground
-    },
-    swipeDelete: {
-        backgroundColor: "red",
-        height: "100%",
-        justifyContent: "center",
-        margin: 4
     }
 });

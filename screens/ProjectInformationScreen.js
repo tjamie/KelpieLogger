@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ListItem, Button, Input, Divider } from "react-native-elements";
+import { Button, Input, Divider } from "react-native-elements";
+import { ListItem } from "@rneui/themed";
 import { ScrollView, View, Text, Modal, Alert } from "react-native";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { Picker } from "@react-native-picker/picker";
@@ -282,55 +283,49 @@ const ProjectInformationScreen = (props) => {
         dispatch(addDatapoint(newDatapoint));
     };
 
+    const handleDeleteDatapoint = (datapoint) =>{
+        Alert.alert(
+            "Delete Datapoint",
+            `Are you sure you want to delete datapoint ${datapoint.name}?`,
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Not deleted"),
+                    style: "cancel"
+                },
+                {
+                    text: "OK",
+                    onPress: () => dispatch(deleteDatapoint(datapoint.id))
+                }
+            ],
+            { cancelable: false }
+        )
+    }
+
     const renderDatapointItem = ({ item: datapoint }) => {
         return (
-            <SwipeRow rightOpenValue={-100}>
-                {/* delete datapoint */}
-                <View style={styles.swipeBackground}>
-                    <TouchableOpacity
-                        style={styles.swipeDelete}
-                        onPress={() =>
-                            Alert.alert(
-                                "Delete Datapoint",
-                                `Are you sure you want to delete datapoint ${datapoint.name}?`,
-                                [
-                                    {
-                                        text: "Cancel",
-                                        onPress: () => console.log("Not deleted"),
-                                        style: "cancel"
-                                    },
-                                    {
-                                        text: "OK",
-                                        onPress: () => dispatch(deleteDatapoint(datapoint.id))
-                                    }
-                                ],
-                                { cancelable: false }
-                            )
-                        }
-                    >
-                        <Text
-                            style={{ color: "white", fontWeight: "700", textAlign: "center", fontSize: 16, width: 100 }}
-                        >
-                            Delete
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                {/* view datapoint */}
-                <View>
-                    <ListItem
-                        onPress={() => {
-                            console.log("Datapoint pressed: ", datapoint.id);
-                            navigation.navigate("EditDatapoint", { datapoint });
-                        }}
-                        containerStyle={styles.listContainer}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={styles.listPrimaryText}>{datapoint.name}</ListItem.Title>
-                            <ListItem.Subtitle style={styles.listSecondaryText}>{datapoint.NWI}</ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
-                </View>
-            </SwipeRow>
+            <View>
+                <ListItem.Swipeable
+                    rightContent={()=>(
+                        <Button
+                            title="Delete"
+                            onPress={()=>{handleDeleteDatapoint(datapoint)}}
+                            icon={{ name: 'trash-2', type:'feather', color: 'white' }}
+                            buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+                        />
+                    )}
+                    onPress={() => {
+                        console.log("Datapoint pressed: ", datapoint.id);
+                        navigation.navigate("EditDatapoint", { datapoint });
+                    }}
+                    containerStyle={styles.listContainer}
+                >
+                    <ListItem.Content>
+                        <ListItem.Title style={styles.listPrimaryText}>{datapoint.name}</ListItem.Title>
+                        <ListItem.Subtitle style={styles.listSecondaryText}>{datapoint.NWI}</ListItem.Subtitle>
+                    </ListItem.Content>
+                </ListItem.Swipeable>
+            </View>
         );
     };
 

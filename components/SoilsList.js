@@ -1,9 +1,11 @@
 import { dateToUniqueId } from "../utils/dateToUniqueId";
 import { SwipeRow } from "react-native-swipe-list-view";
-import { Text, View, Alert } from "react-native";
-import { ListItem } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { DeviceEventEmitter } from "react-native";
+import { Text, View, Alert, TouchableOpacity, DeviceEventEmitter } from "react-native";
+import { Button } from "react-native-elements";
+import { ListItem } from "@rneui/themed";
+// import { TouchableOpacity } from "react-native-gesture-handler";
+// import { TouchableOpacity } from "react-native";
+// import { DeviceEventEmitter } from "react-native";
 import { styles } from "../styles";
 
 const SoilsList = (props) => {
@@ -37,6 +39,35 @@ const SoilsList = (props) => {
                 layers: [...tempDatapoint.soil.layers, newSoil]
             }
         });
+    };
+
+    const deleteSoil = (soilLayer) =>{
+        Alert.alert(
+            "Delete Soil Layer",
+            `Are you sure you want to delete item for ${soilLayer.matrixColor.hue} ${soilLayer.matrixColor.value}/${soilLayer.matrixColor.chroma}?`,
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Not deleted"),
+                    style: "cancel"
+                },
+                {
+                    text: "OK",
+                    onPress: () => {
+                        console.log("DELETE OK PRESSED");
+                        const soilArr = tempDatapoint.soil.layers;
+                        setTempDatapoint({
+                            ...tempDatapoint,
+                            soil: {
+                                ...tempDatapoint.soil,
+                                layers: soilArr.filter((entry) => entry.id != soilLayer.id)
+                            }
+                        });
+                    }
+                }
+            ],
+            { cancelable: false }
+        )
     };
 
     const NewSoilItem = () => {
@@ -74,107 +105,55 @@ const SoilsList = (props) => {
     }
 
     const RenderSoilItem = ({ item: soilLayer }) => {
-        return (
-            <SwipeRow rightOpenValue={-100}>
-                {/* delete soil */}
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        flex: 1
-                    }}
-                >
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: "red",
-                            height: "100%",
-                            justifyContent: "center"
-                        }}
-                        onPress={() =>
-                            Alert.alert(
-                                "Delete Soil Layer",
-                                `Are you sure you want to delete item for ${soilLayer.matrixColor}?`,
-                                [
-                                    {
-                                        text: "Cancel",
-                                        onPress: () => console.log("Not deleted"),
-                                        style: "cancel"
-                                    },
-                                    {
-                                        text: "OK",
-                                        onPress: () => {
-                                            console.log("DELETE OK PRESSED");
-                                            const soilArr = tempDatapoint.soil.layers;
-                                            setTempDatapoint({
-                                                ...tempDatapoint,
-                                                soil: {
-                                                    ...tempDatapoint.soil,
-                                                    layers: soilArr.filter((entry) => entry.id != soilLayer.id)
-                                                }
-                                            });
-                                        }
-                                    }
-                                ],
-                                { cancelable: false }
-                            )
-                        }
-                    >
-                        <Text
-                            style={{
-                                color: "white",
-                                fontWeight: "700",
-                                textAlign: "center",
-                                fontSize: 16,
-                                width: 100
-                            }}
-                        >
-                            Delete
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                {/* view soil */}
-                <View>
-                    <ListItem
-                        onPress={() => {
-                            DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
-                                const tempArr = tempDatapoint.soil.layers;
-                                // replace old soil layer with new soil layer
-                                const newSoilArr = tempArr.map((obj) => {
-                                    if (obj.id === tempSoil.id) {
-                                        return tempSoil;
-                                    }
-                                    return obj;
-                                });
-                                // sort soil layers by start depth
-                                const sortedSoilArr = [...newSoilArr].sort((a, b) => a.depthStart - b.depthStart);
-
-                                setTempDatapoint({
-                                    ...tempDatapoint,
-                                    soil: {
-                                        ...tempDatapoint.soil,
-                                        layers: sortedSoilArr
-                                    }
-                                });
+        return(
+            <View>
+                <ListItem.Swipeable
+                    rightContent={()=>(
+                        <Button
+                            title="Delete"
+                            onPress={()=>{deleteSoil(soilLayer)}}
+                            icon={{ name: 'trash-2', type:'feather', color: 'white' }}
+                            buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+                        />
+                    )}
+                    onPress={() => {
+                        DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
+                            const tempArr = tempDatapoint.soil.layers;
+                            // replace old soil layer with new soil layer
+                            const newSoilArr = tempArr.map((obj) => {
+                                if (obj.id === tempSoil.id) {
+                                    return tempSoil;
+                                }
+                                return obj;
                             });
-                            // console.log("Target soil: ", soilLayer);
-                            navigation.navigate("EditSoil", { soilLayer, tempDatapoint });
-                        }}
-                        containerStyle={styles.subsectionListContainer}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={styles.listPrimaryText}>
-                                {/* break up the label to make it easier to change based on redox presence */}
-                                <SoilLabel soil={soilLayer}/>
-                            </ListItem.Title>
-                            <ListItem.Subtitle
-                                style={styles.listSecondaryText}
-                            >{`${soilLayer.depthStart}" - ${soilLayer.depthEnd}"`}</ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
-                </View>
-            </SwipeRow>
-        );
+                            // sort soil layers by start depth
+                            const sortedSoilArr = [...newSoilArr].sort((a, b) => a.depthStart - b.depthStart);
+
+                            setTempDatapoint({
+                                ...tempDatapoint,
+                                soil: {
+                                    ...tempDatapoint.soil,
+                                    layers: sortedSoilArr
+                                }
+                            });
+                        });
+                        // console.log("Target soil: ", soilLayer);
+                        navigation.navigate("EditSoil", { soilLayer, tempDatapoint });
+                    }}
+                    containerStyle={styles.subsectionListContainer}
+                >
+                    <ListItem.Content>
+                        <ListItem.Title style={styles.listPrimaryText}>
+                            {/* break up the label to make it easier to change based on redox presence */}
+                            <SoilLabel soil={soilLayer}/>
+                        </ListItem.Title>
+                        <ListItem.Subtitle
+                            style={styles.listSecondaryText}
+                        >{`${soilLayer.depthStart}" - ${soilLayer.depthEnd}"`}</ListItem.Subtitle>
+                    </ListItem.Content>
+                </ListItem.Swipeable>
+            </View>
+        )
     };
 
     return (

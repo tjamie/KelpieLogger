@@ -20,8 +20,9 @@ const EditPlantScreen = ({ route }) => {
     const [speciesInputActive, setSpeciesInputActive] = useState(false);
 
     // Get parent project and associated region
-    const projectsState = useSelector((state) => state.projects.projectsArray);
-    const activeProject = getProjectById(projectsState, tempDatapoint.projectId).payload[0];
+    const activeProject = useSelector(getProjectById(tempDatapoint.projectId));
+    // console.log('Attemping project id: ', tempDatapoint.projectId);
+    // console.log('Active project id: ', activeProject.id);
     const region = activeProject.projectRegion;
 
     const regions = {
@@ -75,6 +76,7 @@ const EditPlantScreen = ({ route }) => {
         if (tempPlant.species.length > 3) {
             const tempReducerArr = plantSpeciesReducer(regions[region], tempPlant.species);
             // console.log("reducer out:", tempReducerArr);
+            console.log('Current region: ', region)
             setAutocompleteData(tempReducerArr);
         } else {
             setAutocompleteData([]);

@@ -315,7 +315,7 @@ const ProjectInformationScreen = (props) => {
                         />
                     )}
                     onPress={() => {
-                        console.log("Datapoint pressed: ", datapoint.id);
+                        console.log("Datapoint pressed: ", datapoint.id, "Parent project id: ", datapoint.projectId);
                         navigation.navigate("EditDatapoint", { datapoint });
                     }}
                     containerStyle={styles.listContainer}
@@ -365,7 +365,10 @@ const ProjectInformationScreen = (props) => {
             </View> */}
             <Button
                 title="Edit Project"
-                onPress={() => setShowProjectEditModal(true)}
+                onPress={() =>{
+                    // console.log('Current datapoint:', JSON.stringify(project));
+                    setShowProjectEditModal(true);
+                }}
                 buttonStyle={styles.buttonMain}
                 titleStyle={styles.buttonMainText}
                 type="outline"

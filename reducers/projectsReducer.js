@@ -70,5 +70,6 @@ const projectsSlice = createSlice({
 export const projectsReducer = projectsSlice.reducer;
 export const { addProject, updateProject, deleteProject} = projectsSlice.actions;
 export const getProjectById = (id) => (state) =>{
-    return state.projects.projectsArray.find((project) => project.id === parseInt(id));
+    //return state.projects.projectsArray.find((project) => project.id === parseInt(id));
+    return state.projects.projectsArray.find((project) => project.id === id);
 }

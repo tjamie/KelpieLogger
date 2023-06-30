@@ -1,4 +1,4 @@
-import { dateToUniqueId } from "../utils/dateToUniqueId";
+import { createUniqueId } from "../utils/createUniqueId";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { Text, View, Alert, TouchableOpacity, DeviceEventEmitter } from "react-native";
 import { Button } from "react-native-elements";
@@ -12,7 +12,7 @@ const SoilsList = (props) => {
     const { navigation, tempDatapoint, setTempDatapoint } = props;
     const handleNewSoil = () => {
         const newSoil = {
-            id: dateToUniqueId(),
+            id: createUniqueId(),
             depthStart: 0,
             depthEnd: 0,
             matrixColor: {

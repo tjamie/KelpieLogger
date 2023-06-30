@@ -23,7 +23,9 @@ const EditPlantScreen = ({ route }) => {
     const activeProject = useSelector(getProjectById(tempDatapoint.projectId));
     // console.log('Attemping project id: ', tempDatapoint.projectId);
     // console.log('Active project id: ', activeProject.id);
-    const region = activeProject.projectRegion;
+
+    // default to AGCP if no region is set
+    const region = activeProject.projectRegion ? activeProject.projectRegion : 'AGCP';
 
     const regions = {
         AGCP: reg_AGCP.data,

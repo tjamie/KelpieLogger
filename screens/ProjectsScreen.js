@@ -5,7 +5,7 @@ import { Input, Button } from "react-native-elements";
 import { ListItem } from "@rneui/themed";
 import { Picker } from "@react-native-picker/picker";
 import { SwipeRow } from "react-native-swipe-list-view";
-import { dateToUniqueId } from "../utils/dateToUniqueId";
+import { createUniqueId } from "../utils/createUniqueId";
 import Loading from "../components/LoadingComponent";
 import { addProject, deleteProject } from "../reducers/projectsReducer";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -37,7 +37,7 @@ const ProjectsScreen = ({ navigation }) => {
             projectRegion,
             projectSubregion,
             projectDatum,
-            id: dateToUniqueId(),
+            id: createUniqueId(),
             updatedDate: Date.now()
         };
         console.log("New project: ", newProject);

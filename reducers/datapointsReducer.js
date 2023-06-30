@@ -26,6 +26,6 @@ const datapointsSlice = createSlice({
 export const datapointsReducer = datapointsSlice.reducer;
 export const { addDatapoint, updateDatapoint, deleteDatapoint } = datapointsSlice.actions;
 export const selectDatapointsByProjectId = (projectId) => (state) => {
-    // console.log('selecting by id ', projectId)
-    return state.datapoints.datapointsArray.filter((datapoint) => datapoint.projectId === parseInt(projectId));
+    //return state.datapoints.datapointsArray.filter((datapoint) => datapoint.projectId === parseInt(projectId));
+    return state.datapoints.datapointsArray.filter((datapoint) => datapoint.projectId === projectId);
 };

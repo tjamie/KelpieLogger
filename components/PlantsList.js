@@ -1,4 +1,4 @@
-import { dateToUniqueId } from "../utils/dateToUniqueId";
+import { createUniqueId } from "../utils/createUniqueId";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { Text, View, Alert, DeviceEventEmitter } from "react-native";
 import { Button } from "react-native-elements";
@@ -12,7 +12,7 @@ const PlantsList = (props) => {
 
     const handleNewPlant = () => {
         const newPlant = {
-            id: dateToUniqueId(),
+            id: createUniqueId(),
             species: "New Plant",
             cover: 0,
             dominant: false,

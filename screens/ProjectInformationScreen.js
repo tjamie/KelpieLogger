@@ -11,7 +11,7 @@ import { selectDatapointsByProjectId } from "../reducers/datapointsReducer";
 import { FlatList } from "react-native-gesture-handler";
 import DateComponent from "../components/DateComponent";
 import { TouchableOpacity } from "react-native";
-import { dateToUniqueId } from "../utils/dateToUniqueId";
+import { createUniqueId } from "../utils/createUniqueId";
 import { styles } from "../styles";
 
 const ProjectInformationScreen = (props) => {
@@ -215,7 +215,7 @@ const ProjectInformationScreen = (props) => {
     const handleNewDatapoint = () => {
         // const dispatch = useDispatch();
         const newDatapoint = {
-            id: dateToUniqueId(),
+            id: createUniqueId(),
             projectId: project.id,
             name: "New Datapoint",
             date: Date.now(),

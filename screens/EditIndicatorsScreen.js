@@ -12,8 +12,7 @@ const EditIndicatorsScreen = ({ route }) => {
     const { medium, indicatorType, tempDatapoint } = route.params;
     const [tempIndicators, setTempIndicators] = useState(tempDatapoint[medium][indicatorType]);
 
-    const projectsState = useSelector((state) => state.projects.projectsArray);
-    const activeProject = getProjectById(projectsState, tempDatapoint.projectId).payload[0];
+    const activeProject = useSelector(getProjectById(tempDatapoint.projectId));
     console.log(activeProject);
     const region = activeProject.projectRegion;
 

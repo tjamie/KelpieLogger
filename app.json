@@ -1,38 +1,50 @@
 {
-    "expo": {
-        "name": "KelpieLogger",
-        "slug": "KelpieLogger",
-        "version": "1.1.6",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "light",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "cover",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#e1f2d3"
-            },
-            "package": "com.tjamie.KelpieLogger",
-            "versionCode": 8
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "extra": {
-            "eas": {
-                "projectId": "ba609071-c6b3-4a71-b999-5fec662a325f"
-            }
+  "expo": {
+    "name": "KelpieLogger",
+    "slug": "KelpieLogger",
+    "version": "1.1.6",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#e1f2d3"
+      },
+      "package": "com.tjamie.KelpieLogger",
+      "versionCode": 8
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ba609071-c6b3-4a71-b999-5fec662a325f"
+      }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesClearTextTraffic": true
+          }
         }
-    }
+      ]
+    ]
+  }
 }

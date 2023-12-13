@@ -22,21 +22,17 @@ const settingsSlice = createSlice({
         deleteUser: (state, action) => {
             delete state.settingsObject.user;
         },
-        // addDatapoint: (state, action) => {
-        //     state.datapointsArray.push(action.payload);
-        // },
-        // updateDatapoint: (state, action) => {
-        //     const idx = state.datapointsArray.findIndex((element) => element.id === action.payload.id);
-        //     state.datapointsArray[idx] = action.payload;
-        // },
-        // deleteDatapoint: (state, action) => {
-        //     state.datapointsArray = state.datapointsArray.filter((element) => element.id != action.payload);
-        // }
+        addServer: (state, action) => {
+            state.settingsObject.server = action.payload;
+        },
+        deleteServer: (state, action) => {
+            delete state.settingsObject.server;
+        }
     }
 });
 
 export const settingsReducer = settingsSlice.reducer;
-export const {addToken, deleteToken, addUser, deleteUser} = settingsSlice.actions;
+export const {addToken, deleteToken, addUser, deleteUser, addServer, deleteServer} = settingsSlice.actions;
 // export const { addDatapoint, updateDatapoint, deleteDatapoint } = settingsSlice.actions;
 // export const selectDatapointsByProjectId = (projectId) => (state) => {
 //     //return state.datapoints.datapointsArray.filter((datapoint) => datapoint.projectId === parseInt(projectId));

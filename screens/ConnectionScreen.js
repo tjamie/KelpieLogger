@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { View, ScrollView, Text, Modal, Alert, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, ListItem } from "react-native-elements";
-import { addToken, addUser, deleteToken } from "../reducers/settingsReducer";
+import { addToken, deleteToken, addUser, deleteUser, addServer, deleteServer } from "../reducers/settingsReducer";
 import RegistrationModal from "../components/modals/RegistrationModal";
 import { styles } from "../styles";
 
 const ConnectionScreen = () => {
 
-    const [signedIn, setSignedIn] = useState(false);
+    // const [signedIn, setSignedIn] = useState(false);
     const [address, setAddress] = useState("");
     const [port, setPort] = useState("");
     const [username, setUsername] = useState("");
@@ -28,7 +28,6 @@ const ConnectionScreen = () => {
             ? "http://" + addressInput + ":" + portInput
             : "http://" + addressInput;
         
-        // console.log(`port length: ${port.length}`)
         console.log(`Address: ${addressInput}`);
         console.log(`Port: ${portInput}`);
         console.log(`Constructed URL: ${url}`);
@@ -123,7 +122,9 @@ const ConnectionScreen = () => {
                 // console.log(responseText);
                 dispatch(addToken(responseToken));
                 dispatch(addUser(username));
+                dispatch(addServer(serverUrl));
                 console.log(settings);
+                // console.log(settings.settingsObject);
             } else {
                 alert("HTTP error: " + response.status);
             }
@@ -134,84 +135,131 @@ const ConnectionScreen = () => {
 
     };
 
+    const logout = () => {
+        try {
+            dispatch(deleteToken());
+            dispatch(deleteServer());
+            dispatch(deleteUser());
+            // console.log(`Deleted token/server/user info from store. Settings:\n${settings}`)
+        }
+        catch(error) {
+            console.error(error);
+        }
+    }
+
     return(
         <View style={styles.projectContainer}>
-            <RegistrationModal
-                showRegistrationModal = {showRegistrationModal}
-                setShowRegistrationModal = {setShowRegistrationModal}
-                tempAddress = {tempAddress}
-                setTempAddress = {setTempAddress}
-                tempPort = {tempPort}
-                setTempPort = {setTempPort}
-                tempUsername = {tempUsername}
-                setTempUsername = {setTempUsername}
-                tempPassword = {tempPassword}
-                setTempPassword = {setTempPassword}
-                tempConfirmPassword = {tempConfirmPassword}
-                setTempConfirmPassword = {setTempConfirmPassword}
-                handleRegistrationSubmit = {handleRegistrationSubmit}
-            />
-            {/* Server info */}
-            <Text style={styles.projectHeaderText}>Server</Text>
-            <View style={{flexDirection: "row"}}>
-                {/* Host Address */}
-                <View style={{flex: 3}}>
-                    <Text style={styles.projectText}>Address</Text>
-                    <Input
-                        value = {address}
-                        onChangeText={(text) => {setAddress(text)}}
-                        placeholder="127.0.0.1"
-                    />
+            {/* signin/registration container -- render when token is not present */}
+            {!settings.settingsObject.token &&
+            <View>
+                <RegistrationModal
+                    showRegistrationModal = {showRegistrationModal}
+                    setShowRegistrationModal = {setShowRegistrationModal}
+                    tempAddress = {tempAddress}
+                    setTempAddress = {setTempAddress}
+                    tempPort = {tempPort}
+                    setTempPort = {setTempPort}
+                    tempUsername = {tempUsername}
+                    setTempUsername = {setTempUsername}
+                    tempPassword = {tempPassword}
+                    setTempPassword = {setTempPassword}
+                    tempConfirmPassword = {tempConfirmPassword}
+                    setTempConfirmPassword = {setTempConfirmPassword}
+                    handleRegistrationSubmit = {handleRegistrationSubmit}
+                />
+                {/* login/server info -- show only if user logged in/token present */}
+                {/* Server info */}
+                <Text style={styles.projectHeaderText}>Server Configuration</Text>
+                <View style={{flexDirection: "row"}}>
+                    {/* Host Address */}
+                    <View style={{flex: 3}}>
+                        <Text style={styles.projectText}>Address</Text>
+                        <Input
+                            value = {address}
+                            onChangeText={(text) => {setAddress(text)}}
+                            placeholder="127.0.0.1"
+                        />
+                    </View>
+
+                    {/* Host Port */}
+                    <View style={{flex: 1}}>
+                        <Text style={styles.projectText}>Port</Text>
+                        <Input
+                            value = {port}
+                            onChangeText={(text) => {setPort(text)}}
+                            placeholder="443"
+                        />
+                    </View>
                 </View>
 
-                {/* Host Port */}
-                <View style={{flex: 1}}>
-                    <Text style={styles.projectText}>Port</Text>
-                    <Input
-                        value = {port}
-                        onChangeText={(text) => {setPort(text)}}
-                        placeholder="443"
-                    />
-                </View>
+                {/* Account section - username, password, etc */}
+                <Text style={styles.projectHeaderText}>Account</Text>
+                <Text style={styles.projectText}>Username</Text>
+                <Input
+                    value = {username}
+                    onChangeText={(text) => {setUsername(text)}}
+                    placeholder="llama"
+                />
+                <Text style={styles.projectText}>Password</Text>
+                <Input
+                    onChangeText={(text) => {setPassword(text)}}
+                    placeholder="Password"
+                    secureTextEntry={true}
+                />
+
+                {/* buttons etc */}
+                <Button
+                    title='Sign In'
+                    onPress={() => {
+                        console.log("Sign in pressed");
+                        login();
+                    }}
+                    buttonStyle={styles.buttonMain}
+                    titleStyle={styles.buttonMainText}
+                />
+                
+                <Button
+                    title='Register'
+                    onPress={() => {
+                        console.log("Register pressed");
+                        initializeRegistrationModal();
+                        setShowRegistrationModal(true);
+                        //setmodalvis etc
+                    }}
+                    buttonStyle={styles.buttonMain}
+                    titleStyle={styles.buttonMainText}
+                />
             </View>
+            }
 
-            {/* Account section - username, password, etc */}
-            <Text style={styles.projectHeaderText}>Account</Text>
-            <Text style={styles.projectText}>Username</Text>
-            <Input
-                value = {username}
-                onChangeText={(text) => {setUsername(text)}}
-                placeholder="llama"
-            />
-            <Text style={styles.projectText}>Password</Text>
-            <Input
-                onChangeText={(text) => {setPassword(text)}}
-                placeholder="Password"
-                secureTextEntry={true}
-            />
+            {/* active user etc container -- render when token is present */}
+            {settings.settingsObject.token &&
+            <View>
+                <Text style={styles.projectHeaderText}>Account</Text>
+                <Text style={styles.projectText}>Username: {settings.settingsObject.user}</Text>
+                <Text style={styles.projectText}>Server: {String(settings.settingsObject.server)}</Text>
 
-            {/* buttons etc */}
-            <Button
-                title='Sign In'
-                onPress={() => {
-                    console.log("Sign in pressed");
-                    login();
-                }}
-                buttonStyle={styles.buttonMain}
-                titleStyle={styles.buttonMainText}
-            />
-            
-            <Button
-                title='Register'
-                onPress={() => {
-                    console.log("Register pressed");
-                    initializeRegistrationModal();
-                    setShowRegistrationModal(true);
-                    //setmodalvis etc
-                }}
-                buttonStyle={styles.buttonMain}
-                titleStyle={styles.buttonMainText}
-            />
+                <Button
+                    title='Edit Account'
+                    onPress={() => {
+                        console.log("Edit account button pressed");
+                        // fetch account info from server when implementing this bit
+                    }}
+                    buttonStyle={styles.buttonMain}
+                    titleStyle={styles.buttonMainText}
+                />
+
+                <Button
+                    title='Sign Out'
+                    onPress={() => {
+                        console.log("Sign out pressed");
+                        logout();
+                    }}
+                    buttonStyle={styles.buttonMain}
+                    titleStyle={styles.buttonMainText}
+                />
+            </View>
+            }
         </View>
     )
 }

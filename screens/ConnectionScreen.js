@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, ListItem } from "react-native-elements";
 import { addToken, deleteToken, addUser, deleteUser, addServer, deleteServer } from "../reducers/settingsReducer";
 import RegistrationModal from "../components/modals/RegistrationModal";
+import AccountEditModal from "../components/modals/AccountEditModal";
 import { styles } from "../styles";
 
 const ConnectionScreen = () => {
@@ -19,6 +20,7 @@ const ConnectionScreen = () => {
     const [tempPassword, setTempPassword] = useState("");
     const [tempConfirmPassword, setTempConfirmPassword] = useState("");
     const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+    const [showAccountEditModal, setShowAccountEditModal] = useState(false);
     const settings = useSelector((state) => state.settings);
     const dispatch = useDispatch();
 
@@ -152,6 +154,7 @@ const ConnectionScreen = () => {
             {/* signin/registration container -- render when token is not present */}
             {!settings.settingsObject.token &&
             <View>
+                {/* modals */}
                 <RegistrationModal
                     showRegistrationModal = {showRegistrationModal}
                     setShowRegistrationModal = {setShowRegistrationModal}
@@ -167,7 +170,6 @@ const ConnectionScreen = () => {
                     setTempConfirmPassword = {setTempConfirmPassword}
                     handleRegistrationSubmit = {handleRegistrationSubmit}
                 />
-                {/* login/server info -- show only if user logged in/token present */}
                 {/* Server info */}
                 <Text style={styles.projectHeaderText}>Server Configuration</Text>
                 <View style={{flexDirection: "row"}}>
@@ -235,15 +237,23 @@ const ConnectionScreen = () => {
             {/* active user etc container -- render when token is present */}
             {settings.settingsObject.token &&
             <View>
+                {/* modals */}
+                <AccountEditModal
+                    showAccountEditModal = {showAccountEditModal}
+                    setShowAccountEditModal = {setShowAccountEditModal}
+                    settings = {settings}
+                    logout = {logout}
+                />
+                {/* info display */}
                 <Text style={styles.projectHeaderText}>Account</Text>
                 <Text style={styles.projectText}>Username: {settings.settingsObject.user}</Text>
                 <Text style={styles.projectText}>Server: {String(settings.settingsObject.server)}</Text>
-
+                {/* buttons */}
                 <Button
                     title='Edit Account'
                     onPress={() => {
                         console.log("Edit account button pressed");
-                        // fetch account info from server when implementing this bit
+                        setShowAccountEditModal(!showAccountEditModal);
                     }}
                     buttonStyle={styles.buttonMain}
                     titleStyle={styles.buttonMainText}

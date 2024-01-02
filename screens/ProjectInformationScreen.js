@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Input, Divider } from "react-native-elements";
 import { ListItem } from "@rneui/themed";
-import { ScrollView, View, Text, Modal, Alert } from "react-native";
-import { SwipeRow } from "react-native-swipe-list-view";
+import { ScrollView, View, Text, Modal, Alert, TouchableOpacity } from "react-native";
+import Collapsible from "react-native-collapsible";
 import { Picker } from "@react-native-picker/picker";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProject } from "../reducers/projectsReducer";
@@ -10,7 +10,6 @@ import { addDatapoint, deleteDatapoint } from "../reducers/datapointsReducer";
 import { selectDatapointsByProjectId } from "../reducers/datapointsReducer";
 import { FlatList } from "react-native-gesture-handler";
 import DateComponent from "../components/DateComponent";
-import { TouchableOpacity } from "react-native";
 import { createUniqueId } from "../utils/createUniqueId";
 import { styles } from "../styles";
 
@@ -19,6 +18,7 @@ const ProjectInformationScreen = (props) => {
 
     const { project } = route.params;
     const [showProjectEditModal, setShowProjectEditModal] = useState(false);
+    const [collapseProjectInfo, setCollapseProjectInfo] = useState(true);
 
     const [projectName, setProjectName] = useState(project.projectName);
     const [projectApplicant, setProjectApplicant] = useState(project.projectApplicant);
@@ -363,46 +363,65 @@ const ProjectInformationScreen = (props) => {
                 <Text style={{ flex: 1 }}>Project Information</Text>
                 <Button title="Edit Project" style={{ flex: 1 }} onPress={() => setShowProjectEditModal(true)} />
             </View> */}
-            <Button
-                title="Edit Project"
-                onPress={() =>{
-                    // console.log('Current datapoint:', JSON.stringify(project));
-                    setShowProjectEditModal(true);
-                }}
-                buttonStyle={styles.buttonMain}
-                titleStyle={styles.buttonMainText}
-                type="outline"
-            />
-            <Text style={styles.projectHeaderText}>{projectName}</Text>
-            <Text style={styles.projectText}>
-                {projectCounty ? projectCounty : <UnspecifiedField />}
-                {", "}
-                {projectState ? projectState : <UnspecifiedField />}
-            </Text>
-            <Text style={styles.projectText}>
-                {"Applicant: "}
-                {projectApplicant ? projectApplicant : <UnspecifiedField />}
-            </Text>
-            <Text style={styles.projectText}>
-                {"Section, Township: "}
-                {projectSection ? projectSection : <UnspecifiedField />}
-            </Text>
-            <Text style={styles.projectText}>
-                {"Region: "}
-                {projectRegion ? projectRegion : <UnspecifiedField />}
-            </Text>
-            <Text style={styles.projectText}>
-                {"Subregion: "} {projectSubregion ? projectSubregion : <UnspecifiedField />}
-            </Text>
-            <Text style={styles.projectText}>
-                {"Datum: "}
-                {projectDatum ? projectDatum : <UnspecifiedField />}
-            </Text>
-            <Text style={styles.projectInfoText}>Project ID: {project.id}</Text>
-            <Text style={styles.projectInfoText}>
-                Last updated <DateComponent date={projectUpdatedDate} />
-            </Text>
-            <Divider style={styles.divider} />
+            <View style={{...styles.subsectionContainer, borderTopWidth:0}}>
+                <TouchableOpacity
+                    style={styles.sectionHeader}
+                    onPress={() => {
+                        setCollapseProjectInfo(!collapseProjectInfo);
+                    }}
+                >
+                    <Text style={styles.projectHeaderText}>{projectName}</Text>
+                    {collapseProjectInfo && (
+                        <Text style={styles.projectInfoText}>
+                            Press here to view project details.
+                        </Text>
+                    )}
+                </TouchableOpacity>
+                <Collapsible collapsed={collapseProjectInfo} renderChildrenCollapsed={false}>
+                    <View>
+                        <Text style={styles.projectText}>
+                            {projectCounty ? projectCounty : <UnspecifiedField />}
+                            {", "}
+                            {projectState ? projectState : <UnspecifiedField />}
+                        </Text>
+                        <Text style={styles.projectText}>
+                            {"Applicant: "}
+                            {projectApplicant ? projectApplicant : <UnspecifiedField />}
+                        </Text>
+                        <Text style={styles.projectText}>
+                            {"Section, Township: "}
+                            {projectSection ? projectSection : <UnspecifiedField />}
+                        </Text>
+                        <Text style={styles.projectText}>
+                            {"Region: "}
+                            {projectRegion ? projectRegion : <UnspecifiedField />}
+                        </Text>
+                        <Text style={styles.projectText}>
+                            {"Subregion: "} {projectSubregion ? projectSubregion : <UnspecifiedField />}
+                        </Text>
+                        <Text style={styles.projectText}>
+                            {"Datum: "}
+                            {projectDatum ? projectDatum : <UnspecifiedField />}
+                        </Text>
+                        <Text style={styles.projectInfoText}>Project ID: {project.id}</Text>
+                        <Text style={styles.projectInfoText}>
+                            Last updated <DateComponent date={projectUpdatedDate} />
+                        </Text>
+                        <Button
+                            title="Edit Project"
+                            onPress={() =>{
+                                // console.log('Current datapoint:', JSON.stringify(project));
+                                setShowProjectEditModal(true);
+                            }}
+                            buttonStyle={styles.buttonMain}
+                            titleStyle={styles.buttonMainText}
+                            type="outline"
+                        />
+                    </View>
+                </Collapsible>
+            </View>
+
+            {/* <Divider style={styles.divider} /> */}
             <DatapointsList projectId={project.id} />
 
             <ProjectEditModal

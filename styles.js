@@ -17,6 +17,8 @@ export const styles = StyleSheet.create({
     buttonMain: {
         borderColor: secondaryBackground,
         borderWidth: 2,
+        marginTop: 2,
+        marginBottom: 2,
         backgroundColor: primaryBackground
     },
     buttonMainText: {
@@ -25,6 +27,8 @@ export const styles = StyleSheet.create({
     buttonSecondary: {
         borderColor: "#f00",
         borderWidth: 2,
+        marginTop: 2,
+        marginBottom: 2,
         backgroundColor: primaryBackground
     },
     buttonSecondaryText: {

@@ -11,6 +11,7 @@ import EditPlantScreen from "./EditPlantScreen";
 import EditSoilScreen from "./EditSoilScreen";
 import EditIndicatorsScreen from "./EditIndicatorsScreen";
 import RegionalPlantListsScreen from "./RegionalPlantListsScreen";
+import ConnectionScreen from "./ConnectionScreen";
 import { styles, colors } from "../styles";
 
 const Drawer = createDrawerNavigator();
@@ -125,6 +126,29 @@ const RegionalPlantsNavigator = () => {
     );
 };
 
+const ConnectionNavigator = () => {
+    const Stack = createStackNavigator();
+    return (
+        <Stack.Navigator screenOptions={screenOptions}>
+            <Stack.Screen
+                name="ConnectionStack"
+                component={ConnectionScreen}
+                options={({navigation}) => ({
+                    title: "Connection",
+                    headerLeft: () => (
+                        <Icon
+                            name="server"
+                            type="feather"
+                            iconStyle={styles.stackIcon}
+                            onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+                })}
+            />
+        </Stack.Navigator>
+    );
+}
+
 const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props}>
         <View>
@@ -171,6 +195,13 @@ const Main = () => {
                     component={RegionalPlantsNavigator}
                     options={{
                         title: "Regional Plant Lists"
+                    }}
+                />
+                <Drawer.Screen
+                    name="ConnectionDrawer"
+                    component={ConnectionNavigator}
+                    options={{
+                        title: "Connection"
                     }}
                 />
             </Drawer.Navigator>

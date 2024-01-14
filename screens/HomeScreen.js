@@ -14,14 +14,18 @@ const HomeScreen = () => {
             </View>
             <View style={styles.homeView}>
                 <Text style={styles.homeText}>
-                    This tool has been constructed to record data used in the identification of Waters of the United
+                    This tool was constructed to record data used in the identification of Waters of the United
                     States.
                 </Text>
             </View>
             <View style={styles.homeView}>
+                {/* Altering this text until gestures are fixed */}
                 <Text style={styles.homeText}>
-                    To get started, swipe right from the left side of the screen to navigate to your projects screen.
+                    To get started, tap the home icon to navigate to your projects screen.
                 </Text>
+                {/* <Text style={styles.homeText}>
+                    To get started, swipe right from the left side of the screen to navigate to your projects screen.
+                </Text> */}
             </View>
             <View style={{ flex: 1, justifyContent: "flex-end" }}>
                 <Text style={{ textAlign: "center", fontStyle: "italic", color: "#666" }}>

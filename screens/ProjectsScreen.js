@@ -13,9 +13,12 @@ import { styles } from "../styles";
 
 const ProjectsScreen = ({ navigation }) => {
     const projects = useSelector((state) => state.projects);
+    const settings = useSelector((state) => state.settings);
     const dispatch = useDispatch();
 
     const [showNewProjectModal, setShowNewProjectModal] = useState(false);
+
+    const [syncButtonText, setSyncButtonText] = useState("Sync Projects");
 
     // USACE Data Form Project-Wide Fields
     const [projectName, setProjectName] = useState("");
@@ -138,6 +141,22 @@ const ProjectsScreen = ({ navigation }) => {
             <Text style={styles.projectInfoText}>
                 Press "New Project" to create a new project. Each project can contain multiple datapoints.
             </Text>
+            {/* only render sync button if user token exists */}
+            {/* {settings.settingsObject.token &&
+            <>
+            <Text style={styles.projectInfoText}>
+                Missing projects? Press the sync button below.
+            </Text>
+            <Button
+                title={syncButtonText}
+                onPress={() => {
+                    console.log("Sync button pressed");
+                    // syncProject();
+                }}
+                buttonStyle={styles.buttonMain}
+                titleStyle={styles.buttonMainText}
+            />
+            </>}  */}
             <NewProjectItem />
             <FlatList
                 data={projects.projectsArray}

@@ -19,6 +19,7 @@ const ConnectionScreen = () => {
     const [tempUsername, setTempUsername] = useState("");
     const [tempPassword, setTempPassword] = useState("");
     const [tempConfirmPassword, setTempConfirmPassword] = useState("");
+    // const [syncButtonText, setSyncButtonText] = useState("Sync Projects");
     const [showRegistrationModal, setShowRegistrationModal] = useState(false);
     const [showAccountEditModal, setShowAccountEditModal] = useState(false);
     const settings = useSelector((state) => state.settings);
@@ -149,6 +150,15 @@ const ConnectionScreen = () => {
         }
     }
 
+    // TODO
+    // const syncProjects = () => {
+    //     const serverUrl = String(settings.settingsObject.server);
+
+    //     // send locals to server, do server side checks to see what does/doesn't exist and check
+    //     // for most recent version of each project, update both server and client with whichever is
+    //     // newer
+    // }
+
     return(
         <View style={styles.projectContainer}>
             {/* signin/registration container -- render when token is not present */}
@@ -218,8 +228,7 @@ const ConnectionScreen = () => {
                     }}
                     buttonStyle={styles.buttonMain}
                     titleStyle={styles.buttonMainText}
-                />
-                
+                />                
                 <Button
                     title='Register'
                     onPress={() => {
@@ -249,6 +258,14 @@ const ConnectionScreen = () => {
                 <Text style={styles.projectText}>Username: {settings.settingsObject.user}</Text>
                 <Text style={styles.projectText}>Server: {String(settings.settingsObject.server)}</Text>
                 {/* buttons */}
+                {/* <Button
+                    title={syncButtonText}
+                    onPress={() => {
+                        console.log("Sync button pressed");
+                    }}
+                    buttonStyle={styles.buttonMain}
+                    titleStyle={styles.buttonMainText}
+                />    */}
                 <Button
                     title='Edit Account'
                     onPress={() => {
@@ -258,7 +275,6 @@ const ConnectionScreen = () => {
                     buttonStyle={styles.buttonMain}
                     titleStyle={styles.buttonMainText}
                 />
-
                 <Button
                     title='Sign Out'
                     onPress={() => {

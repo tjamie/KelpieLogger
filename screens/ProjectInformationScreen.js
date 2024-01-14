@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Button, Input, Divider } from "react-native-elements";
+import { Button, Input } from "react-native-elements";
 import { ListItem } from "@rneui/themed";
 import { ScrollView, View, Text, Modal, Alert, TouchableOpacity } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { Picker } from "@react-native-picker/picker";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProject } from "../reducers/projectsReducer";
-import { addDatapoint, deleteDatapoint } from "../reducers/datapointsReducer";
+import { addDatapoint, updateDatapoint, deleteDatapoint } from "../reducers/datapointsReducer";
 import { selectDatapointsByProjectId } from "../reducers/datapointsReducer";
 import { FlatList } from "react-native-gesture-handler";
 import DateComponent from "../components/DateComponent";
@@ -19,7 +19,8 @@ const ProjectInformationScreen = (props) => {
     const { project } = route.params;
     const [showProjectEditModal, setShowProjectEditModal] = useState(false);
     const [collapseProjectInfo, setCollapseProjectInfo] = useState(true);
-
+    const [syncButtonText, setSyncButtonText] = useState("Sync Project");
+    
     const [projectName, setProjectName] = useState(project.projectName);
     const [projectApplicant, setProjectApplicant] = useState(project.projectApplicant);
     const [projectCounty, setProjectCounty] = useState(project.projectCounty);
@@ -29,7 +30,9 @@ const ProjectInformationScreen = (props) => {
     const [projectSubregion, setProjectSubregion] = useState(project.projectSubregion);
     const [projectDatum, setProjectDatum] = useState(project.projectDatum);
     const [projectUpdatedDate, setProjectUpdatedDate] = useState(project.updatedDate);
-
+    
+    const settings = useSelector((state) => state.settings);
+    const datapoints = useSelector(selectDatapointsByProjectId(project.id));
     const dispatch = useDispatch();
 
     const ProjectEditModal = (props) => {
@@ -329,8 +332,8 @@ const ProjectInformationScreen = (props) => {
         );
     };
 
-    const DatapointsList = ({ projectId }) => {
-        const datapoints = useSelector(selectDatapointsByProjectId(projectId));
+    const DatapointsList = ({ projectId, datapoints }) => {
+        // const datapoints = useSelector(selectDatapointsByProjectId(projectId));
         // const datapoints = useSelector((state) => state.datapoints);
         console.log("project id: ", projectId);
         // console.log('datapoints array: ', datapoints)
@@ -357,12 +360,163 @@ const ProjectInformationScreen = (props) => {
         return <Text style={{ ...styles.projectText, fontStyle: "italic" }}>Unspecified</Text>;
     };
 
+    const buildSyncJson = (project, datapoints) => {
+        // prepare project information to send to server
+        const projectDto = {
+            id: project.id,
+            name: project.projectName,
+            applicant: project.projectApplicant,
+            county: project.projectCounty,
+            state: project.projectState,
+            section: project.projectSection,
+            region: project.projectRegion,
+            subregion: project.projectSubregion,
+            datum: project.projectDatum,
+            date: project.updatedDate
+        };
+
+        // prepare datapoints
+        let processedDatapoints = [];
+        datapoints.forEach((d) => {
+            // processedDatapoints.push(
+            //     {
+            //         id: d.id,
+            //         projectId: d.projectId,
+            //         date: d.date,
+            //         name: d.name,
+            //         authors: d.authors,
+            //         landform: d.landform,
+            //         relief: d.relief,
+            //         slope: d.slope,
+            //         soilUnit: d.soilUnit,
+            //     }
+            // )
+            let datapointOut = {
+                ...d,
+                latitude: d.lat,
+                longitude: d.long
+            };
+
+            // convert soil value and chromas to strings. Will eventually need to update
+            // this at the source to support gleyed soils, etc.
+
+            datapointOut.soil.layers.forEach((l) => {
+                l.matrixColor.value = String(l.matrixColor.value);
+                l.matrixColor.chroma = String(l.matrixColor.chroma);
+                l.redoxColor.value = String(l.redoxColor.value);
+                l.redoxColor.chroma = String(l.redoxColor.chroma);
+            })
+
+            delete datapointOut.lat;
+            delete datapointOut.long;
+
+            processedDatapoints.push(datapointOut);
+        });
+
+        // create sync DTO
+        const syncDto = JSON.stringify({
+            projectDto: projectDto,
+            datapointDtoList: processedDatapoints
+        });
+
+        // console.log(`sync dto: ${syncDto}`);
+
+        return syncDto;
+    }
+
+    const syncProject = async() => {
+        // PUT to api/Projects/5/sync
+        // any objects returned by server need to be updated within the app's data
+        // disable sync button while processing
+        // note: API will require "latitude" and "longitude" fields instead of the "lat"
+        // and "long" baked into this app.
+
+        const serverUrl = String(settings.settingsObject.server);
+
+        console.log("Attempting project sync");
+        const jsonOut = buildSyncJson(project, datapoints);
+        try {
+            console.log(`fetching ${serverUrl}/api/projects/${project.id}/sync`);
+            const response = await fetch(`${serverUrl}/api/projects/${project.id}/sync`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${settings.settingsObject.token}`
+                },
+                body: jsonOut
+            });
+            // console.log(`Sending: ${jsonOut}`);
+            console.log(response.ok);
+            console.log(JSON.stringify(response, null, 2));
+            if (response.ok) {
+                // get incoming response JSON with newer project/datapoint data
+                // if data in app is already up to date, response values will be null
+                const responseJson = await response.json();
+                console.log(`response: ${JSON.stringify(responseJson)}`);
+
+                // update project (if needed)
+                if (responseJson.projectDto) {
+                    // FOR NOW, will not need to worry about whether project exists since
+                    // this is executed from within the project
+                    const projectIn = responseJson.projectDto;
+                    const updatedProject = {
+                        id: projectIn.id,
+                        projectName: projectIn.name,
+                        projectApplicant: projectIn.applicant,
+                        projectCounty: projectIn.county,
+                        projectState: projectIn.state,
+                        projectSection: projectIn.section,
+                        projectRegion: projectIn.region,
+                        projectSubregion: projectIn.subregion,
+                        projectDatum: projectIn.datum,
+                        updatedDate: projectIn.date
+                    }
+
+                    dispatch(updateProject(updatedProject));
+                }
+
+                // update datapoints (if needed)
+                if (responseJson.datapointDtoList) {
+                    console.log(`response datapoints found - ${responseJson.datapointDtoList.length}`);
+                    responseJson.datapointDtoList.forEach((d) => {
+                        // modify to match app's data fields
+                        let datapointIn = {
+                            ...d,
+                            lat: d.latitude,
+                            long: d.longitude,
+                            NWI: d.nwi
+                        };
+
+                        delete datapointIn.latitude;
+                        delete datapointIn.longitude;
+                        delete datapointIn.nwi;
+
+                        // then either add a new datapoint if ID doesn't already exist
+                        // or update if it does. updateDatapoint() will handle the update
+                        // based on the ID of incoming object.
+                        if (datapoints.find((d) => d.id === datapointIn.id)){
+                            // update datapoint
+                            dispatch(updateDatapoint(datapointIn));
+                        }
+                        else {
+                            // create datapoint
+                            dispatch(addDatapoint(datapointIn));
+                        }
+
+                    })
+                }
+            } else {
+                alert("HTTP error: " + response.status);
+            }
+        }
+        catch(error) {
+            console.error(error);
+        }
+    }
+
     return (
         <View style={styles.projectContainer}>
-            {/* <View style={{ flexDirection: "row" }}>
-                <Text style={{ flex: 1 }}>Project Information</Text>
-                <Button title="Edit Project" style={{ flex: 1 }} onPress={() => setShowProjectEditModal(true)} />
-            </View> */}
             <View style={{...styles.subsectionContainer, borderTopWidth:0}}>
                 <TouchableOpacity
                     style={styles.sectionHeader}
@@ -417,12 +571,23 @@ const ProjectInformationScreen = (props) => {
                             titleStyle={styles.buttonMainText}
                             type="outline"
                         />
+                        {/* only render sync button if user token exists */}
+                        {settings.settingsObject.token &&
+                        <Button
+                            title={syncButtonText}
+                            onPress={() => {
+                                console.log("Sync button pressed");
+                                syncProject();
+                            }}
+                            buttonStyle={styles.buttonMain}
+                            titleStyle={styles.buttonMainText}
+                        />
+                        } 
                     </View>
                 </Collapsible>
             </View>
 
-            {/* <Divider style={styles.divider} /> */}
-            <DatapointsList projectId={project.id} />
+            <DatapointsList projectId={project.id} datapoints={datapoints} />
 
             <ProjectEditModal
                 // project={project}

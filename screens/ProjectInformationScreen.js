@@ -506,6 +506,7 @@ const ProjectInformationScreen = (props) => {
 
                     })
                 }
+                alert("Sync complete.");
             } else {
                 alert("HTTP error: " + response.status);
             }

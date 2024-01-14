@@ -3,6 +3,7 @@ import { View, ScrollView, Text, Modal, Alert, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, ListItem } from "react-native-elements";
 import { addToken, deleteToken, addUser, deleteUser, addServer, deleteServer } from "../reducers/settingsReducer";
+import { Picker } from "@react-native-picker/picker";
 import RegistrationModal from "../components/modals/RegistrationModal";
 import AccountEditModal from "../components/modals/AccountEditModal";
 import { styles } from "../styles";
@@ -19,6 +20,7 @@ const ConnectionScreen = () => {
     const [tempUsername, setTempUsername] = useState("");
     const [tempPassword, setTempPassword] = useState("");
     const [tempConfirmPassword, setTempConfirmPassword] = useState("");
+    const [webProtocol, setWebProtocol] = useState("https");
     // const [syncButtonText, setSyncButtonText] = useState("Sync Projects");
     const [showRegistrationModal, setShowRegistrationModal] = useState(false);
     const [showAccountEditModal, setShowAccountEditModal] = useState(false);
@@ -28,8 +30,8 @@ const ConnectionScreen = () => {
 
     const fillUrl = (addressInput, portInput) => {
         const url = portInput.length > 0
-            ? "http://" + addressInput + ":" + portInput
-            : "http://" + addressInput;
+            ? webProtocol + "://" + addressInput + ":" + portInput
+            : webProtocol + "://" + addressInput;
         
         console.log(`Address: ${addressInput}`);
         console.log(`Port: ${portInput}`);
@@ -183,8 +185,22 @@ const ConnectionScreen = () => {
                 {/* Server info */}
                 <Text style={styles.projectHeaderText}>Server Configuration</Text>
                 <View style={{flexDirection: "row"}}>
+                    {/* protocol */}
+                    <View style={{flex:4}}>
+                        <Text style={styles.projectText}>Protocol</Text>
+                        <Picker
+                            selectedValue={webProtocol}
+                            onValueChange={(protocol) => {
+                                setWebProtocol(protocol);
+                            }}
+                        >
+                            <Picker.Item label="HTTP" value="http" />
+                            <Picker.Item label="HTTPS" value="https" />
+                        </Picker>
+                    </View>
+
                     {/* Host Address */}
-                    <View style={{flex: 3}}>
+                    <View style={{flex: 5}}>
                         <Text style={styles.projectText}>Address</Text>
                         <Input
                             value = {address}
@@ -194,7 +210,7 @@ const ConnectionScreen = () => {
                     </View>
 
                     {/* Host Port */}
-                    <View style={{flex: 1}}>
+                    <View style={{flex: 2}}>
                         <Text style={styles.projectText}>Port</Text>
                         <Input
                             value = {port}

@@ -15,6 +15,9 @@ import * as reg_AK from "../data/plant_lists/reg_AK.json";
 import * as reg_HI from "../data/plant_lists/reg_HI.json";
 import * as reg_CB from "../data/plant_lists/reg_CB.json";
 
+// 2022 plant lists are effective as of August 2024
+// No changes to HI
+
 const RegionalPlantListsScreen = () => {
     const [selectedRegion, setSelectedRegion] = useState("AGCP");
     const [speciesFilter, setSpeciesFilter] = useState("");

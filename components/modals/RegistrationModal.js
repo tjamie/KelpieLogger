@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, ScrollView, Text, Modal, Alert, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, ListItem } from "react-native-elements";
+import { Button, Input, ListItem } from "@rneui/themed";
 import { addToken, addUser, deleteToken } from "../../reducers/settingsReducer";
 import { styles } from "../../styles";
 
@@ -78,23 +78,27 @@ const RegistrationModal = (props) => {
                 <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 8 }}>
                     {/* <View style={{ flexDirection: "row" }}> */}
                        <Button
-                            title="Submit"
+                            // title="Submit"
                             buttonStyle={styles.buttonMain}
                             titleStyle={styles.buttonMainText}
                             onPress={() => {
                                 handleRegistrationSubmit();
                                 // resetForm();
                             }}
-                        />
+                        >
+                            Submit
+                        </Button>
                         <Button
-                            title="Cancel"
+                            // title="Cancel"
                             buttonStyle={styles.buttonSecondary}
                             titleStyle={styles.buttonSecondaryText}
                             onPress={() => {
                                 setShowRegistrationModal(!showRegistrationModal);
                                 // resetForm();
                             }}
-                        />
+                        >
+                            Cancel
+                        </Button>
                     {/* </View> */}
                 </View>
             </ScrollView>

@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Button } from "react-native-elements";
+import { Button } from "@rneui/themed";
 import { DeviceEventEmitter } from "react-native";
 import { styles } from "../styles";
 
@@ -14,7 +14,7 @@ const IndicatorsList = (props) => {
                 </View>
                 <View style={{ flex: 1 }}>
                     <Button
-                        title="Edit"
+                        // title="Edit"
                         onPress={() => {
                             DeviceEventEmitter.addListener("updateIndicatorData", (tempIndicators) => {
                                 //tempIndicators should be an array
@@ -30,7 +30,9 @@ const IndicatorsList = (props) => {
                         }}
                         buttonStyle={styles.buttonMain}
                         titleStyle={styles.buttonMainText}
-                    />
+                    >
+                    Edit
+                    </Button>
                 </View>
             </View>
             <View style={{ paddingLeft: 8 }}>

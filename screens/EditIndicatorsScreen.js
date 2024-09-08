@@ -1,7 +1,7 @@
 import { ScrollView, View, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { CheckBox } from "react-native-elements";
+import { CheckBox } from "@rneui/themed";
 import { DeviceEventEmitter } from "react-native";
 import { getProjectById } from "../reducers/projectsReducer";
 import { styles, colors } from "../styles";

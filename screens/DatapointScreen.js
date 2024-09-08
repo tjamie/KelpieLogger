@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { Button, Input, CheckBox } from "react-native-elements";
+import { Button, Input, CheckBox } from "@rneui/themed";
 import { useDispatch } from "react-redux";
 import { updateDatapoint } from "../reducers/datapointsReducer";
 import Collapsible from "react-native-collapsible";
@@ -65,7 +65,9 @@ const DatapointScreen = (props) => {
                 onPress={() => getLocation()}
                 buttonStyle={styles.buttonMain}
                 titleStyle={styles.buttonMainText}
-            />
+            >
+                {buttonText}
+            </Button>
         );
     };
 

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Input } from "react-native-elements";
-import { ListItem } from "@rneui/themed";
+import { Button, Input, ListItem } from "@rneui/themed";
 import { ScrollView, View, Text, Modal, Alert, TouchableOpacity } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { Picker } from "@react-native-picker/picker";
@@ -169,25 +168,29 @@ const ProjectInformationScreen = (props) => {
                         <View style={{ flexDirection: "row" }}>
                             <View style={{ flex: 1, paddingRight: 2 }}>
                                 <Button
-                                    title="Save Changes"
+                                    // title="Save Changes"
                                     buttonStyle={styles.buttonMain}
                                     titleStyle={styles.buttonMainText}
                                     onPress={() => {
                                         handleSubmit();
                                         // resetForm();
                                     }}
-                                />
+                                >
+                                    Save Changes
+                                </Button>
                             </View>
                             <View style={{ flex: 1, paddingLeft: 2 }}>
                                 <Button
-                                    title="Cancel"
+                                    // title="Cancel"
                                     buttonStyle={styles.buttonSecondary}
                                     titleStyle={styles.buttonSecondaryText}
                                     onPress={() => {
                                         setShowModal(!showModal);
                                         // resetForm();
                                     }}
-                                />
+                                >
+                                    Cancel
+                                </Button>
                             </View>
                         </View>
                     </View>
@@ -311,11 +314,13 @@ const ProjectInformationScreen = (props) => {
                 <ListItem.Swipeable
                     rightContent={()=>(
                         <Button
-                            title="Delete"
+                            // title="Delete"
                             onPress={()=>{handleDeleteDatapoint(datapoint)}}
                             icon={{ name: 'trash-2', type:'feather', color: 'white' }}
                             buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-                        />
+                        >
+                            Delete
+                        </Button>
                     )}
                     onPress={() => {
                         console.log("Datapoint pressed: ", datapoint.id, "Parent project id: ", datapoint.projectId);
@@ -563,7 +568,7 @@ const ProjectInformationScreen = (props) => {
                             Last updated <DateComponent date={projectUpdatedDate} />
                         </Text>
                         <Button
-                            title="Edit Project"
+                            // title="Edit Project"
                             onPress={() =>{
                                 // console.log('Current datapoint:', JSON.stringify(project));
                                 setShowProjectEditModal(true);
@@ -571,18 +576,22 @@ const ProjectInformationScreen = (props) => {
                             buttonStyle={styles.buttonMain}
                             titleStyle={styles.buttonMainText}
                             type="outline"
-                        />
+                        >
+                            Edit Project
+                        </Button>
                         {/* only render sync button if user token exists */}
                         {settings.settingsObject.token &&
                         <Button
-                            title={syncButtonText}
+                            // title={syncButtonText}
                             onPress={() => {
                                 console.log("Sync button pressed");
                                 syncProject();
                             }}
                             buttonStyle={styles.buttonMain}
                             titleStyle={styles.buttonMainText}
-                        />
+                        >
+                            {syncButtonText}
+                        </Button>
                         } 
                     </View>
                 </Collapsible>

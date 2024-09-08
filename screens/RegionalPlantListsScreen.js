@@ -1,6 +1,6 @@
 import { View, Text, FlatList } from "react-native";
 import { useState, useEffect } from "react";
-import { Input, ListItem } from "react-native-elements";
+import { Input, ListItem } from "@rneui/themed";
 import { Picker } from "@react-native-picker/picker";
 import { styles } from "../styles";
 import { filterSpeciesArray } from "../utils/filterSpeciesArray";

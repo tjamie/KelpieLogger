@@ -1,8 +1,7 @@
 import { createUniqueId } from "../utils/createUniqueId";
-import { SwipeRow } from "react-native-swipe-list-view";
+// import { SwipeRow } from "react-native-swipe-list-view";
 import { Text, View, Alert, DeviceEventEmitter } from "react-native";
-import { Button } from "react-native-elements";
-import { ListItem } from "@rneui/themed";
+import { Button, ListItem } from "@rneui/themed";
 import { TouchableOpacity } from "react-native";
 import { styles } from "../styles";
 import { useState } from "react";
@@ -88,11 +87,13 @@ const PlantsList = (props) => {
                 <ListItem.Swipeable
                     rightContent={()=>(
                         <Button
-                            title="Delete"
+                            // title="Delete"
                             onPress={()=>{deletePlant(plant)}}
                             icon={{ name: 'trash-2', type:'feather', color: 'white' }}
                             buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-                        />
+                        >
+                            Delete
+                        </Button>
                 )}
                 onPress={() => {
                     DeviceEventEmitter.addListener("updatePlantData", (tempPlant) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ScrollView, View, Text } from "react-native";
-import { ListItem, Button, Input, CheckBox } from "react-native-elements";
+import { ListItem, Button, Input, CheckBox } from "@rneui/themed";
 import { Picker } from "@react-native-picker/picker";
 import { enforceNumeric } from "../utils/enforceNumeric";
 import { clamp } from "../utils/clamp";

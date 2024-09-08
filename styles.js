@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
         fontFamily: "Rakkas-Regular",
         paddingLeft: 8
     },
-    stackNavHeader: {
+    NavHeader: {
         backgroundColor: secondaryBackground
     },
     homeContainer: {

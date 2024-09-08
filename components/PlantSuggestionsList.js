@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem } from "@rneui/themed";
 import { styles } from "../styles";
 
 const PlantSuggestionsList = (props) => {

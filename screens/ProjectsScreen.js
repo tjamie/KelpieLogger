@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Text, View, ScrollView, FlatList, Modal, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Input, Button } from "react-native-elements";
-import { ListItem } from "@rneui/themed";
+import { Input, Button, ListItem } from "@rneui/themed";
 import { Picker } from "@react-native-picker/picker";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { createUniqueId } from "../utils/createUniqueId";
@@ -113,11 +112,13 @@ const ProjectsScreen = ({ navigation }) => {
                 <ListItem.Swipeable
                     rightContent={()=>(
                         <Button
-                            title="Delete"
+                            // title="Delete"
                             onPress={()=>{handleDeleteProject(project)}}
                             icon={{ name: 'trash-2', type:'feather', color: 'white' }}
                             buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-                        />
+                        >
+                            Delete
+                        </Button>
                     )}
                     onPress={() => {
                         console.log("Project pressed: ", project.id);
@@ -255,25 +256,29 @@ const ProjectsScreen = ({ navigation }) => {
                         <View style={{ flexDirection: "row" }}>
                             <View style={{ flex: 1, paddingRight: 2 }}>
                                 <Button
-                                    title="Submit"
+                                    // title="Submit"
                                     buttonStyle={styles.buttonMain}
                                     titleStyle={styles.buttonMainText}
                                     onPress={() => {
                                         handleSubmit();
                                         resetForm();
                                     }}
-                                />
+                                >
+                                    Submit
+                                </Button>
                             </View>
                             <View style={{ flex: 1, paddingLeft: 2 }}>
                                 <Button
-                                    title="Cancel"
+                                    // title="Cancel"
                                     buttonStyle={styles.buttonSecondary}
                                     titleStyle={styles.buttonSecondaryText}
                                     onPress={() => {
                                         setShowNewProjectModal(!showNewProjectModal);
                                         resetForm();
                                     }}
-                                />
+                                >
+                                    Cancel
+                                </Button>
                             </View>
                         </View>
                     </View>

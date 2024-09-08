@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, ScrollView, Text, Modal, Alert, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, ListItem } from "react-native-elements";
+import { Button, Input, ListItem } from "@rneui/themed";
 import { addToken, deleteToken, addUser, deleteUser, addServer, deleteServer } from "../reducers/settingsReducer";
 import { Picker } from "@react-native-picker/picker";
 import RegistrationModal from "../components/modals/RegistrationModal";
@@ -237,16 +237,18 @@ const ConnectionScreen = () => {
 
                 {/* buttons etc */}
                 <Button
-                    title='Sign In'
+                    // title='Sign In'
                     onPress={() => {
                         console.log("Sign in pressed");
                         login();
                     }}
                     buttonStyle={styles.buttonMain}
                     titleStyle={styles.buttonMainText}
-                />                
+                >
+                    Sign In
+                </Button>
                 <Button
-                    title='Register'
+                    // title='Register'
                     onPress={() => {
                         console.log("Register pressed");
                         initializeRegistrationModal();
@@ -255,7 +257,9 @@ const ConnectionScreen = () => {
                     }}
                     buttonStyle={styles.buttonMain}
                     titleStyle={styles.buttonMainText}
-                />
+                >
+                    Register
+                </Button>
             </View>
             }
 
@@ -283,23 +287,27 @@ const ConnectionScreen = () => {
                     titleStyle={styles.buttonMainText}
                 />    */}
                 <Button
-                    title='Edit Account'
+                    // title='Edit Account'
                     onPress={() => {
                         console.log("Edit account button pressed");
                         setShowAccountEditModal(!showAccountEditModal);
                     }}
                     buttonStyle={styles.buttonMain}
                     titleStyle={styles.buttonMainText}
-                />
+                >
+                    Edit Account
+                </Button>
                 <Button
-                    title='Sign Out'
+                    // title='Sign Out'
                     onPress={() => {
                         console.log("Sign out pressed");
                         logout();
                     }}
                     buttonStyle={styles.buttonMain}
                     titleStyle={styles.buttonMainText}
-                />
+                >
+                    Sign Out
+                </Button>
             </View>
             }
         </View>

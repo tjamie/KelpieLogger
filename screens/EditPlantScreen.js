@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { View, Text, Keyboard } from "react-native";
-import { Input, CheckBox } from "react-native-elements";
+import { Input, CheckBox } from "@rneui/themed";
 import { Picker } from "@react-native-picker/picker";
 import { enforceNumeric } from "../utils/enforceNumeric";
 import { DeviceEventEmitter } from "react-native";

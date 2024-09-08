@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { View, ScrollView, Text, Modal, Alert, FlatList, TouchableOpacity } from "react-native";
 import Collapsible from "react-native-collapsible";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, ListItem } from "react-native-elements";
+import { Button, Input, ListItem } from "@rneui/themed";
 import { addToken, addUser, deleteToken } from "../../reducers/settingsReducer";
 import { styles } from "../../styles";
 
@@ -120,26 +120,28 @@ const AccountEditModal = (props) => {
                         </View>
                         }
                         <Button
-                                title="Delete Account"
-                                buttonStyle={styles.buttonSecondary}
-                                titleStyle={styles.buttonSecondaryText}
-                                disabled={showAccountDelete && (confirmDeleteText !== confirmDeleteRng)}
-                                onPress={() => {
-                                    console.log("Delete button pressed");
-                                    if (!showAccountDelete){
-                                        setShowAccountDelete(!showAccountDelete);
-                                    }
-                                    // if (confirmMatch){
-                                    if (confirmDeleteText === confirmDeleteRng){
-                                        console.log('Confirmation numbers match');
-                                        // proceed to make DELETE request
-                                        deleteAccount();
-                                    } else {
-                                        console.log('Confirmation numbers do not match');
-                                        console.log(`input: ${confirmDeleteText} target: ${confirmDeleteRng}`)
-                                    }                                    
-                                }}
-                            />
+                            // title="Delete Account"
+                            buttonStyle={styles.buttonSecondary}
+                            titleStyle={styles.buttonSecondaryText}
+                            disabled={showAccountDelete && (confirmDeleteText !== confirmDeleteRng)}
+                            onPress={() => {
+                                console.log("Delete button pressed");
+                                if (!showAccountDelete){
+                                    setShowAccountDelete(!showAccountDelete);
+                                }
+                                // if (confirmMatch){
+                                if (confirmDeleteText === confirmDeleteRng){
+                                    console.log('Confirmation numbers match');
+                                    // proceed to make DELETE request
+                                    deleteAccount();
+                                } else {
+                                    console.log('Confirmation numbers do not match');
+                                    console.log(`input: ${confirmDeleteText} target: ${confirmDeleteRng}`)
+                                }                                    
+                            }}
+                        >
+                            Delete Account
+                        </Button>
                     </Collapsible>
                 </View>
                 {/* <Text style={styles.projectText}>Username</Text>
@@ -166,16 +168,18 @@ const AccountEditModal = (props) => {
                 <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 8 }}>
                     {/* <View style={{ flexDirection: "row" }}> */}
                        <Button
-                            title="Submit"
+                            // title="Submit"
                             buttonStyle={styles.buttonMain}
                             titleStyle={styles.buttonMainText}
                             onPress={() => {
                                 console.log("Submit button pressed")
                                 // resetForm();
                             }}
-                        />
+                        >
+                            Submit
+                        </Button>
                         <Button
-                            title="Cancel"
+                            // title="Cancel"
                             buttonStyle={styles.buttonSecondary}
                             titleStyle={styles.buttonSecondaryText}
                             onPress={() => {
@@ -184,7 +188,9 @@ const AccountEditModal = (props) => {
                                 setShowAccountEditModal(!showAccountEditModal);
                                 // resetForm();
                             }}
-                        />
+                        >
+                            Cancel
+                        </Button>
                     {/* </View> */}
                 </View>
             </ScrollView>

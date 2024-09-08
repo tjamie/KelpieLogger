@@ -1,8 +1,7 @@
 import { createUniqueId } from "../utils/createUniqueId";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { Text, View, Alert, TouchableOpacity, DeviceEventEmitter } from "react-native";
-import { Button } from "react-native-elements";
-import { ListItem } from "@rneui/themed";
+import { Button, ListItem } from "@rneui/themed";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 // import { TouchableOpacity } from "react-native";
 // import { DeviceEventEmitter } from "react-native";
@@ -110,11 +109,13 @@ const SoilsList = (props) => {
                 <ListItem.Swipeable
                     rightContent={()=>(
                         <Button
-                            title="Delete"
+                            // title="Delete"
                             onPress={()=>{deleteSoil(soilLayer)}}
                             icon={{ name: 'trash-2', type:'feather', color: 'white' }}
                             buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-                        />
+                        >
+                            Delete
+                        </Button>
                     )}
                     onPress={() => {
                         DeviceEventEmitter.addListener("updateSoilData", (tempSoil) => {
